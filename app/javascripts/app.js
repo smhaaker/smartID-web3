@@ -23,11 +23,13 @@ window.App = {
     console.log("TEST!");
 
 // testuser data
-    var steffen = {};
+// create users
+    var steffen = {},
+    testuser = {};
+
 
     steffen.address = web3.eth.coinbase;
-
-    console.log(steffen.address)
+//    testuser.address = accounts[1];
 
     // Bootstrap the MetaCoin abstraction for Use.
     MetaCoin.setProvider(web3.currentProvider);
@@ -46,6 +48,16 @@ window.App = {
 
       accounts = accs;
       account = accounts[0];
+
+
+// set user addresses
+      testuser.address = accounts[1];
+
+
+// test output 
+          console.log(steffen.address);
+          console.log(testuser.address);
+
 
       self.refreshBalance();
     });
