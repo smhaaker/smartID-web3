@@ -1,23 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>MetaCoin - Truffle Webpack Demo w/ Frontend</title>
+  <title>SmartID frontend truffle 3</title>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <script src="./app.js"></script>
 </head>
 <body>
-  <h1>MetaCoin</h1>
-  <h2>Example Truffle Dapp</h2>
-  <h3>You have <span class="black"><span id="balance"></span> META</span></h3>
+  <h1>SmartID</h1>
+  <h2>- remove metacoin contracts</h2>
+
+  <!--h3>You have <span class="black"><span id="balance"></span> META</span></h3-->
 
   <br>
-  <h1>Send MetaCoin</h1>
-  <br><label for="amount">Amount:</label><input type="text" id="amount" placeholder="e.g., 95"></input>
-  <br><label for="receiver">To Address:</label><input type="text" id="receiver" placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
-  <br><br><button id="send" onclick="App.sendCoin()">Send MetaCoin</button>
+  <h1></h1>
+
+
+ <!-- new smart id start -->
+  <br><label for="smartNew">New SmartID:</label><input type="text" id="account" placeholder="e.g., 95"></input><br><br>
+
+  <br><label for="addAtt">Add Attribute to (account one for now):</label><input type="text" id="addAttribute" placeholder="e.g., 95"></input><br><br>
+
+  Set attribute hashes:...<br>
+  then add attributes as: <br>
+  smartID.addAttribute(hash1, {from: owner});<br>
+  This should then return a hash.<br>
+
+  smartID.addAttribute('0xca02b2202ffaacbd499438ef6d594a48f7a7631b60405ec8f30a0d7c096d54d5',{from: owner})<br><br>
+
+  this still needs to be implemented as an array of attributes on the above input... Must also be owner = currentAccount, see coinbase. <br>
+
+  Truffle<br><br>
+
+  truffle(development)> smartID.addAttribute('0xca02b2202ffaacbd499438ef6d594a48f7a7631b60405ec8f30a0d7c096d54d5',{from: owner})<br>
+  '0x68b6351f4d2bd239617e915b99add123e5a6e9dfa7f6e4f71fdb611cb563f137'<br><br>
+
+
+  <br><br><button id="send" onclick="App.smartNew()">New SmartID</button>
+  <br><br><button id="send" onclick="App.addAttribute()">Add Attribute</button>
+
   <br><br>
+
   <span id="status"></span>
   <br>
+
   <span class="hint"><strong>Hint:</strong> open the browser developer console to view any errors and warnings.</span>
 </body>
 </html>

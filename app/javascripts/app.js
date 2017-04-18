@@ -7,15 +7,15 @@ import { default as contract } from 'truffle-contract'
 
 // Import our contract artifacts and turn them into usable abstractions.
 import metacoin_artifacts from '../../build/contracts/MetaCoin.json'
-
+import smartid_artifacts from '../../build/contracts/SmartIdentity.json'
 // MetaCoin is our usable abstraction, which we'll use through the code below.
 var MetaCoin = contract(metacoin_artifacts);
-
+var SmartIdentity = contract(smartid_artifacts);
 // The following code is simple to show off interacting with your contracts.
-// As your needs grow you will likely need to change its form and structure.
 // For application bootstrapping, check out window.addEventListener below.
 var accounts;
 var account;
+var steffen = {};
 
 window.App = {
   start: function() {
@@ -24,8 +24,7 @@ window.App = {
 
 // testuser data
 // create users
-    var steffen = {},
-    testuser = {};
+    var testuser = {};
 
 
     steffen.address = web3.eth.coinbase;
@@ -33,6 +32,8 @@ window.App = {
 
     // Bootstrap the MetaCoin abstraction for Use.
     MetaCoin.setProvider(web3.currentProvider);
+    SmartIdentity.setProvider(web3.currentProvider);
+
 
     // Get the initial account balance so it can be displayed.
     web3.eth.getAccounts(function(err, accs) {
@@ -54,13 +55,58 @@ window.App = {
       testuser.address = accounts[1];
 
 
-// test output 
+// test output
           console.log(steffen.address);
           console.log(testuser.address);
+
+// continue misc endorsement test.... Add user etc.
+
+  console.log(SmartIdentity.deployed());
+
+  var smartIDadd = '0x9b0820f41b9c29f5e43a6b8ea5b33b31fb62f42e';
+
+//  var smartIDtest = web3.eth.contract(smartID.abi).at(smartIDadd); // can probably set the address globally
+
+  //smartIDtest.new();
+
+  // gas set depending on dev environment.
+//  SmartIdentity.new({from: steffen.address, gas: 4712388});
+//SmartIdentity.new({from: '0xa7d455fe00228e9bb08238087fe81ff385e71fe4'});
+SmartIdentity.new({from: steffen.address, gas: 4712388})
+  .then(function(data) {
+    steffen.identify = data;
+
+  })
+
+
+
 
 
       self.refreshBalance();
     });
+  },
+
+  smartNew: function(){
+    var account = parseInt(document.getElementById("account").value);
+    console.log("from account: " + account)
+  },
+
+
+  addAttribute: function(){
+    var attributeHash = [];
+    attributeHash[0] = "123908290389021489308"
+    var attribute = document.getElementById("addAttribute").value;
+
+//    we want to list attributes added
+// then add them to user by somethign like   smartID.addAttribute(hash1, {from: owner});
+    var count;
+
+        for(count = 1; count < attributeHash.length; count++){
+          attributeHash[count] = "hello";
+          console.log(attributeHash[count]);
+        }
+
+    console.log("attribute added: " +  attribute)
   },
 
   setStatus: function(message) {
