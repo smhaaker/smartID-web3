@@ -11,14 +11,29 @@
 
   <!--h3>You have <span class="black"><span id="balance"></span> META</span></h3-->
 
+  <h3>You have <span class="black"><span id="endorsed"></span></span></h3>
+
   <br>
   <h1></h1>
 
-
+  todo:<br>
+  1. Account selection:<br>
+  2. Clean up and add important stuff first, things that work.<br>
+  3. add functions<br>
+  4. Zeronet it <br>
+  5. Deploy to test-net<br>
+  6. share.
+  <br><br>
  <!-- new smart id start -->
   <br><label for="smartNew">New SmartID:</label><input type="text" id="account" placeholder="e.g., 95"></input><br><br>
 
   <br><label for="addAtt">Add Attribute to (account one for now):</label><input type="text" id="addAttribute" placeholder="e.g., 95"></input><br><br>
+
+
+  Add user name = address<br>
+  Set attributes to name + attribute<br>
+
+  Set endoremensts to name <br>
 
   Set attribute hashes:...<br>
   then add attributes as: <br>
@@ -35,12 +50,31 @@
   '0x68b6351f4d2bd239617e915b99add123e5a6e9dfa7f6e4f71fdb611cb563f137'<br><br>
 
 
+  do a SmartID and SmartIdentityRegistry.abi to get our functions working.... We need to remmeber to load them. <br><br>
+
+
+  <br><br><button id="send" onclick="App.smartContractNew()">New contract - works</button>
+
   <br><br><button id="send" onclick="App.smartNew()">New SmartID</button>
   <br><br><button id="send" onclick="App.addAttribute()">Add Attribute</button>
+  <br><br><button id="send" onclick="App.endorseAcc()">Add Endorsement</button>
+
+<hr>
+  <br>
+  <br><label for="eKey">Set public encryption Key:</label><input type="text" id="eKey" placeholder="enter your desired key"></input><br><br>
+  Public encryption key is: <span id="encryptionKey"> If you see this then ethereum aint workin </span>
+  <br><br><button id="send" onclick="App.setKey2()">Set new encryptionkey  - works</button>
+  <br><br><button id="send" onclick="App.getKey2()">Get encryptionkey  - works</button>
+
 
   <br><br>
 
+
+
   <span id="status"></span>
+  <br>
+
+  <span id="pagecontent">.</span>
   <br>
 
   <span class="hint"><strong>Hint:</strong> open the browser developer console to view any errors and warnings.</span>
