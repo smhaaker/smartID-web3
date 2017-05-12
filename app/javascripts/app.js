@@ -15,10 +15,19 @@ var SmartIdentity = contract(smartid_artifacts);
 // For application bootstrapping, check out window.addEventListener below.
 var accounts;
 var account;
+
+var currentAccount; // need to set this universal in order to switch to other accounts. move this to currentAccount = web3.eth.coibase when needed.
+
+
 var steffen = {};
-var contractAddress = '0xe0dd6dc5820d442af047f4e9ce900466dcf98b4b';
+var divState = {}; // for show and hide toggle
+
+var contractAddress = '0x12031aeca172b344f6f7ef7da53e88fd017a836b';
 var owner;
 var smartID;
+
+var balanceWei; // needs global
+var balance; // needs global
 
 window.App = {
   start: function() {
@@ -54,6 +63,10 @@ window.App = {
       account = accounts[0];
 
 
+      ethBalance.innerHTML = balance + " Ether";
+      accounNr.innerHTML = currentAccount; // this should be getaccount [Number ]
+
+
 // set user addresses
       testuser.address = accounts[1];
 
@@ -68,6 +81,28 @@ window.App = {
   console.log("contract address: " + contractAddress);
   var abi = SmartIdentity.abi;
   smartID = web3.eth.contract(abi).at(contractAddress);
+
+  //	ethBalance.innerHTML = accounts[0];
+  var BigNumber = require('bignumber.js');
+
+	var i;
+	var accountBalance;
+	var accsLength = accs.length;
+
+  var functionValue;
+	var x;
+	for(i = 0; i < accsLength; i++){
+	    x = new BigNumber(web3.eth.getBalance(accounts[i]));
+//            ethBalance.innerHTML += "Account: " + i + " : " + accounts[i] + "<br/> Balance: " + x +  "<br/><br/>";
+//            dropdowncontent.innerHTML += "test test test test";
+        //    changeAccount(accounts[i]);
+            functionValue = accounts[i];
+            myDropdown.innerHTML += "Account: " + i + "<br/>" + "<a href='#' onclick='App.updateContent("+i+")'>" + accounts[i] + "</a><br/>";
+// onclick of link set default account, opens the info.
+
+  //	    console.log(x.plus(21).toString(10));
+	}
+
 
 
   encryptionKey.innerHTML = smartID.encryptionPublicKey({from: steffen.address});
@@ -228,13 +263,66 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
       meta = instance;
       return meta.getBalance.call(account, {from: account});
     }).then(function(value) {
-      var balance_element = document.getElementById("balance");
-      balance_element.innerHTML = value.valueOf();
+//      var balance_element = document.getElementById("balance");
+//      balance_element.innerHTML = value.valueOf();
     }).catch(function(e) {
       console.log(e);
       self.setStatus("Error getting balance; see log.");
     });
   },
+
+  // toggle menu buttons. can probably trim this down to one with variable sset later
+  // toggle menu dropdown
+    myFunction: function() {
+        var x = document.getElementById('myDropdown');
+        if (x.style.display !== 'none') {
+            x.style.display = 'none';
+        } else {
+            x.style.display = 'block';
+        }
+    },
+
+
+  // this should cover all the basics on show hide... Need to set something as default...
+  showBtn: function(id) {
+      if (document.getElementById) {
+          var divid = document.getElementById(id);
+          divState[id] = (divState[id]) ? false : true;
+          //close others
+          for (var div in divState){
+              if (divState[div] && div != id){
+                  document.getElementById(div).style.display = 'none';
+                  divState[div] = false;
+              }
+          }
+          divid.style.display = (divid.style.display == 'block' ? 'none' : 'block');
+      }
+  },
+
+  // generic updateContent function for testing...
+    updateContent: function(value) {
+      currentAccount = accounts[value];
+      console.log("current account is: " + currentAccount);
+
+        balanceWei = web3.eth.getBalance(currentAccount).toNumber();
+        balance = web3.fromWei(balanceWei, 'ether'); // balance in ethere.
+
+        accounNr.innerHTML = currentAccount; // this should be getaccount [Number ]
+        ethBalance.innerHTML = balance + " Ether";  // what?
+        App.refreshBalance();
+        App.myFunction();
+    },
+
+
+  accountList: function(){ // should be good to go..
+      listAccounts.innerHTML = "";
+    for(var i = 0; i<accounts.length; i++){
+      //console.log(accounts[i]);
+      listAccounts.innerHTML += "Account: " + i + " : " + accounts[i] + "<br/>";
+    }
+  },
+
+
 
   sendCoin: function() {
     var self = this;
