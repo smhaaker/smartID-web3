@@ -34,6 +34,7 @@ window.App = {
     var self = this;
     console.log("TEST!");
 
+    // Stuff to populate when user swaps accounts;
 // testuser data
 // create users
     var testuser = {};
@@ -41,6 +42,7 @@ window.App = {
 
     steffen.address = web3.eth.coinbase;
 //    testuser.address = accounts[1];
+
 
     // Bootstrap the MetaCoin abstraction for Use.
     MetaCoin.setProvider(web3.currentProvider);
@@ -62,9 +64,16 @@ window.App = {
       accounts = accs;
       account = accounts[0];
 
+      currentAccount = steffen.address;
+
+      balanceWei = web3.eth.getBalance(currentAccount).toNumber();
+      balance = web3.fromWei(balanceWei, 'ether');
+
 
       ethBalance.innerHTML = balance + " Ether";
       accounNr.innerHTML = currentAccount; // this should be getaccount [Number ]
+
+
 
 
 // set user addresses

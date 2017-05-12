@@ -3,8 +3,9 @@ body {
   margin-right: 0%;
   margin-top: 0%;
   font-family: "Open Sans", sans-serif;
-  font-size: 1.2em;
+  font-size: 1.3em;
 }
+
 
 
 .top {
@@ -53,6 +54,7 @@ body {
 */
 
 .left {
+  text-align: center;
   background-color: #4CAF50;
   width: 99%;
   min-height: 50px;
@@ -63,6 +65,7 @@ body {
   background-color: #4CAF50;
   width: 250px;
   border: solid black 0px;
+  font-size: 1.2em;
 }
 
 
@@ -99,6 +102,7 @@ input {
 button {
   font-size: 16px;
   padding: 5px;
+
 }
 
 h1, h2 {
@@ -186,6 +190,7 @@ h3 {
 
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
+    text-align: left;
     display: none;
     position: absolute;
     background-color: #f9f9f9;
@@ -204,7 +209,6 @@ h3 {
 
 /* Change color of dropdown links on hover */
 .dropdown-content a:hover {background-color: #f1f1f1}
-
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 
 #showAccounts {
@@ -220,7 +224,7 @@ h3 {
   color: black;
   border: 2px solid #008CBA;
   padding: 18px;
-/*  float: right; */
+  min-width: 250px;
 }
 
 #send:hover{

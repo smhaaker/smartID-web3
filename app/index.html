@@ -7,18 +7,21 @@
 </head>
 <body>
 
+
+<!-- header info start-->
   <div class="top">
 
-    <div class="toplefttitle">Account information!</div>
+    <div class="toplefttitle"></div>
 
     <div class="topleft">
       Account Number: <br/><span id="accounNr">Check if running</span><br/><br/>
       Balance: <br/><span id="ethBalance"></span><br/>
     </div>
-    <div class="topright">Additional info goes here...</div>
+  </div>
+  <!-- header info stop-->
 
-    </div>
 
+  <!-- Main area start, rename from Left to main or something-->
 
 <div class="left">
 
@@ -62,23 +65,26 @@
 
       <div id="encryptKey">
 
-      <br><input type="text" id="eKey" placeholder="enter your desired key"></input><br><br>
-      <label for="eKey">Set public encryption Key:</label>
+        <br>
 
-      <br><br>
-      <p>
-      <button id="send" onclick="App.setKey2()">Set new encryptionkey  - works</button>
-      </p>
-      <p>
-      <button id="send" onclick="App.getKey2()">Get encryptionkey  - works</button>
-      </p>
+        <p>
+        <input type="text" id="eKey" placeholder="enter your desired key"></input>
+        </p>
+        <label for="eKey">Set public encryption Key</label>
 
-      <p>
-      Public encryption key is: <span id="encryptionKey"> If you see this then ethereum aint workin </span>
-      </p>
+        <br><br>
+        <p>
+        <button id="send" onclick="App.setKey2()">Set new encryptionkey  - works</button>
+        </p>
+        <p>
+        <button id="send" onclick="App.getKey2()">Get encryptionkey  - works</button>
+        </p>
+
+        <p>
+        Public encryption key is: <span id="encryptionKey"> If you see this then ethereum aint workin </span>
+        </p>
 
       </div>
-
     </div>
 <!-- encryotion Key display stop-->
 
@@ -91,12 +97,21 @@
 
     todo:<br>
     Clean code ; layout clean... generic button layout. <br>
+
+    <br><br><button id="send" onclick="App.smartContractNew()">New contract - works</button>
+
+
     <br><br>
    <!-- new smart id start -->
     <br><input type="text" id="account" placeholder="e.g., 95"></input><br>
     <label for="smartNew">New SmartID:</label><br>
+    <br><br><button id="send" onclick="App.smartNew()">New SmartID</button>
 
-    <br><label for="addAtt">Add Attribute to (account one for now):</label><input type="text" id="addAttribute" placeholder="e.g., 95"></input><br><br>
+
+    <br><input type="text" id="addAttribute" placeholder="e.g., 95"></input><br>
+    <label for="addAtt">Add Attribute to (account one for now):</label><br>
+    <br><br><button id="send" onclick="App.addAttribute()">Add Attribute</button>
+
 
 <br><br><br><br><br><br><br>
     <h1>SmartID</h1>
@@ -126,10 +141,10 @@
     do a SmartID and SmartIdentityRegistry.abi to get our functions working.... We need to remmeber to load them. <br><br>
 
 
-    <br><br><button id="send" onclick="App.smartContractNew()">New contract - works</button>
+    Contracts don't accept ether unless you mark the function you're calling payable
+    (If you want to do it with a send, function() payable { })
 
-    <br><br><button id="send" onclick="App.smartNew()">New SmartID</button>
-    <br><br><button id="send" onclick="App.addAttribute()">Add Attribute</button>
+    
     <br><br><button id="send" onclick="App.endorseAcc()">Add Endorsement</button>
 
   <hr>
@@ -156,6 +171,11 @@
 
 start here: <br>
 
+
+Remember to change accounts. right now it defaults to steffen.addr
+ess....<br>
+
+add attribute
 
 </div>
 
