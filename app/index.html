@@ -4,6 +4,22 @@
   <title>SmartID frontend truffle 3</title>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <script src="./app.js"></script>
+
+  <script>
+
+
+  </script>
+
+  <script type="text/javascript">
+
+//    var Web3 = require('web3');
+//    var web3 = new Web3();
+//    web3.setProvider(new web3.providers.HttpProvider());
+
+//var abi = "hmms";
+</script>
+
+
 </head>
 <body>
 
@@ -74,10 +90,10 @@
 
         <br><br>
         <p>
-        <button id="send" onclick="App.setKey2()">Set new encryptionkey  - works</button>
+        <button id="send" onclick="App.setKey()">Set new encryptionkey  - works</button>
         </p>
         <p>
-        <button id="send" onclick="App.getKey2()">Get encryptionkey  - works</button>
+        <button id="send" onclick="App.getKey()">Get encryptionkey  - works</button>
         </p>
 
         <p>
@@ -93,6 +109,9 @@
 <br><br>
 <br><br><br><br><br><br><br><br>
 
+
+<hr>
+
     Stop here: <br>
 
     todo:<br>
@@ -100,17 +119,23 @@
 
     <br><br><button id="send" onclick="App.smartContractNew()">New contract - works</button>
 
-
+<hr>
     <br><br>
    <!-- new smart id start -->
     <br><input type="text" id="account" placeholder="e.g., 95"></input><br>
     <label for="smartNew">New SmartID:</label><br>
     <br><br><button id="send" onclick="App.smartNew()">New SmartID</button>
 
-
-    <br><input type="text" id="addAttribute" placeholder="e.g., 95"></input><br>
-    <label for="addAtt">Add Attribute to (account one for now):</label><br>
+<hr>
+    <br><br><br><input type="text" id="addAttribute" placeholder="Enter your attribute"></input><br>
+    <label for="addAtt">Add Attribute to (account owner for now):</label><br>
     <br><br><button id="send" onclick="App.addAttribute()">Add Attribute</button>
+
+
+    <br><br><button id="send" onclick="App.watchFilter()">Check Filter</button>
+
+
+    <button type="button" onClick="App.getFunctionHashes();">get functions</button>
 
 
 <br><br><br><br><br><br><br>
@@ -144,7 +169,7 @@
     Contracts don't accept ether unless you mark the function you're calling payable
     (If you want to do it with a send, function() payable { })
 
-    
+
     <br><br><button id="send" onclick="App.endorseAcc()">Add Endorsement</button>
 
   <hr>
@@ -178,6 +203,7 @@ ess....<br>
 add attribute
 
 </div>
+
 
 </body>
 </html>

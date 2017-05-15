@@ -6,33 +6,34 @@ import { default as Web3} from 'web3';
 import { default as contract } from 'truffle-contract'
 
 // Import our contract artifacts and turn them into usable abstractions.
-import metacoin_artifacts from '../../build/contracts/MetaCoin.json'
 import smartid_artifacts from '../../build/contracts/SmartIdentity.json'
+
 // MetaCoin is our usable abstraction, which we'll use through the code below.
-var MetaCoin = contract(metacoin_artifacts);
 var SmartIdentity = contract(smartid_artifacts);
+
 // The following code is simple to show off interacting with your contracts.
 // For application bootstrapping, check out window.addEventListener below.
 var accounts;
 var account;
-
 var currentAccount; // need to set this universal in order to switch to other accounts. move this to currentAccount = web3.eth.coibase when needed.
 
-
-var steffen = {};
+var steffen = {}; // test user
 var divState = {}; // for show and hide toggle
 
-var contractAddress = '0x12031aeca172b344f6f7ef7da53e88fd017a836b';
+var contractAddress = '0x12031aeca172b344f6f7ef7da53e88fd017a836b'; // current address for testing
 var owner;
 var smartID;
-
+var abi;
 var balanceWei; // needs global
 var balance; // needs global
+
+var SolidityCoder = require("web3/lib/solidity/coder.js");
+var func;
+
 
 window.App = {
   start: function() {
     var self = this;
-    console.log("TEST!");
 
     // Stuff to populate when user swaps accounts;
 // testuser data
@@ -44,10 +45,8 @@ window.App = {
 //    testuser.address = accounts[1];
 
 
-    // Bootstrap the MetaCoin abstraction for Use.
-    MetaCoin.setProvider(web3.currentProvider);
+    // Bootstrap abstraction for Use.
     SmartIdentity.setProvider(web3.currentProvider);
-
 
     // Get the initial account balance so it can be displayed.
     web3.eth.getAccounts(function(err, accs) {
@@ -61,10 +60,11 @@ window.App = {
         return;
       }
 
+
       accounts = accs;
       account = accounts[0];
 
-      currentAccount = steffen.address;
+      currentAccount = account;
 
       balanceWei = web3.eth.getBalance(currentAccount).toNumber();
       balance = web3.fromWei(balanceWei, 'ether');
@@ -88,9 +88,9 @@ window.App = {
 
   console.log(SmartIdentity.deployed());
   console.log("contract address: " + contractAddress);
-  var abi = SmartIdentity.abi;
+  abi = SmartIdentity.abi;
   smartID = web3.eth.contract(abi).at(contractAddress);
-
+  //console.log("abi: " + abi)
   //	ethBalance.innerHTML = accounts[0];
   var BigNumber = require('bignumber.js');
 
@@ -102,12 +102,9 @@ window.App = {
 	var x;
 	for(i = 0; i < accsLength; i++){
 	    x = new BigNumber(web3.eth.getBalance(accounts[i]));
-//            ethBalance.innerHTML += "Account: " + i + " : " + accounts[i] + "<br/> Balance: " + x +  "<br/><br/>";
-//            dropdowncontent.innerHTML += "test test test test";
-        //    changeAccount(accounts[i]);
             functionValue = accounts[i];
-            myDropdown.innerHTML += "Account: " + i + "<br/>" + "<a href='#' onclick='App.updateContent("+i+")'>" + accounts[i] + "</a><br/>";
-// onclick of link set default account, opens the info.
+            myDropdown.innerHTML += "Account: " + i + "<br/>" + "<a href='#' onclick='App.updateContent("+i+")'>" + accounts[i] + "</a>"; // used to have a linebreak after the end of link tag...
+            // onclick of link set default account, opens the info.
 
   //	    console.log(x.plus(21).toString(10));
 	}
@@ -129,7 +126,7 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
     steffen.identify = data;
   })
 
-      self.refreshBalance();
+//      self.refreshBalance();
     });
   },
 
@@ -155,14 +152,81 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
     var attributeHash = [];
     attributeHash[0] = "123908290389021489308"
     var attribute = document.getElementById("addAttribute").value;
-    var attributeHash1 = "xxxx";
+    var attributeHash1 = "hmm";
 //    we want to list attributes added
 // then add them to user by somethign like   smartID.addAttribute(hash1, {from: owner});
-    smartID.addAttribute(attributeHash1, {from: owner})
-    console.log("attribute added: " +  attributeHash1)
+    smartID.addAttribute(attribute, {from: owner})
+
+    console.log("attribute added: " +  attribute)
+    // it adds the attribute. need return value...
+
+  },
+
+  /*  var filter = web3.eth.filter('latest');
+    filter.watch(function(error, result) {
+      var block = web3.eth.getBlock(result, true);
+      console.log('block #' + block.number);
+      console.dir(block.transactions);
+
+
+      web3.eth.filter('latest').watch(function(error, result)
+
+    }*/
+
+
+  watchFilter: function(){
+    var filter = web3.eth.filter('latest');
+      filter.watch(function(error, result){
+          var block = web3.eth.getBlock(result, true);
+          console.log('block #' + block.number);
+//          console.log(block.transactions)
+          console.dir(block.transactions);
+
+
+          for (var index = 0; index < block.transactions.length; index++) {
+            var t = block.transactions[index];
+
+            // Decode from
+            var from = t.from==account ? "me" : t.from;
+
+            // Decode function
+//            var func = findFunctionByHash(functionHashes, t.input);
+
+// we need a if func == setKey or == setAttribute... whatever the name is in the contract, then this input data is printed out... so we need a if statement...
+
+
+            var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
+            console.dir(inputData);
+            console.log(inputData[0].toString())
+        }
+
+      });
   },
 
 
+// need to define abi in index?
+  getFunctionHashes: function() {
+  var hashes = [];
+  for (var i=0; i<abi.length; i++) {
+    var item = abi[i];
+    if (item.type != "function") continue;
+    var signature = item.name + "(" + item.inputs.map(function(input) {return input.type;}).join(",") + ")";
+    var hash = web3.sha3(signature);
+    console.log(item.name + '=' + hash);
+    hashes.push({name: item.name, hash: hash});
+  }
+  return hashes;
+},
+
+findFunctionByHash: function(hashes, functionHash) {
+  for (var i=0; i<hashes.length; i++) {
+    if (hashes[i].hash.substring(0, 10) == functionHash.substring(0, 10))
+      return hashes[i].name;
+  }
+  return null;
+},
+
+// no go yet...
   endorseAcc: function(){
 
       console.log("endorsed!!")
@@ -175,23 +239,9 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
   },
 
 
-// setkey works.
-  setKey: function(){
-
-      var newKey = document.getElementById("eKey").value;
-//      endorseIn.innerHTML = "endorsed"
-      // still need to define smartID. set abi and address correctly. open old to check.
-//        smartID.addEndorsement('test', 'test',{from:steffen.address});
-//      innerHTML.
-      //pagecontent
-      smartID.setEncryptionPublicKey(newKey, {from: steffen.address})
-      encryptionKey.innerHTML = newKey;
-      console.log("encryption Key Set to: " + newKey)
-  },
-
   // Set key thenable.
   /// does not work compeltely though hmm says encryptionPublicKey is not defined.
-    setKey2: function() {
+    setKey: function() {
       var newKey = document.getElementById("eKey").value;
       var self = this;
       var smart;
@@ -213,25 +263,9 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
 
 
 
-  getKey: function(){
-
-//    var smart;
-//    SmartIdentity.deployed().then(function(instance){
-//      smart = instance;
-//      return smart.encryptionPublicKey({from: steffen.address}));
-      console.log(smartID.encryptionPublicKey({from: steffen.address}));
-
-//  }).catch(function(e)){
-  //  console.log(e);
-  //  self.setStatus("error getting key")
-//  });
-
-  },
-
-
 
 // this should be how we can grab it without the contract address i guess? Cool.
-  getKey2: function() {
+  getKey: function() {
     var self = this;
     var smart;
     SmartIdentity.deployed().then(function(instance) {
@@ -249,15 +283,10 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
 
 
 
-
-
   setStatus: function(message) {
     var status = document.getElementById("status");
     status.innerHTML = message;
   },
-
-  refreshBalance: function() {
-    var self = this;
 
 
 /// so here its basically checking if metacoin is deployaed then running stuff in a function.
@@ -267,22 +296,10 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
 //i.e., HellowWorld.deployed().then(function(instance) { // do something here })
 //in the // do something here, you’d do return instance.balance.call() for instance
 //so we could have:
-    var meta;
-    MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-      return meta.getBalance.call(account, {from: account});
-    }).then(function(value) {
-//      var balance_element = document.getElementById("balance");
-//      balance_element.innerHTML = value.valueOf();
-    }).catch(function(e) {
-      console.log(e);
-      self.setStatus("Error getting balance; see log.");
-    });
-  },
 
-  // toggle menu buttons. can probably trim this down to one with variable sset later
-  // toggle menu dropdown
-    myFunction: function() {
+
+  // toggle menu dropdown update function name.
+  myFunction: function() {
         var x = document.getElementById('myDropdown');
         if (x.style.display !== 'none') {
             x.style.display = 'none';
@@ -318,7 +335,7 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
 
         accounNr.innerHTML = currentAccount; // this should be getaccount [Number ]
         ethBalance.innerHTML = balance + " Ether";  // what?
-        App.refreshBalance();
+      //  App.refreshBalance();
         App.myFunction();
     },
 
@@ -347,7 +364,7 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
       return meta.sendCoin(receiver, amount, {from: account});
     }).then(function() {
       self.setStatus("Transaction complete!");
-      self.refreshBalance();
+  //    self.refreshBalance();
     }).catch(function(e) {
       console.log(e);
       self.setStatus("Error sending coin; see log.");

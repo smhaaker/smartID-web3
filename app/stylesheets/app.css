@@ -6,7 +6,9 @@ body {
   font-size: 1.3em;
 }
 
-
+hr{
+  
+}
 
 .top {
   margin: 0px;
@@ -65,7 +67,7 @@ body {
   background-color: #4CAF50;
   width: 250px;
   border: solid black 0px;
-  font-size: 1.2em;
+  font-size: 1.05em;
 }
 
 
@@ -197,6 +199,7 @@ h3 {
     min-width: 360px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+    font-size: .8em;
 }
 
 /* Links inside the dropdown */
