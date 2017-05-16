@@ -30,6 +30,7 @@ var balance; // needs global
 var SolidityCoder = require("web3/lib/solidity/coder.js");
 var func;
 
+var functionHashes;
 
 window.App = {
   start: function() {
@@ -89,6 +90,13 @@ window.App = {
   console.log(SmartIdentity.deployed());
   console.log("contract address: " + contractAddress);
   abi = SmartIdentity.abi;
+  // hmm
+  var abiArray = [{"constant":false,"inputs":[{"name":"_newowner","type":"address"}],"name":"setOwner","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"removeEndorsement","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"acceptEndorsement","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"kill","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_myEncryptionPublicKey","type":"string"}],"name":"setEncryptionPublicKey","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"encryptionPublicKey","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"removeOverride","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_override","type":"address"}],"name":"setOverride","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_mySigningPublicKey","type":"string"}],"name":"setSigningPublicKey","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"getOwner","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_hash","type":"bytes32"}],"name":"addAttribute","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"bytes32"}],"name":"attributes","outputs":[{"name":"hash","type":"bytes32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"signingPublicKey","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"checkEndorsementExists","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_hash","type":"bytes32"}],"name":"removeAttribute","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"addEndorsement","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_oldhash","type":"bytes32"},{"name":"_newhash","type":"bytes32"}],"name":"updateAttribute","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"inputs":[],"payable":false,"type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"sender","type":"address"},{"indexed":false,"name":"status","type":"uint256"},{"indexed":false,"name":"notificationMsg","type":"bytes32"}],"name":"ChangeNotification","type":"event"}];
+    //console.log(abiArray)
+
+    functionHashes = App.getFunctionHashes(abiArray);
+
+// var functionHashes = getFunctionHashes(SmartIdentity.abi);
   smartID = web3.eth.contract(abi).at(contractAddress);
   //console.log("abi: " + abi)
   //	ethBalance.innerHTML = accounts[0];
@@ -174,6 +182,8 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
     }*/
 
 
+
+
   watchFilter: function(){
     var filter = web3.eth.filter('latest');
       filter.watch(function(error, result){
@@ -188,43 +198,58 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
 
             // Decode from
             var from = t.from==account ? "me" : t.from;
-
+            //  console.log(t.input)
             // Decode function
-//            var func = findFunctionByHash(functionHashes, t.input);
-
+            var func = App.findFunctionByHash(functionHashes, t.input);
+            //App.findFunctionByHash(functionHashes, t.input);
 // we need a if func == setKey or == setAttribute... whatever the name is in the contract, then this input data is printed out... so we need a if statement...
 
 
             var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
-            console.dir(inputData);
-            console.log(inputData[0].toString())
+            //console.dir(inputData);
+            //console.log(inputData[0].toString())
+
+
+            if (func == 'addAttribute') {
+              // This is the sellEnergy() method
+              var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
+              console.dir(inputData);
+
+            } else if (func != 'addAttribute') {
+              // This is the buyEnergy() method
+              var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
+              console.dir(inputData);
+            } else {
+              // Default log
+            }
+
         }
 
       });
   },
 
 
-// need to define abi in index?
   getFunctionHashes: function() {
-  var hashes = [];
-  for (var i=0; i<abi.length; i++) {
-    var item = abi[i];
-    if (item.type != "function") continue;
-    var signature = item.name + "(" + item.inputs.map(function(input) {return input.type;}).join(",") + ")";
-    var hash = web3.sha3(signature);
-    console.log(item.name + '=' + hash);
-    hashes.push({name: item.name, hash: hash});
-  }
-  return hashes;
-},
+    var hashes = [];
+    for (var i=0; i<abi.length; i++) {
+      var item = abi[i];
+      if (item.type != "function") continue;
+      var signature = item.name + "(" + item.inputs.map(function(input) {return input.type;}).join(",") + ")";
+      var hash = web3.sha3(signature);
+      console.log(item.name + '=' + hash);
+      hashes.push({name: item.name, hash: hash});
+    }
+    return hashes;
+  },
 
-findFunctionByHash: function(hashes, functionHash) {
-  for (var i=0; i<hashes.length; i++) {
-    if (hashes[i].hash.substring(0, 10) == functionHash.substring(0, 10))
-      return hashes[i].name;
-  }
-  return null;
-},
+  findFunctionByHash: function(hashes, functionHash) {
+    for (var i=0; i<hashes.length; i++) {
+      if (hashes[i].hash.substring(0, 10) == functionHash.substring(0, 10))
+        return hashes[i].name;
+    }
+    return null;
+  },
+
 
 // no go yet...
   endorseAcc: function(){
