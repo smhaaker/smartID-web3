@@ -94,6 +94,8 @@ window.App = {
   var abiArray = [{"constant":false,"inputs":[{"name":"_newowner","type":"address"}],"name":"setOwner","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"removeEndorsement","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"acceptEndorsement","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"kill","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_myEncryptionPublicKey","type":"string"}],"name":"setEncryptionPublicKey","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"encryptionPublicKey","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"removeOverride","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_override","type":"address"}],"name":"setOverride","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_mySigningPublicKey","type":"string"}],"name":"setSigningPublicKey","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"getOwner","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_hash","type":"bytes32"}],"name":"addAttribute","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"bytes32"}],"name":"attributes","outputs":[{"name":"hash","type":"bytes32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"signingPublicKey","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"checkEndorsementExists","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_hash","type":"bytes32"}],"name":"removeAttribute","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"addEndorsement","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_oldhash","type":"bytes32"},{"name":"_newhash","type":"bytes32"}],"name":"updateAttribute","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"inputs":[],"payable":false,"type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"sender","type":"address"},{"indexed":false,"name":"status","type":"uint256"},{"indexed":false,"name":"notificationMsg","type":"bytes32"}],"name":"ChangeNotification","type":"event"}];
     //console.log(abiArray)
 
+    // could possibley do this this way also web3.eth.contract([ABI array goes here to make it an array]);
+
     functionHashes = App.getFunctionHashes(abiArray);
 
 // var functionHashes = getFunctionHashes(SmartIdentity.abi);
@@ -204,21 +206,33 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
             //App.findFunctionByHash(functionHashes, t.input);
 // we need a if func == setKey or == setAttribute... whatever the name is in the contract, then this input data is printed out... so we need a if statement...
 
+/* Remember we are decoding bytes32 i think*/
+          //  var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10)); // issue is probably here... because its substring...
 
-            var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
+            // look up solidity coder decodeparams...
             //console.dir(inputData);
             //console.log(inputData[0].toString())
+//            var inputData = SolidityCoder.decodeParams(["bytes32"], t.input); // issue is probably here... because its substring...
 
 
             if (func == 'addAttribute') {
               // This is the sellEnergy() method
-              var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
+              var inputData = SolidityCoder.decodeParams(["bytes32"], t.input.substring(10)); // issue is probably here... because its substring...
+              // THIS ONE ACTUALLY DECODES THE DAMN STUFFs...
+
+            //  var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
               console.dir(inputData);
+              console.dir("add attribute HelloWorld")
+              console.log("from " + from + " input data " + inputData[0].toString()) // set this to currentaccount... we we see who submitted the attribute.. wont work universally though.
+              /// needs to be the real from returned in the transaction..
+              console.log(web3.toAscii(inputData[0].toString()))
+              // still need to decipher the output i guess..
 
             } else if (func != 'addAttribute') {
               // This is the buyEnergy() method
               var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
               console.dir(inputData);
+              console.dir("add attribute not HelloWorld")
             } else {
               // Default log
             }
