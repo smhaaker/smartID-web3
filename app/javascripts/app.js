@@ -20,7 +20,10 @@ var currentAccount; // need to set this universal in order to switch to other ac
 var steffen = {}; // test user
 var divState = {}; // for show and hide toggle
 
-var contractAddress = '0x12031aeca172b344f6f7ef7da53e88fd017a836b'; // current address for testing
+//var contractAddress = '0x12031aeca172b344f6f7ef7da53e88fd017a836b'; // old address for testing testrpc.
+// need to add morden or testnet contract when deployed... This should then allow us to use mist browser and authorize without unlocking in jscript. / web3
+var contractAddress = '0x32e851595b60db5b33d663dcb9da19c75e6249ae'; // current address for testing
+
 var owner;
 var smartID;
 var abi;
@@ -165,25 +168,11 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
     var attributeHash1 = "hmm";
 //    we want to list attributes added
 // then add them to user by somethign like   smartID.addAttribute(hash1, {from: owner});
-    smartID.addAttribute(attribute, {from: owner})
-
+    smartID.addAttribute(attribute, {from: currentAccount})
+// from output works.
     console.log("attribute added: " +  attribute)
     // it adds the attribute. need return value...
-
   },
-
-  /*  var filter = web3.eth.filter('latest');
-    filter.watch(function(error, result) {
-      var block = web3.eth.getBlock(result, true);
-      console.log('block #' + block.number);
-      console.dir(block.transactions);
-
-
-      web3.eth.filter('latest').watch(function(error, result)
-
-    }*/
-
-
 
 
   watchFilter: function(){
@@ -199,14 +188,19 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
             var t = block.transactions[index];
 
             // Decode from
-            var from = t.from==account ? "me" : t.from;
+        //    var from = t.from==account ? "me" : t.from;
+            //var from = currentAccount;
+            var from = t.from;
             //  console.log(t.input)
+            var to = t.to;
             // Decode function
             var func = App.findFunctionByHash(functionHashes, t.input);
             //App.findFunctionByHash(functionHashes, t.input);
 // we need a if func == setKey or == setAttribute... whatever the name is in the contract, then this input data is printed out... so we need a if statement...
 
 /* Remember we are decoding bytes32 i think*/
+// might need to change this to string...
+
           //  var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10)); // issue is probably here... because its substring...
 
             // look up solidity coder decodeparams...
@@ -218,25 +212,31 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
             if (func == 'addAttribute') {
               // This is the sellEnergy() method
               var inputData = SolidityCoder.decodeParams(["bytes32"], t.input.substring(10)); // issue is probably here... because its substring...
-              // THIS ONE ACTUALLY DECODES THE DAMN STUFFs...
+              // THIS ONE ACTUALLY DECODES THE DAMN STUFFs... // get the from.
 
             //  var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
               console.dir(inputData);
-              console.dir("add attribute HelloWorld")
               console.log("from " + from + " input data " + inputData[0].toString()) // set this to currentaccount... we we see who submitted the attribute.. wont work universally though.
               /// needs to be the real from returned in the transaction..
               console.log(web3.toAscii(inputData[0].toString()))
               // still need to decipher the output i guess..
+              console.log("to" + to) // this is to the contract. I think.
+                // this updates added attributes. However, we can all claim all the same attributes... Must use endorsement?
+                // Also consider bytes32 not being able to issue complete address. might need to have the to - from...
+                // from output is good.
+
+              $('#transactions').append('<tr><td>' + t.blockNumber +
+                  '</td><td>' + from +
+                  '</td><td>' + " Empty " +
+                  '</td><td>Attribute: (' + web3.toAscii(inputData[0].toString()) + ')</td></tr>');
 
             } else if (func != 'addAttribute') {
-              // This is the buyEnergy() method
-              var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
+            //  var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
               console.dir(inputData);
-              console.dir("add attribute not HelloWorld")
+              console.dir("Not working, try again")
             } else {
               // Default log
             }
-
         }
 
       });
@@ -300,9 +300,6 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
     },
 
 
-
-
-
 // this should be how we can grab it without the contract address i guess? Cool.
   getKey: function() {
     var self = this;
@@ -319,7 +316,6 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
       self.setStatus("Error getting balance; see log.");
     });
   },
-
 
 
   setStatus: function(message) {
@@ -378,7 +374,6 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
         App.myFunction();
     },
 
-
   accountList: function(){ // should be good to go..
       listAccounts.innerHTML = "";
     for(var i = 0; i<accounts.length; i++){
@@ -387,28 +382,6 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
     }
   },
 
-
-
-  sendCoin: function() {
-    var self = this;
-
-    var amount = parseInt(document.getElementById("amount").value);
-    var receiver = document.getElementById("receiver").value;
-
-    this.setStatus("Initiating transaction... (please wait)");
-
-    var meta;
-    MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-      return meta.sendCoin(receiver, amount, {from: account});
-    }).then(function() {
-      self.setStatus("Transaction complete!");
-  //    self.refreshBalance();
-    }).catch(function(e) {
-      console.log(e);
-      self.setStatus("Error sending coin; see log.");
-    });
-  }
 };
 
 window.addEventListener('load', function() {

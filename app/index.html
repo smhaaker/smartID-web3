@@ -3,6 +3,7 @@
 <head>
   <title>SmartID frontend truffle 3</title>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="./app.js"></script>
 
   <script>
@@ -50,9 +51,13 @@
 
     <button class="leftBtn" onclick="App.showBtn('showAccounts'); App.accountList();">Show devices</button>
 
-    <button class="leftBtn" onclick="App.showBtn('unlockAccount')">Unlock account</button>
+    <!--button class="leftBtn" onclick="App.showBtn('unlockAccount')">Unlock account</button-->
+
+    <button class="leftBtn" onclick="App.showBtn('devices')">Devices</button>
 
     <button class="leftBtn" onclick="App.showBtn('endorseDevice')">Endorse Device</button>
+
+    <button class="leftBtn" onclick="App.showBtn('endorseDevice')">Add Attribute</button>
 
     <button class="leftBtn" onclick="App.showBtn('setEncryptionKey')">Set Encryption Key</button>
 <!-- buttons end-->
@@ -131,12 +136,36 @@
     <label for="addAtt">Add Attribute to (account owner for now):</label><br>
     <br><br><button id="send" onclick="App.addAttribute()">Add Attribute</button>
 
-
+ Be careful with check filter. Should only be activated once... Make sure to fix this. 
     <br><br><button id="send" onclick="App.watchFilter()">Check Filter</button>
 
 
     <button type="button" onClick="App.getFunctionHashes();">get functions</button>
 
+<!-- test watch area -->
+
+<div class="row">
+   <div>
+     <h2 class="sub-header">Transactions</h2>
+     <div class="table-responsive">
+       <table class="table table-striped">
+         <thead>
+           <tr>
+             <th>block#</th>
+             <th>from</th>
+             <th>to</th>
+             <th>input</th>
+           </tr>
+         </thead>
+         <tbody id="transactions">
+         </tbody>
+       </table>
+     </div>
+   </div>
+ </div>
+</div>
+
+<!-- test area stop -->
 
 <br><br><br><br><br><br><br>
     <h1>SmartID</h1>
