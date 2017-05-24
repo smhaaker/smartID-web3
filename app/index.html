@@ -55,9 +55,11 @@
 
     <button class="leftBtn" onclick="App.showBtn('devices')">Devices</button>
 
-    <button class="leftBtn" onclick="App.showBtn('endorseDevice')">Endorse Device</button>
+    <button class="leftBtn" onclick="App.showBtn('catchAll')">Catch All</button>
 
-    <button class="leftBtn" onclick="App.showBtn('endorseDevice')">Add Attribute</button>
+    <button class="leftBtn" onclick="App.showBtn('addAttributeCont')">Add Attribute</button>
+
+    <button class="leftBtn" onclick="App.showBtn('updateAttributeCont')">Update Attribute</button>
 
     <button class="leftBtn" onclick="App.showBtn('setEncryptionKey')">Set Encryption Key</button>
 <!-- buttons end-->
@@ -75,6 +77,31 @@
 <div class="container">
 
   <!-- this just displays a list of accounts / do devices later-->
+  <div id="catchAll" style="display: none">
+    <br/>
+    Area to catch all unused for now<br/>
+    <span id="catchAllContent">
+      <hr>
+
+          Stop here: <br>
+
+          todo:<br>
+          Clean code ; layout clean... generic button layout. <br>
+
+          <br><br><button id="send" onclick="App.smartContractNew()">New contract - works</button>
+
+      <hr>
+          <br><br>
+         <!-- new smart id start -->
+          <br><input type="text" id="account" placeholder="e.g., 95"></input><br>
+          <label for="smartNew">New SmartID:</label><br>
+          <br><br><button id="send" onclick="App.smartNew()">New SmartID</button>
+
+    </span>
+  </div>
+  <!-- this just displays a list of accounts / do devices later end-->
+
+  <!-- this just displays a list of accounts / do devices later-->
   <div id="showAccounts">
     <br/>
     <span id="listAccounts"></span>
@@ -83,7 +110,6 @@
 
 <!-- encryotion Key display start-->
     <div id="setEncryptionKey" style="display: none">
-
       <div id="encryptKey">
 
         <br>
@@ -112,35 +138,24 @@
 
 
 <br><br>
-<br><br><br><br><br><br><br><br>
 
 
-<hr>
-
-    Stop here: <br>
-
-    todo:<br>
-    Clean code ; layout clean... generic button layout. <br>
-
-    <br><br><button id="send" onclick="App.smartContractNew()">New contract - works</button>
-
-<hr>
-    <br><br>
-   <!-- new smart id start -->
-    <br><input type="text" id="account" placeholder="e.g., 95"></input><br>
-    <label for="smartNew">New SmartID:</label><br>
-    <br><br><button id="send" onclick="App.smartNew()">New SmartID</button>
 
 <hr>
     <br><br><br><input type="text" id="addAttribute" placeholder="Enter your attribute"></input><br>
     <label for="addAtt">Add Attribute to (account owner for now):</label><br>
     <br><br><button id="send" onclick="App.addAttribute()">Add Attribute</button>
 
- Be careful with check filter. Should only be activated once... Make sure to fix this. 
+ Be careful with check filter. Should only be activated once... Make sure to fix this.
     <br><br><button id="send" onclick="App.watchFilter()">Check Filter</button>
 
 
     <button type="button" onClick="App.getFunctionHashes();">get functions</button>
+
+    <button type="button" onClick="App.firstBlock();">check blocks</button>
+
+    <button type="button" onClick="App.checkBlock();">check specific</button>
+
 
 <!-- test watch area -->
 

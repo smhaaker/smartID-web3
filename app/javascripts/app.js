@@ -21,8 +21,9 @@ var steffen = {}; // test user
 var divState = {}; // for show and hide toggle
 
 //var contractAddress = '0x12031aeca172b344f6f7ef7da53e88fd017a836b'; // old address for testing testrpc.
-// need to add morden or testnet contract when deployed... This should then allow us to use mist browser and authorize without unlocking in jscript. / web3
-var contractAddress = '0x32e851595b60db5b33d663dcb9da19c75e6249ae'; // current address for testing
+// need to add ropsten? or testnet contract when deployed... This should then allow us to use mist browser and authorize without unlocking in jscript. / web3
+//var contractAddress = '0xb06c99208620c3b5d6f54fdb7c5cf48891d3fc3b'; // current address for testing
+var contractAddress = '0x30DDF53E7a6096fb80479d6F0334937796D50b0e'; // test-net contract address
 
 var owner;
 var smartID;
@@ -77,12 +78,8 @@ window.App = {
       ethBalance.innerHTML = balance + " Ether";
       accounNr.innerHTML = currentAccount; // this should be getaccount [Number ]
 
-
-
-
 // set user addresses
       testuser.address = accounts[1];
-
 
 // test output
           console.log(steffen.address);
@@ -170,13 +167,68 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
 // then add them to user by somethign like   smartID.addAttribute(hash1, {from: owner});
     smartID.addAttribute(attribute, {from: currentAccount})
 // from output works.
-    console.log("attribute added: " +  attribute)
+//    console.log("attribute added: " +  attribute)
     // it adds the attribute. need return value...
+
+    // following updates our visual eth balance top of page...
+      balanceWei = web3.eth.getBalance(currentAccount).toNumber();
+      balance = web3.fromWei(balanceWei, 'ether'); // balance in eth.
+
+      accounNr.innerHTML = currentAccount;
+      ethBalance.innerHTML = balance + " Ether";  // what?
   },
 
 
+  firstBlock: function(){
+    // looing for first block to position
+  var test =  web3.eth.getTransaction('0xa0a881de25dddaf26dbe2f2c57d798bfdcb7693a55d4595318540410c3bec19d')
+//0xa0a881de25dddaf26dbe2f2c57d798bfdcb7693a55d4595318540410c3bec19d
+  console.log(test);
+
+  var func = App.findFunctionByHash(functionHashes, test.input);
+
+  var inputData = SolidityCoder.decodeParams(["bytes32"], t.input.substring(10)); // issue is probably here... because its substring...
+
+  console.log(web3.toAscii(inputData[0].toString()));
+  },
+
+  checkBlock: function(){
+    // looing for first block to position
+    // no good.. But we need to scan all blocks here...
+    /*var oneBlock = web3.eth.getBlock('earliest');
+    console.log('block # ' + oneBlock.blockNumber);
+    var index = 0;
+
+
+    var t = oneBlock.transactions[index];
+
+    var from = t.from;
+    console.log("from " + from)*/
+
+    // This does block transaction.... still need to read the input....
+    // probably have to do our t = block transaction thing here.
+
+    // we should also add a pending... that way we can see transactions in progress..
+
+    // also add a filer.stopWatching()....
+//    probably something like filter('fromblock:0' , "toblock:"latest")
+
+// uncomment below
+//var filter = web3.eth.filter({fromBlock:0, toBlock: 'latest'});
+//filter.get(function(error, result){ console.log(error, result); });
+
+// we need to get input data from transaction from block...
+var str = web3.eth.getTransactionFromBlock('37');
+//var test = web3.toAscii(str)
+
+
+  console.log(str.input)
+
+  },
+
   watchFilter: function(){
     var filter = web3.eth.filter('latest');
+
       filter.watch(function(error, result){
           var block = web3.eth.getBlock(result, true);
           console.log('block #' + block.number);
@@ -206,7 +258,7 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
             // look up solidity coder decodeparams...
             //console.dir(inputData);
             //console.log(inputData[0].toString())
-//            var inputData = SolidityCoder.decodeParams(["bytes32"], t.input); // issue is probably here... because its substring...
+//            var inputData = SolidityCoder.decodeParams(["bytes32"]ct, t.input); // issue is probably here... because its substring...
 
 
             if (func == 'addAttribute') {
@@ -224,11 +276,12 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
                 // this updates added attributes. However, we can all claim all the same attributes... Must use endorsement?
                 // Also consider bytes32 not being able to issue complete address. might need to have the to - from...
                 // from output is good.
-
+// block count is wrong not a big deal but it adds even if block isnt updated
               $('#transactions').append('<tr><td>' + t.blockNumber +
                   '</td><td>' + from +
                   '</td><td>' + " Empty " +
-                  '</td><td>Attribute: (' + web3.toAscii(inputData[0].toString()) + ')</td></tr>');
+//                  '</td><td>Attribute: (' + web3.toAscii(inputData[0].toString()) + ')</td></tr>');
+'</td><td>Attribute: (' + t.input + ')</td></tr>');
 
             } else if (func != 'addAttribute') {
             //  var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
@@ -267,7 +320,6 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
 
 // no go yet...
   endorseAcc: function(){
-
       console.log("endorsed!!")
       var endorseIn = document.getElementById("endorsed");
       endorseIn.innerHTML = "endorsed"
