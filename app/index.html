@@ -49,17 +49,20 @@
       </div>
     <!--/div-->
 
-    <button class="leftBtn" onclick="App.showBtn('showAccounts'); App.accountList();">Show devices</button>
+    <button class="leftBtn" onclick="App.showBtn('showAccounts'); App.accountList();">Show Devices</button>
+
+    <button class="leftBtn" onclick="App.showBtn('addAttributeCont')">Claim Device</button>
+
+    <button class="leftBtn" onclick="App.showBtn('removeAttributeCont')">Remove Device</button>
+
 
     <!--button class="leftBtn" onclick="App.showBtn('unlockAccount')">Unlock account</button-->
 
-    <button class="leftBtn" onclick="App.showBtn('devices')">Devices</button>
+    <!--button class="leftBtn" onclick="App.showBtn('devices')">Devices</button-->
 
     <button class="leftBtn" onclick="App.showBtn('catchAll')">Catch All</button>
 
-    <button class="leftBtn" onclick="App.showBtn('addAttributeCont')">Add Attribute</button>
-
-    <button class="leftBtn" onclick="App.showBtn('updateAttributeCont')">Update Attribute</button>
+    <!--button class="leftBtn" onclick="App.showBtn('updateAttributeCont')">Update Attribute</button-->
 
     <button class="leftBtn" onclick="App.showBtn('setEncryptionKey')">Set Encryption Key</button>
 <!-- buttons end-->
@@ -139,12 +142,17 @@
 
 <br><br>
 
+<!-- Add Device start -->
+
+<div id="addAttributeCont" style="display: none">
 
 
-<hr>
-    <br><br><br><input type="text" id="addAttribute" placeholder="Enter your attribute"></input><br>
-    <label for="addAtt">Add Attribute to (account owner for now):</label><br>
-    <br><br><button id="send" onclick="App.addAttribute()">Add Attribute</button>
+    <h2>Claim your device</h2>
+    <hr>
+
+    <br><input type="text" id="addAttribute" placeholder="Enter device address: eg 0x6ac....."></input><br>
+    <label for="addAtt"><!--Claim Device:--></label><br>
+    <br><br><button id="send" onclick="App.addAttribute()">Add Device</button>
 
  Be careful with check filter. Should only be activated once... Make sure to fix this.
     <br><br><button id="send" onclick="App.watchFilter()">Check Filter</button>
@@ -161,15 +169,18 @@
 
 <div class="row">
    <div>
+     <br>
      <h2 class="sub-header">Transactions</h2>
+     <span id="status"></span>
+
      <div class="table-responsive">
        <table class="table table-striped">
          <thead>
            <tr>
              <th>block#</th>
-             <th>from</th>
-             <th>to</th>
-             <th>input</th>
+             <th>Owner</th>
+             <!--th>to</th-->
+             <th>Device</th>
            </tr>
          </thead>
          <tbody id="transactions">
@@ -180,41 +191,48 @@
  </div>
 </div>
 
-<!-- test area stop -->
-
-<br><br><br><br><br><br><br>
-    <h1>SmartID</h1>
-    <h2>- remove metacoin contracts</h2>
+<!-- Add Device Stop -->
 
 
-    Add user name = address<br>
-    Set attributes to name + attribute<br>
 
-    Set endoremensts to name <br>
+<!-- diaplying ALl devices on the chain need a log of all devices, not just filter from latest... Filter from first. -->
+ 
 
-    Set attribute hashes:...<br>
-    then add attributes as: <br>
-    smartID.addAttribute(hash1, {from: owner});<br>
-    This should then return a hash.<br>
-
-    smartID.addAttribute('0xca02b2202ffaacbd499438ef6d594a48f7a7631b60405ec8f30a0d7c096d54d5',{from: owner})<br><br>
-
-    this still needs to be implemented as an array of attributes on the above input... Must also be owner = currentAccount, see coinbase. <br>
-
-    Truffle<br><br>
-
-    truffle(development)> smartID.addAttribute('0xca02b2202ffaacbd499438ef6d594a48f7a7631b60405ec8f30a0d7c096d54d5',{from: owner})<br>
-    '0x68b6351f4d2bd239617e915b99add123e5a6e9dfa7f6e4f71fdb611cb563f137'<br><br>
+ <!-- Remove device start -->
 
 
-    do a SmartID and SmartIdentityRegistry.abi to get our functions working.... We need to remmeber to load them. <br><br>
+ <div id="removeAttributeCont" style="display: none">
 
 
-    Contracts don't accept ether unless you mark the function you're calling payable
-    (If you want to do it with a send, function() payable { })
+ <h2>Remove Device</h2>
+ <hr>
+
+ <br><input type="text" id="remAttribute" placeholder="Enter device address: eg 0x6ac....."></input><br>
+ <label for="addAtt"><!--Claim Device:--></label><br>
+ <br><br><button id="send" onclick="App.remAttribute()">Remove Device</button>
+
+</div>
+
+<!-- Remove device stop -->
+
+<br><br><br><br><br><br>
 
 
-    <br><br><button id="send" onclick="App.endorseAcc()">Add Endorsement</button>
+ <button type="button" onClick="App.showAllDevices();">Show All Devices</button>
+
+
+<!-- filter display end all devices-->
+
+</div>
+
+
+<!-- not sure what this is:
+
+Contracts don't accept ether unless you mark the function you're calling payable
+(If you want to do it with a send, function() payable { })
+
+
+ -- >
 
   <hr>
     <br>

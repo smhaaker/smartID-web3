@@ -22,8 +22,8 @@ var divState = {}; // for show and hide toggle
 
 //var contractAddress = '0x12031aeca172b344f6f7ef7da53e88fd017a836b'; // old address for testing testrpc.
 // need to add ropsten? or testnet contract when deployed... This should then allow us to use mist browser and authorize without unlocking in jscript. / web3
-//var contractAddress = '0xb06c99208620c3b5d6f54fdb7c5cf48891d3fc3b'; // current address for testing
-var contractAddress = '0x30DDF53E7a6096fb80479d6F0334937796D50b0e'; // test-net contract address
+var contractAddress = '0xb06c99208620c3b5d6f54fdb7c5cf48891d3fc3b'; // current address for testing
+//var contractAddress = '0x30DDF53E7a6096fb80479d6F0334937796D50b0e'; // test-net contract address
 
 var owner;
 var smartID;
@@ -45,10 +45,8 @@ window.App = {
 // create users
     var testuser = {};
     owner = web3.eth.coinbase;
-
     steffen.address = web3.eth.coinbase;
 //    testuser.address = accounts[1];
-
 
     // Bootstrap abstraction for Use.
     SmartIdentity.setProvider(web3.currentProvider);
@@ -82,13 +80,13 @@ window.App = {
       testuser.address = accounts[1];
 
 // test output
-          console.log(steffen.address);
-          console.log(testuser.address);
+//          console.log(steffen.address);
+//          console.log(testuser.address);
 
 // continue misc endorsement test.... Add user etc.
 
-  console.log(SmartIdentity.deployed());
-  console.log("contract address: " + contractAddress);
+  //console.log(SmartIdentity.deployed());
+  //console.log("contract address: " + contractAddress);
   abi = SmartIdentity.abi;
   // hmm
   var abiArray = [{"constant":false,"inputs":[{"name":"_newowner","type":"address"}],"name":"setOwner","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"removeEndorsement","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"acceptEndorsement","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"kill","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_myEncryptionPublicKey","type":"string"}],"name":"setEncryptionPublicKey","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"encryptionPublicKey","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"removeOverride","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_override","type":"address"}],"name":"setOverride","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_mySigningPublicKey","type":"string"}],"name":"setSigningPublicKey","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"getOwner","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_hash","type":"bytes32"}],"name":"addAttribute","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"bytes32"}],"name":"attributes","outputs":[{"name":"hash","type":"bytes32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"signingPublicKey","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"checkEndorsementExists","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_hash","type":"bytes32"}],"name":"removeAttribute","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"addEndorsement","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_oldhash","type":"bytes32"},{"name":"_newhash","type":"bytes32"}],"name":"updateAttribute","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"inputs":[],"payable":false,"type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"sender","type":"address"},{"indexed":false,"name":"status","type":"uint256"},{"indexed":false,"name":"notificationMsg","type":"bytes32"}],"name":"ChangeNotification","type":"event"}];
@@ -131,22 +129,27 @@ window.App = {
   // gas set depending on dev environment.
 //  SmartIdentity.new({from: steffen.address, gas: 4712388});
 //SmartIdentity.new({from: '0xa7d455fe00228e9bb08238087fe81ff385e71fe4'});
+
+// check following gas level for live deploy
+
+/*
 SmartIdentity.new({from: steffen.address, gas: 4712388})
   .then(function(data) {
     steffen.identify = data;
   })
+*/
+
 
 //      self.refreshBalance();
     });
   },
 
-
+// testing functions
   smartContractNew: function(){
     SmartIdentity.new({from: steffen.address, gas: 4712388})
       .then(function(data) {
         steffen.identify = data;
       })
-
     console.log("new smartID contract issued: " + steffen.identify)
     console.log('Eth? ' + web3.eth.getTransaction("0xa4b4417fc7e492b911d08e948ea50ca772b82516"));
   },
@@ -165,7 +168,29 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
     var attributeHash1 = "hmm";
 //    we want to list attributes added
 // then add them to user by somethign like   smartID.addAttribute(hash1, {from: owner});
-    smartID.addAttribute(attribute, {from: currentAccount})
+
+    this.setStatus("Initiating transaction... (please wait)");
+
+
+    var self = this;
+    var smart;
+    SmartIdentity.deployed().then(function(instance) {
+      smart = instance;
+//      return smart.setEncryptionPublicKey(newKey, {from: account});
+      return smart.addAttribute(attribute, {from: currentAccount})
+    }).then(function(value) {
+//      this.setStatus("Transaction complete");
+        self.setStatus("Transaction complete, Device Added");
+    }).catch(function(e) {
+      console.log(e);
+      self.setStatus("Error; see log.");
+    });
+
+
+
+// OLD    smartID.addAttribute(attribute, {from: currentAccount})
+
+
 // from output works.
 //    console.log("attribute added: " +  attribute)
     // it adds the attribute. need return value...
@@ -221,10 +246,41 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
 var str = web3.eth.getTransactionFromBlock('37');
 //var test = web3.toAscii(str)
 
-
   console.log(str.input)
 
   },
+
+  remAttribute: function(){
+
+    var attribute = document.getElementById("remAttribute").value;
+
+    this.setStatus("Initiating transaction... (please wait)");
+
+
+    var self = this;
+    var smart;
+    SmartIdentity.deployed().then(function(instance) {
+      smart = instance;
+//      return smart.setEncryptionPublicKey(newKey, {from: account});
+      return smart.removeAttribute(attribute, {from: currentAccount})
+    }).then(function(value) {
+//      this.setStatus("Transaction complete");
+        self.setStatus("Device removed");
+    }).catch(function(e) {
+      console.log(e);
+      self.setStatus("Error getting; see log.");
+    });
+    console.log("Removing device")
+  },
+
+
+
+  showAllDevices: function(){
+    console.log("Filter to show all devices")
+    console.log("first block to check:")
+    console.log("final block to check: ")
+  },
+
 
   watchFilter: function(){
     var filter = web3.eth.filter('latest');
@@ -270,7 +326,7 @@ var str = web3.eth.getTransactionFromBlock('37');
               console.dir(inputData);
               console.log("from " + from + " input data " + inputData[0].toString()) // set this to currentaccount... we we see who submitted the attribute.. wont work universally though.
               /// needs to be the real from returned in the transaction..
-              console.log(web3.toAscii(inputData[0].toString()))
+    //          console.log(web3.toAscii(inputData[0].toString()))
               // still need to decipher the output i guess..
               console.log("to" + to) // this is to the contract. I think.
                 // this updates added attributes. However, we can all claim all the same attributes... Must use endorsement?
@@ -278,14 +334,11 @@ var str = web3.eth.getTransactionFromBlock('37');
                 // from output is good.
 // block count is wrong not a big deal but it adds even if block isnt updated
               $('#transactions').append('<tr><td>' + t.blockNumber +
-                  '</td><td>' + from +
-                  '</td><td>' + " Empty " +
+                  '</td><td>' + from + '</td><td>' + t.input.substring(0, t.input.length - 24) + '</td></tr>');
 //                  '</td><td>Attribute: (' + web3.toAscii(inputData[0].toString()) + ')</td></tr>');
-'</td><td>Attribute: (' + t.input + ')</td></tr>');
-
             } else if (func != 'addAttribute') {
             //  var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
-              console.dir(inputData);
+    //          console.dir(inputData);
               console.dir("Not working, try again")
             } else {
               // Default log
@@ -446,6 +499,9 @@ window.addEventListener('load', function() {
     console.warn("No web3 detected. Falling back to http://localhost:8545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask");
     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
     window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+
+
+
   }
 
   App.start();
