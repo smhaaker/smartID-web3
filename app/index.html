@@ -85,8 +85,10 @@ var data = {
     <h2>Account Information!</h2>
     <br/>
       <b>Ethereum Account:</b> <span id="accountinfo">Client Not Running, Make Sure You Have Ethereum Running</span><br/>
-      <b>BTC Account:</b> <span id="btcAddress">No BTC address associated, make sure to add it</span><br/><br/>
+      <b>BTC Account:</b> <span id="btcAddress">No BTC address associated, make sure to <a href="#" onclick="App.showBtn('addBTC')">add it</a></span><br/><br/>
       BTC sample: 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2<br/><br/>
+
+No BTC address associated, make sure to <a href="#" onclick="App.showBtn('addBTC')">add it</a><br/><br/>
 
     <h2>Devices</h2>
       <span id="accountDevices">No Devices Claimed<br/> <a href="#" onclick="App.showBtn('addAttributeCont')">Claim Device</a><br/></span><br/>
@@ -201,7 +203,21 @@ var data = {
 <!-- encryotion Key display stop-->
 
 
+<!-- add btc add start-->
+<div id="addBTC" style="display: none">
+  <br><input type="text" id="inputBTC" placeholder="Enter BTC payment Address: eg 1BvBMS...."></input><br>
+
+  <button id="send" type="button" onClick="App.addBitCoinAddress();">Add BTC address</button>
+  <button type="button" onClick="App.watchFilter2();">Check Filter here</button>
+
+  <span id="BTCshow">No address here yet</span>
+
+</div>
+<!-- add btc add stop-->
+
+
 <!-- Add Device start -->
+
 
 <div id="addAttributeCont" style="display: none">
 
@@ -213,17 +229,16 @@ var data = {
     <label for="addAtt"><!--Claim Device:--></label><br>
     <br><br><button id="send" onclick="App.addAttribute()">Add Device</button>
 
- Be careful with check filter. Should only be activated once... Make sure to fix this.
+    <!--Be careful with check filter. Should only be activated once... Make sure to fix this.-->
     <br><br><button id="send" onclick="App.watchFilter()">Check Filter</button>
 
 
-    <button type="button" onClick="App.getFunctionHashes();">get functions</button>
+    <button id="send" type="button" onClick="App.getFunctionHashes();">get functions</button>
 
-    <button type="button" onClick="App.firstBlock();">check blocks</button>
+    <!--button type="button" onClick="App.firstBlock();">check blocks</button>
 
-    <button type="button" onClick="App.checkBlock();">check specific</button>
+    <button type="button" onClick="App.checkBlock();">check specific</button-->
 
-    <button type="button" onClick="App.addBitCoinAddress();">Add BTC address</button>
 
 
 <!-- test watch area -->

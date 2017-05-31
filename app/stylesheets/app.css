@@ -268,7 +268,7 @@ table {
   font-family: times, Times New Roman, times-roman, georgia, serif;
 font-size: 14px;
 line-height: 20px;
-text-transform: uppercase;
+/*text-transform: uppercase;*/
 color: #444;
     border-collapse: collapse;
     width: 100%;

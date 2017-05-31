@@ -22,7 +22,10 @@ contract SmartIdentity {
     uint constant DEBUG_EVENT = 5;
 
     mapping(bytes32 => Attribute) public attributes;
-    mapping(bytes32 => BTCaddr) public BTCaddrs;
+    mapping(bytes32 => BTCadd) public btcaddresses;
+
+//    string public BTCaddress;
+
 
 
     /**
@@ -75,12 +78,11 @@ contract SmartIdentity {
         mapping(bytes32 => Endorsement) endorsements;
     }
 
-
-    // adding support to map btc address.
-    struct BTCaddr {
+    struct BTCadd {
         bytes32 hash;
         mapping(bytes32 => Endorsement) endorsements;
     }
+
 
     /**
      * The endorsement structure: every endorsement is composed of:
@@ -136,6 +138,15 @@ contract SmartIdentity {
         return owner;
     }
 
+
+/*    function setBTC(string _newBTCaddr) onlyBy(owner) {
+        BTCaddress = _newBTCaddr;
+        }
+
+    function getBTC() returns(string){
+        return BTCaddress;
+    }
+*/
     /**
      * The override address is another ethereum address that can reset the owner.
      * In practice this could either be another multi-sig account, or another
@@ -171,17 +182,14 @@ contract SmartIdentity {
         return true;
     }
 
-    /**
-     * Adds an BTCaddr, with an empty list of endorsements.
-     */
-    function addBTCaddr(bytes32 _hash) onlyBy(owner) checkBlockLock() returns(bool) {
-        var BTC = BTCaddrs[_hash];
-        if (BTC.hash == _hash) {
-//            sendEvent(SIG_CHANGE_EVENT, "A hash exists for the BTC address");
+    function addBTC(bytes32 _hash) onlyBy(owner) checkBlockLock() returns(bool) {
+        var btcadd = btcaddresses[_hash];
+        if (btcadd.hash == _hash) {
+            sendEvent(SIG_CHANGE_EVENT, "A hash exists for the attribute");
             throw;
         }
-        BTC.hash = _hash;
-        sendEvent(INFO_EVENT, "BTC address has been added");
+        btcadd.hash = _hash;
+        sendEvent(INFO_EVENT, "Attribute has been added");
         return true;
     }
 
