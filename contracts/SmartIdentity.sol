@@ -22,6 +22,8 @@ contract SmartIdentity {
     uint constant DEBUG_EVENT = 5;
 
     mapping(bytes32 => Attribute) public attributes;
+    mapping(bytes32 => BTCaddr) public BTCaddrs;
+
 
     /**
      * Constructor of the Smart Identity
@@ -69,6 +71,13 @@ contract SmartIdentity {
      * - Endorsements
      */
     struct Attribute {
+        bytes32 hash;
+        mapping(bytes32 => Endorsement) endorsements;
+    }
+
+
+    // adding support to map btc address.
+    struct BTCaddr {
         bytes32 hash;
         mapping(bytes32 => Endorsement) endorsements;
     }
@@ -159,6 +168,20 @@ contract SmartIdentity {
         }
         attribute.hash = _hash;
         sendEvent(INFO_EVENT, "Attribute has been added");
+        return true;
+    }
+
+    /**
+     * Adds an BTCaddr, with an empty list of endorsements.
+     */
+    function addBTCaddr(bytes32 _hash) onlyBy(owner) checkBlockLock() returns(bool) {
+        var BTC = BTCaddrs[_hash];
+        if (BTC.hash == _hash) {
+//            sendEvent(SIG_CHANGE_EVENT, "A hash exists for the BTC address");
+            throw;
+        }
+        BTC.hash = _hash;
+        sendEvent(INFO_EVENT, "BTC address has been added");
         return true;
     }
 

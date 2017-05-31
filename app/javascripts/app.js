@@ -22,7 +22,7 @@ var divState = {}; // for show and hide toggle
 
 //var contractAddress = '0x12031aeca172b344f6f7ef7da53e88fd017a836b'; // old address for testing testrpc.
 // need to add ropsten? or testnet contract when deployed... This should then allow us to use mist browser and authorize without unlocking in jscript. / web3
-var contractAddress = '0xb06c99208620c3b5d6f54fdb7c5cf48891d3fc3b'; // current address for testing
+var contractAddress = '0x3c4f5049b73c9e936d04437e97212455483296ac'; // current address for testing
 //var contractAddress = '0x30DDF53E7a6096fb80479d6F0334937796D50b0e'; // test-net contract address
 
 var owner;
@@ -204,9 +204,32 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
   },
 
 
+  // add bitcoin address.
+  addBitCoinAddress: function(){
+    var self = this;
+    var smart;
+    SmartIdentity.deployed().then(function(instance) {
+      smart = instance;
+//      return smart.setEncryptionPublicKey(newKey, {from: account});
+      return smart.addBTCaddr(1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2, {from: currentAccount})
+    }).then(function(value) {
+//      this.setStatus("Transaction complete");
+        self.setStatus("Transaction complete, BTC added");
+    }).catch(function(e) {
+      console.log(e);
+      self.setStatus("Error; see log.");
+    });
+
+
+  console.log("button works");
+
+  },
+
   firstBlock: function(){
     // looing for first block to position
-  var test =  web3.eth.getTransaction('0xa0a881de25dddaf26dbe2f2c57d798bfdcb7693a55d4595318540410c3bec19d')
+//  var test =  web3.eth.getTransaction('0xa0a881de25dddaf26dbe2f2c57d798bfdcb7693a55d4595318540410c3bec19d')
+
+  var test = web3.eth.getTransactionFromBlock('10');
 //0xa0a881de25dddaf26dbe2f2c57d798bfdcb7693a55d4595318540410c3bec19d
   console.log(test);
 
@@ -243,7 +266,7 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
 //filter.get(function(error, result){ console.log(error, result); });
 
 // we need to get input data from transaction from block...
-var str = web3.eth.getTransactionFromBlock('37');
+var str = web3.eth.getTransactionFromBlock('10');
 //var test = web3.toAscii(str)
 
   console.log(str.input)
@@ -477,6 +500,7 @@ var str = web3.eth.getTransactionFromBlock('37');
         ethBalance.innerHTML = balance + " Ether";  // what?
       //  App.refreshBalance();
         App.myFunction();
+        App.accountInfo();
     },
 
   accountList: function(){ // should be good to go..
@@ -485,6 +509,12 @@ var str = web3.eth.getTransactionFromBlock('37');
       //console.log(accounts[i]);
       listAccounts.innerHTML += "Account: " + i + " : " + accounts[i] + "<br/>";
     }
+  },
+
+  accountInfo: function(){ // should be good to go..
+      accountinfo.innerHTML = "";
+      //console.log(accounts[i]);
+      accountinfo.innerHTML = " " + currentAccount + "<br/>";
   },
 
 };

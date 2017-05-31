@@ -251,19 +251,31 @@ input{
   background-color: white;
 }
 
-table {
-    border-collapse: collapse;
-    width: 100%;
+#meteringTable{
+  width: 40%;
 }
 
-th, td {
-    text-align: left;
-    padding: 8px;
-}
 
 tr:nth-child(even){background-color: #f2f2f2}
 
 th {
     background-color: #4CAF50;
     color: white;
+    padding: 8px;
+}
+
+table {
+  font-family: times, Times New Roman, times-roman, georgia, serif;
+font-size: 14px;
+line-height: 20px;
+text-transform: uppercase;
+color: #444;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
 }

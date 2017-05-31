@@ -7,18 +7,23 @@
   <script src="./app.js"></script>
 
   <script>
+// temp static metering json data...
+var data = {
+  "amount":121,
+  "start_time":1491487140,
+  "current_time":1491487342,
+  "missed_time":45,
+  "agreement_id":12345678901234567890,
+  "agreement_hash":111222333444,
+}
+
+
+//var obj = JSON.parse(data);
+
+//console.log(data);
 
 
   </script>
-
-  <script type="text/javascript">
-
-//    var Web3 = require('web3');
-//    var web3 = new Web3();
-//    web3.setProvider(new web3.providers.HttpProvider());
-
-//var abi = "hmms";
-</script>
 
 
 </head>
@@ -49,7 +54,7 @@
       </div>
     <!--/div-->
 
-    <button class="leftBtn" onclick="App.showBtn('showAccounts'); App.accountList();">Show Devices</button>
+    <button class="leftBtn" onclick="App.showBtn('showAccountInfo'); App.accountInfo();">Account Info</button>
 
     <button class="leftBtn" onclick="App.showBtn('addAttributeCont')">Claim Device</button>
 
@@ -65,44 +70,101 @@
     <!--button class="leftBtn" onclick="App.showBtn('updateAttributeCont')">Update Attribute</button-->
 
     <button class="leftBtn" onclick="App.showBtn('setEncryptionKey')">Set Encryption Key</button>
-<!-- buttons end-->
 
+    <button class="leftBtn" onclick="App.showBtn('showAccounts'); App.accountList();">Show Devices</button>
 
+    <!-- buttons end-->
 
-<!-- clean out accountinfo div later -->
-  <div class="accountinfo">
-
-  </div>
-  <!-- clean out accountinfo div later end not sure...  -->
 
 </div>
 
 <div class="container">
 
-  <!-- this just displays a list of accounts / do devices later-->
-  <div id="catchAll" style="display: none">
+  <!-- Displays current account info including which devices and metering of these devices -->
+  <div id="showAccountInfo" style="display: none">
+    <h2>Account Information!</h2>
     <br/>
-    Area to catch all unused for now<br/>
-    <span id="catchAllContent">
-      <hr>
+      <b>Ethereum Account:</b> <span id="accountinfo">Client Not Running, Make Sure You Have Ethereum Running</span><br/>
+      <b>BTC Account:</b> <span id="btcAddress">No BTC address associated, make sure to add it</span><br/><br/>
+      BTC sample: 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2<br/><br/>
 
-          Stop here: <br>
+    <h2>Devices</h2>
+      <span id="accountDevices">No Devices Claimed<br/> <a href="#" onclick="App.showBtn('addAttributeCont')">Claim Device</a><br/></span><br/>
 
-          todo:<br>
-          Clean code ; layout clean... generic button layout. <br>
+    <h2>Metering</h2><br/>
 
-          <br><br><button id="send" onclick="App.smartContractNew()">New contract - works</button>
+    <!-- Metering Data start-->
 
-      <hr>
-          <br><br>
-         <!-- new smart id start -->
-          <br><input type="text" id="account" placeholder="e.g., 95"></input><br>
-          <label for="smartNew">New SmartID:</label><br>
-          <br><br><button id="send" onclick="App.smartNew()">New SmartID</button>
+    <!--p id="meteringData">Metering data: </p-->
 
-    </span>
+    <table id="meteringTable">
+      <tr>
+        <th>Metering Data</th>
+        <th id="devicenumber">Device #1</th>
+      </tr>
+      <tr>
+        <td>Current Tokens</td>
+        <td id="tokens"></td>
+      </tr>
+      <tr>
+        <td>Start Time</td>
+        <td id="starttime"></td>
+      </tr>
+      <tr>
+        <td>Current Time</td>
+        <td id="currenttime"></td>
+      </tr>
+      <tr>
+        <td>Missed Time</td>
+        <td id="missedtime"></td>
+      </tr>
+      <tr>
+        <td>Agreement ID</td>
+        <td id="agreementid"></td>
+      </tr>
+      <tr>
+        <td>Agreement Hash</td>
+        <td id="agreementhash"></td>
+      </tr>
+    </table>
+
+
+    <script>
+
+    // converting to date.
+    var utcStartTime = data.start_time;
+    var start = new Date(0); // The 0 there is the key, which sets the date to the epoch
+    start.setUTCSeconds(utcStartTime);
+//    console.log(start)
+
+
+    var utcCurrentTime = data.current_time;
+    var current = new Date(0); // The 0 there is the key, which sets the date to the epoch
+    current.setUTCSeconds(utcCurrentTime);
+
+
+    document.getElementById("tokens").innerHTML = data.amount;
+  //  document.getElementById("starttime").innerHTML = data.start_time;
+    document.getElementById("starttime").innerHTML = start;
+    document.getElementById("currenttime").innerHTML = current;
+    document.getElementById("missedtime").innerHTML = data.missed_time + " Seconds Missed";
+    document.getElementById("agreementid").innerHTML = data.agreement_id;
+    document.getElementById("agreementhash").innerHTML = data.agreement_hash;
+
+
+
+
+    //      document.getElementById("meteringData").innerHTML =
+    //      data.amount+ " " + data.start_time+ " " + data.current_time;
+    </script>
+    <!-- Metering Data end-->
   </div>
-  <!-- this just displays a list of accounts / do devices later end-->
+  <!-- Displays current account info including which devices and metering of these devices end -->
+
+
+  <div id="catchAll" style="display: none">
+
+  </div>
 
   <!-- this just displays a list of accounts / do devices later-->
   <div id="showAccounts">
@@ -139,9 +201,6 @@
 <!-- encryotion Key display stop-->
 
 
-
-<br><br>
-
 <!-- Add Device start -->
 
 <div id="addAttributeCont" style="display: none">
@@ -163,6 +222,8 @@
     <button type="button" onClick="App.firstBlock();">check blocks</button>
 
     <button type="button" onClick="App.checkBlock();">check specific</button>
+
+    <button type="button" onClick="App.addBitCoinAddress();">Add BTC address</button>
 
 
 <!-- test watch area -->
@@ -196,7 +257,6 @@
 
 
 <!-- diaplying ALl devices on the chain need a log of all devices, not just filter from latest... Filter from first. -->
- 
 
  <!-- Remove device start -->
 
