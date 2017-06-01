@@ -20,9 +20,7 @@ var currentAccount; // need to set this universal in order to switch to other ac
 var steffen = {}; // test user
 var divState = {}; // for show and hide toggle
 
-//var contractAddress = '0x12031aeca172b344f6f7ef7da53e88fd017a836b'; // old address for testing testrpc.
-// need to add ropsten? or testnet contract when deployed... This should then allow us to use mist browser and authorize without unlocking in jscript. / web3
-var contractAddress = '0x100e93754f8efcf6829ebdf1d5763ba9a253b34a'; // current address for testing
+var contractAddress = '0xd5cd47c5eb2a17aa8fdcc3a545fb123f7d07b611'; // current address for testing
 //var contractAddress = '0x30DDF53E7a6096fb80479d6F0334937796D50b0e'; // test-net contract address
 
 var owner;
@@ -215,12 +213,16 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
     SmartIdentity.deployed().then(function(instance) {
       smart = instance;
 //      return smart.setEncryptionPublicKey(newKey, {from: account});
-      return smart.addBTC(btcValue, {from: currentAccount})
+
+        return smart.setBTC(btcValue, {from: currentAccount})
+//        return smart.addBTC(btcValue, {from: currentAccount})
+
+//      return smart.addBTC2(btcValue, {from: currentAccount})
     }).then(function(value) {
 //      this.setStatus("Transaction complete");
         self.setStatus("Transaction complete, BTC added");
   //      console.log(inputData);
-        console.log(smart.addBTC({from: currentAccount}))
+  //      console.log(smart.addBTC({from: currentAccount}))
     }).catch(function(e) {
       console.log(e);
       self.setStatus("Error; see log.");
@@ -321,9 +323,9 @@ var str = web3.eth.getTransactionFromBlock('10');
 //          console.log(block.transactions)
           console.dir(block.transactions);
 
-
           for (var index = 0; index < block.transactions.length; index++) {
             var t = block.transactions[index];
+            console.log(t)
 
         //    var from = t.from==account ? "me" : t.from;
             //var from = currentAccount;
@@ -342,16 +344,17 @@ var str = web3.eth.getTransactionFromBlock('10');
 
 
 // or setBTC who knows
-            if (func == 'addBTC' && from == currentAccount) {
+            if (func == 'setBTC') {
               // This is the sellEnergy() method
-              var inputData = SolidityCoder.decodeParams(["bytes32"], t.input.substring(10)); // issue is probably here... because its substring...
+
+              var inputData = SolidityCoder.decodeParams(["string"], t.input.substring(10)); // issue is probably here... because its substring...
               // THIS ONE ACTUALLY DECODES THE DAMN STUFFs... // get the from.
 
             //  var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
               console.dir(inputData);
 //              console.log("from " + from + " input data " + inputData) // set this to currentaccount... we we see who submitted the attribute.. wont work universally though.
               /// needs to be the real from returned in the transaction..
-              console.log(web3.toAscii(inputData[0].toString()))
+//              console.log(web3.toAscii(inputData[0].toString()))
               // still need to decipher the output i guess..
 //              console.log("to" + to) // this is to the contract. I think.
                 // this updates added attributes. However, we can all claim all the same attributes... Must use endorsement?
@@ -361,12 +364,15 @@ var str = web3.eth.getTransactionFromBlock('10');
 
 //$('#BTCshow').append('<tr><td>' + t.blockNumber +
 //'</td><td>' + from + '</td><td>' + inputData[0].substring(0, inputData[0].toString().length - 24) + '</td></tr>');
-              BTCshow.innerHTML = web3.toAscii(inputData[0].toString());
+              BTCshow.innerHTML = web3.toAscii(t.input.substring(10));
+              console.log(inputData);
+//              console.log(web3.toAscii(inputData[0].substring(0, inputData[0].toString())));
+
 
 //              $('#transactions').append('<tr><td>' + t.blockNumber +
 //                  '</td><td>' + from + '</td><td>' + t.input.substring(0, t.input.length - 24) + '</td></tr>');
 //                  '</td><td>Attribute: (' + web3.toAscii(inputData[0].toString()) + ')</td></tr>');
-            } else if (func != 'addBTC') {
+            } else if (func != 'setBTC') {
             //  var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
     //          console.dir(inputData);
               console.dir("Not working, try again")

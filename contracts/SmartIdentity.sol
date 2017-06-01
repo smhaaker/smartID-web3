@@ -24,8 +24,7 @@ contract SmartIdentity {
     mapping(bytes32 => Attribute) public attributes;
     mapping(bytes32 => BTCadd) public btcaddresses;
 
-//    string public BTCaddress;
-
+    string public BTCaddress;
 
 
     /**
@@ -139,14 +138,14 @@ contract SmartIdentity {
     }
 
 
-/*    function setBTC(string _newBTCaddr) onlyBy(owner) {
+    function setBTC(string _newBTCaddr) onlyBy(owner) {
         BTCaddress = _newBTCaddr;
         }
 
     function getBTC() returns(string){
         return BTCaddress;
     }
-*/
+
     /**
      * The override address is another ethereum address that can reset the owner.
      * In practice this could either be another multi-sig account, or another
@@ -190,6 +189,11 @@ contract SmartIdentity {
         }
         btcadd.hash = _hash;
         sendEvent(INFO_EVENT, "Attribute has been added");
+        return true;
+    }
+
+    function addBTC2(string) onlyBy(owner) checkBlockLock() returns(bool) {
+        var btcadd = BTCaddress;
         return true;
     }
 
