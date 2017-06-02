@@ -255,6 +255,27 @@ input{
   width: 40%;
 }
 
+#help{
+  padding-top: 25px;
+  margin: 0 auto;
+  width: 60%;
+  font-family: times, Times New Roman, times-roman, georgia, serif;
+  font-size: 14px;
+  line-height: 20px;
+  /*text-transform: uppercase;*/
+  color: #444;
+}
+
+#buttons{
+  text-align: center;
+  width: 95%;
+  /*border: solid 1px black;*/
+  margin: 0 auto;
+}
+
+#addAttribute{
+  width: 60%;
+}
 
 tr:nth-child(even){background-color: #f2f2f2}
 
@@ -265,17 +286,19 @@ th {
 }
 
 table {
-  font-family: times, Times New Roman, times-roman, georgia, serif;
-font-size: 14px;
-line-height: 20px;
-/*text-transform: uppercase;*/
-color: #444;
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+    font-size: 14px;
+    line-height: 20px;
+    /*text-transform: uppercase;*/
+    color: #444;
     border-collapse: collapse;
     width: 100%;
 }
 
 td {
+    margin: 0 auto;
+
     border: 1px solid #dddddd;
-    text-align: left;
+    text-align: center;
     padding: 8px;
 }

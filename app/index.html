@@ -56,22 +56,20 @@ var data = {
 
     <button class="leftBtn" onclick="App.showBtn('showAccountInfo'); App.accountInfo();">Account Info</button>
 
-    <button class="leftBtn" onclick="App.showBtn('addAttributeCont')">Claim Device</button>
+    <button class="leftBtn" onclick="App.showBtn('addAttributeCont')">Add/Remove Device</button>
 
-    <button class="leftBtn" onclick="App.showBtn('removeAttributeCont')">Remove Device</button>
+    <!--button class="leftBtn" onclick="App.showBtn('removeAttributeCont')">Remove Device</button-->
 
 
     <!--button class="leftBtn" onclick="App.showBtn('unlockAccount')">Unlock account</button-->
 
     <!--button class="leftBtn" onclick="App.showBtn('devices')">Devices</button-->
 
-    <button class="leftBtn" onclick="App.showBtn('catchAll')">Catch All</button>
+    <!--button class="leftBtn" onclick="App.showBtn('catchAll')">Catch All</button-->
 
     <!--button class="leftBtn" onclick="App.showBtn('updateAttributeCont')">Update Attribute</button-->
 
     <button class="leftBtn" onclick="App.showBtn('setEncryptionKey')">Set Encryption Key</button>
-
-    <button class="leftBtn" onclick="App.showBtn('showAccounts'); App.accountList();">Show Devices</button>
 
     <!-- buttons end-->
 
@@ -222,49 +220,34 @@ No BTC address associated, make sure to <a href="#" onclick="App.showBtn('addBTC
 <div id="addAttributeCont" style="display: none">
 
 
-    <h2>Claim your device</h2>
+    <h2>Claim or Remove Device</h2>
     <hr>
 
-    <br><input type="text" id="addAttribute" placeholder="Enter device address: eg 0x6ac....."></input><br>
-    <label for="addAtt"><!--Claim Device:--></label><br>
-    <br><br><button id="send" onclick="App.addAttribute()">Add Device</button>
 
-    <!--Be careful with check filter. Should only be activated once... Make sure to fix this.-->
-    <br><br><button id="send" onclick="App.watchFilter()">Check Filter</button>
+    <div id="buttons">
 
+      <br/><br/><input type="text" id="addAttribute" placeholder="Enter device address: eg 0x6ac....."></input><br>
+      <label for="addAtt"><!--Claim Device:--></label><br/><br/>
+      <button id="send" onclick="App.addAttribute()">Add Device</button>
+      <button id="send" onclick="App.remAttribute()">Remove Device</button>
+      <!--Be careful with check filter. Should only be activated once... Make sure to fix this.-->
+      <button id="send" onclick="App.watchFilter()">Run Filter</button>
+    </div>
 
-    <button id="send" type="button" onClick="App.getFunctionHashes();">get functions</button>
-
-    <!-- Remove device start -->
-
-
-    <div id="removeAttributeCont" style="display: none">
-
-
-    <h2>Remove Device</h2>
-    <hr>
-
-    <br><input type="text" id="remAttribute" placeholder="Enter device address: eg 0x6ac....."></input><br>
-    <label for="addAtt"><!--Claim Device:--></label><br>
-    <br><br><button id="send" onclick="App.remAttribute()">Remove Device</button>
-
-   </div>
-
-   <!-- Remove device stop -->
+    <p id="help">You can only add a device once, after that you will get jump errors, Look at console log for error message. You can remove device if added by error.
+    If you get an error, most likely the device has already been added. Try removing the device, note this will wipe the data. </p>
 
 
     <!--button type="button" onClick="App.firstBlock();">check blocks</button>
 
     <button type="button" onClick="App.checkBlock();">check specific</button-->
 
-
-
-<!-- test watch area -->
+<!-- listing devices start-->
 
 <div class="row">
    <div>
      <br>
-     <h2 class="sub-header">Transactions</h2>
+     <h2 class="sub-header">Transaction status: </h2>
      <span id="status"></span>
 
      <div class="table-responsive">
@@ -283,9 +266,16 @@ No BTC address associated, make sure to <a href="#" onclick="App.showBtn('addBTC
      </div>
    </div>
  </div>
-</div>
 
-<!-- Add Device Stop -->
+ <!-- Add Device Stop -->
+ <br/><br/>
+ <br/><br/>
+ Debug buttons: <br/>
+ <button id="send" type="button" onClick="App.getFunctionHashes();">get functions</button>
+ <button id="send" onclick="App.showBtn('showAccounts'); App.accountList();">Show Devices</button>
+
+
+</div>
 
 
 

@@ -178,7 +178,8 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
     SmartIdentity.deployed().then(function(instance) {
       smart = instance;
 //      return smart.setEncryptionPublicKey(newKey, {from: account});
-      return smart.addAttribute(attribute, {from: currentAccount, gas: 22850})
+//      return smart.addAttribute(attribute, {from: currentAccount, gas: 22850})
+        return smart.addAttribute(attribute, {from: currentAccount})
     }).then(function(value) {
 //      this.setStatus("Transaction complete");
         self.setStatus("Transaction complete, Device Added");
@@ -285,7 +286,7 @@ var str = web3.eth.getTransactionFromBlock('10');
 
   remAttribute: function(){
 
-    var attribute = document.getElementById("remAttribute").value;
+    var attribute = document.getElementById("addAttribute").value;
 
     this.setStatus("Initiating transaction... (please wait)");
 
