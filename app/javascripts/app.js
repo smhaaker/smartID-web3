@@ -20,8 +20,8 @@ var currentAccount; // need to set this universal in order to switch to other ac
 var steffen = {}; // test user
 var divState = {}; // for show and hide toggle
 
-var contractAddress = '0xd5cd47c5eb2a17aa8fdcc3a545fb123f7d07b611'; // current address for testing
-//var contractAddress = '0x30DDF53E7a6096fb80479d6F0334937796D50b0e'; // test-net contract address
+//var contractAddress = '0xd5cd47c5eb2a17aa8fdcc3a545fb123f7d07b611'; // current address for testing
+var contractAddress = '0x23321cc69cc689ad70f57efcd4b1d6ef1aaac9cb'; // test-net contract address
 
 var owner;
 var smartID;
@@ -176,7 +176,7 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
     SmartIdentity.deployed().then(function(instance) {
       smart = instance;
 //      return smart.setEncryptionPublicKey(newKey, {from: account});
-      return smart.addAttribute(attribute, {from: currentAccount})
+      return smart.addAttribute(attribute, {from: currentAccount, gas: 22850})
     }).then(function(value) {
 //      this.setStatus("Transaction complete");
         self.setStatus("Transaction complete, Device Added");
