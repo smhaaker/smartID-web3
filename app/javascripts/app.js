@@ -20,8 +20,10 @@ var currentAccount; // need to set this universal in order to switch to other ac
 var steffen = {}; // test user
 var divState = {}; // for show and hide toggle
 
-//var contractAddress = '0xd5cd47c5eb2a17aa8fdcc3a545fb123f7d07b611'; // current address for testing
-var contractAddress = '0x23321cc69cc689ad70f57efcd4b1d6ef1aaac9cb'; // test-net contract address
+var contractAddress = '0x1dd93e2aedeb5fb90ff6ec5ab5523ead99602548'; // current address for testing
+//var contractAddress = '0x23321cc69cc689ad70f57efcd4b1d6ef1aaac9cb'; // test-net contract address
+//var contractAddress = '0x3d97dAC6a412970E714bB0d0AB421C89485ccf99'; // test-net contract address
+
 
 var owner;
 var smartID;

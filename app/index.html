@@ -235,6 +235,24 @@ No BTC address associated, make sure to <a href="#" onclick="App.showBtn('addBTC
 
     <button id="send" type="button" onClick="App.getFunctionHashes();">get functions</button>
 
+    <!-- Remove device start -->
+
+
+    <div id="removeAttributeCont" style="display: none">
+
+
+    <h2>Remove Device</h2>
+    <hr>
+
+    <br><input type="text" id="remAttribute" placeholder="Enter device address: eg 0x6ac....."></input><br>
+    <label for="addAtt"><!--Claim Device:--></label><br>
+    <br><br><button id="send" onclick="App.remAttribute()">Remove Device</button>
+
+   </div>
+
+   <!-- Remove device stop -->
+
+
     <!--button type="button" onClick="App.firstBlock();">check blocks</button>
 
     <button type="button" onClick="App.checkBlock();">check specific</button-->
@@ -273,22 +291,6 @@ No BTC address associated, make sure to <a href="#" onclick="App.showBtn('addBTC
 
 <!-- diaplying ALl devices on the chain need a log of all devices, not just filter from latest... Filter from first. -->
 
- <!-- Remove device start -->
-
-
- <div id="removeAttributeCont" style="display: none">
-
-
- <h2>Remove Device</h2>
- <hr>
-
- <br><input type="text" id="remAttribute" placeholder="Enter device address: eg 0x6ac....."></input><br>
- <label for="addAtt"><!--Claim Device:--></label><br>
- <br><br><button id="send" onclick="App.remAttribute()">Remove Device</button>
-
-</div>
-
-<!-- Remove device stop -->
 
 <br><br><br><br><br><br>
 
