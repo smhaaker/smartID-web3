@@ -232,6 +232,7 @@ No BTC address associated, make sure to <a href="#" onclick="App.showBtn('addBTC
       <button id="send" onclick="App.remAttribute()">Remove Device</button>
       <!--Be careful with check filter. Should only be activated once... Make sure to fix this.-->
       <button id="send" onclick="App.watchFilter()">Run Filter</button>
+      <button id="send" onclick="App.watchFilter4()">Filter All</button>
     </div>
 
     <p id="help">You can only add a device once, after that you will get jump errors, Look at console log for error message. You can remove device if added by error.
@@ -266,6 +267,26 @@ No BTC address associated, make sure to <a href="#" onclick="App.showBtn('addBTC
      </div>
    </div>
  </div>
+
+ <div class="row">
+    <div>
+      <br>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>block#</th>
+              <th>Owner</th>
+              <!--th>to</th-->
+              <th>Device</th>
+            </tr>
+          </thead>
+          <tbody id="allAccounts">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
  <!-- Add Device Stop -->
  <br/><br/>
