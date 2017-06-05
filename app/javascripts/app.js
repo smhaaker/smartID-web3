@@ -40,13 +40,9 @@ window.App = {
   start: function() {
     var self = this;
 
-    // Stuff to populate when user swaps accounts;
-// testuser data
 // create users
-    var testuser = {};
     owner = web3.eth.coinbase;
     steffen.address = web3.eth.coinbase;
-//    testuser.address = accounts[1];
 
     // Bootstrap abstraction for Use.
     SmartIdentity.setProvider(web3.currentProvider);
@@ -69,15 +65,27 @@ window.App = {
 
       currentAccount = account;
 
-      balanceWei = web3.eth.getBalance(currentAccount).toNumber();
-      balance = web3.fromWei(balanceWei, 'ether');
+//      balanceWei = web3.eth.getBalance(currentAccount).toNumber();
+
+
+      // for metamask callback
+          balanceWei = web3.eth.getBalance(currentAccount, function(error, result){
+            if(!error)
+              result.toNumber()
+            else
+              console.error(error);
+          });
+          balance = web3.fromWei(balanceWei, 'ether');
+
+
+//      balance = web3.fromWei(balanceWei, 'ether');
 
 
       ethBalance.innerHTML = balance + " Ether";
       accounNr.innerHTML = currentAccount; // this should be getaccount [Number ]
 
 // set user addresses
-      testuser.address = accounts[1];
+//      testuser.address = accounts[1];
 
 // test output
 //          console.log(steffen.address);
