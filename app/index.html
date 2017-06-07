@@ -15,13 +15,69 @@ var data = {
   "missed_time":45,
   "agreement_id":12345678901234567890,
   "agreement_hash":111222333444,
+};
+
+var meteringData = [{
+  "name": "Policy for sdr merged with sdr arm",
+  "current_agreement_id": "8a627f6a76a7cea608d203413bf58fd098625afedd92787c9acb1911f81e0ae1",
+  "consumer_id": "agbot-tok02-01.bluehorizon.network",
+  "agreement_creation_time": 1496331172,
+  "metering_notification": {
+    "amount": 7167,
+    "start_time": 1496331163,
+    "current_time": 1496761201,
+    "missed_time": 0,
+    "consumer_meter_signature": "6c9b99d5b9e080ada06624b03327bedb44bd1abf95f327ef6d0f6b43d3dc951e08f2eb4a3bd5f2cef9d539bc067243e71a11eb8f544d9e70586f5e148e2d277b1c",
+    "agreement_hash": "cb3cef781a99a8c127c6ba9db64a3bdfe661b693eeb9337bb0d3a3a006528c88",
+    "consumer_agreement_signature": "4f38ecac700c7b9ff807483216f75abec7e75ca80002af8d0578a12d016c0ea37d5facf964e39ac5dce74800526e00208fdc950e7db99c9246c4cabf16161ba71c",
+    "consumer_address": "0x324f73187585becfbaa363cacdf9823c3a1a1cae",
+    "producer_agreement_signature": "62dbffd933a5b0c3810c2159aafddd842a364b658ab9a10a648de625a885c2845ecced2e325aea67f2e42f09b281021ab515e78ab8e2dcd53946dde5c4c697d11c",
+    "blockchain_type": "ethereum"
+  }
+},
+{
+  "name": "Policy for location merged with location arm",
+  "current_agreement_id": "d495e901d7798d8e708dc103d0388130ba9a3d3d3670d8b35c50a2a29fa2e376",
+  "consumer_id": "agbot-dal09-01.bluehorizon.network",
+  "agreement_creation_time": 1496331174,
+  "metering_notification": {
+    "amount": 7167,
+    "start_time": 1496331167,
+    "current_time": 1496761213,
+    "missed_time": 0,
+    "consumer_meter_signature": "21c62ad2679022189c93c916e6e941b613a3aa97d24a14a079f8bfbd86e8c4523ca52c694566786be3d8620fc9e3de428b73a7a1a8c9421d6b674aaa8a62d4d81c",
+    "agreement_hash": "3942149df5d4fe87d709c4b59a84569cda01921f642d189840bba6154523a702",
+    "consumer_agreement_signature": "f445ced0b0ad9ed523c96bebc08831147549586b6fc6de8cd5a900e090f9e37011b52faaa6dfd240899daa6581c8c62226afdfeaa8914e4df714ae04bb0ea4111c",
+    "consumer_address": "0x1473515a994ddfdbc37b218f11536509065c5141",
+    "producer_agreement_signature": "40b39ca929039c074586038b38f7413c82cc307cf9769a4f9c96d729fc62c5f25e36a7d13e91b463776c6ed53df1aa75e133b4d6b09def287af2f5912bd5051d1c",
+    "blockchain_type": "ethereum"
+  }
+},
+{
+  "name": "Policy for netspeed merged with netspeed arm",
+  "current_agreement_id": "58f8b25b505772bb31410680c7476c1912c50836d6f0e4a0d4ea830777d657c7",
+  "consumer_id": "agbot-tok02-01.bluehorizon.network",
+  "agreement_creation_time": 1496752821,
+  "metering_notification": {
+    "amount": 139,
+    "start_time": 1496752818,
+    "current_time": 1496761190,
+    "missed_time": 10,
+    "consumer_meter_signature": "6f17d37947185078b722bc3c57dcd20079125e5c16488281cd3dbba220caa9c31afef06294690dd9a231b5bc68994a7976b02822c5c723d957f01f7b602b4f121c",
+    "agreement_hash": "7baf1498c459af9a77ad6c20d127adcff70da6fbb3ee02b941ce23cbfa238882",
+    "consumer_agreement_signature": "898986704e332313787b7f147c5bd1083e4ff402a607eed37b3bde0490c764fa48a5e68553ea91ff5b574085d1cf6c308e79b9fb7e38ea138294ae86c79838f11c",
+    "consumer_address": "0x324f73187585becfbaa363cacdf9823c3a1a1cae",
+    "producer_agreement_signature": "b6e94b09f98fec2ba08265a39b26d28e2a8fa246c225017271fbc44e9cdd55122619c406377f88a51dba8dcfe5aec7db40dbf364218568765bb2a851ff9e08bf1b",
+    "blockchain_type": "ethereum"
+  }
 }
+]
 
+//var obj = JSON.parse(data2);
 
-//var obj = JSON.parse(data);
+//console.log(meteringData[0].name);
 
-//console.log(data);
-
+//var parsed = JSON.parse(data2);
 
   </script>
 
@@ -95,9 +151,17 @@ No BTC address associated, make sure to <a href="#" onclick="App.showBtn('addBTC
 
     <!-- Metering Data start-->
 
-    <!--p id="meteringData">Metering data: </p-->
-
-    <table id="meteringTable">
+    <table id='deviceAddressClaimed'>
+      <tr>
+        <th id='deviceName'>Device ID: <b>0x20aba8bd3c170ed3f5df011f31869e4ee550285b</b></th>
+      </tr>
+      <tr>
+        <td>
+          <span id="meteringDevices"></span>
+        </td>
+      </tr>
+    </table>
+    <!--table id="meteringTable">
       <tr>
         <th>Metering Data</th>
         <th id="devicenumber">Device #1</th>
@@ -126,30 +190,42 @@ No BTC address associated, make sure to <a href="#" onclick="App.showBtn('addBTC
         <td>Agreement Hash</td>
         <td id="agreementhash"></td>
       </tr>
-    </table>
+    </table-->
 
 
     <script>
 
-    // converting to date.
-    var utcStartTime = data.start_time;
-    var start = new Date(0); // The 0 there is the key, which sets the date to the epoch
-    start.setUTCSeconds(utcStartTime);
-//    console.log(start)
+    for(var i = 0; i < meteringData.length; i++){
+      console.log("name" + i + " : " + meteringData[i].name);
 
+      document.getElementById("meteringDevices").innerHTML += '<table id="meteringTable">' +
+        '<tr> <th> Metering Data </th><th id="devicenumber'+i+'">Not Available</th></tr>' +
+        '<tr> <td> Current Tokens </td><td id="tokens'+i+'"></td></tr>' +
+        '<tr> <td> Start Time </td><td id="starttime'+i+'"></td></tr>' +
+        '<tr> <td> Current Time </td><td id="currenttime'+i+'"></td></tr>' +
+        '<tr> <td> Missed Time </td><td id="missedtime'+i+'"></td></tr>' +
+        '<tr> <td> Agreement Hash </td><td id="agreementhash'+i+'"></td></tr>' +
+      '</table>'
 
-    var utcCurrentTime = data.current_time;
-    var current = new Date(0); // The 0 there is the key, which sets the date to the epoch
-    current.setUTCSeconds(utcCurrentTime);
+      // converting to date.
+      var utcStartTime = meteringData[i].metering_notification.start_time;
+      var start = new Date(0); // The 0 there is the key, which sets the date to the epoch
+      start.setUTCSeconds(utcStartTime);
 
+      var utcCurrentTime = meteringData[i].metering_notification.current_time;
+      var current = new Date(0); // The 0 there is the key, which sets the date to the epoch
+      current.setUTCSeconds(utcCurrentTime);
 
-    document.getElementById("tokens").innerHTML = data.amount;
-  //  document.getElementById("starttime").innerHTML = data.start_time;
-    document.getElementById("starttime").innerHTML = start;
-    document.getElementById("currenttime").innerHTML = current;
-    document.getElementById("missedtime").innerHTML = data.missed_time + " Seconds Missed";
-    document.getElementById("agreementid").innerHTML = data.agreement_id;
-    document.getElementById("agreementhash").innerHTML = data.agreement_hash;
+      document.getElementById("devicenumber"+i).innerHTML = meteringData[i].name;
+      document.getElementById("tokens"+i).innerHTML = meteringData[i].metering_notification.amount;
+      document.getElementById("starttime"+i).innerHTML = start;
+      document.getElementById("currenttime"+i).innerHTML = current;
+      document.getElementById("missedtime"+i).innerHTML = meteringData[i].metering_notification.missed_time + " Seconds Missed";
+  //    document.getElementById("agreementid").innerHTML = meteringData[0].metering_notification.agreement_hash;
+      document.getElementById("agreementhash"+i).innerHTML = meteringData[i].metering_notification.agreement_hash;
+//      console.log(i);
+    }
+
 
 
 
@@ -206,7 +282,7 @@ No BTC address associated, make sure to <a href="#" onclick="App.showBtn('addBTC
   <br><input type="text" id="inputBTC" placeholder="Enter BTC payment Address: eg 1BvBMS...."></input><br>
 
   <button id="send" type="button" onClick="App.addBitCoinAddress();">Add BTC address</button>
-  <button type="button" onClick="App.watchFilter2();">Check Filter here</button>
+  <button type="button" onClick="App.watchFilterBTC();">Check Filter here</button>
 
   <span id="BTCshow">No address here yet</span>
 
@@ -232,7 +308,7 @@ No BTC address associated, make sure to <a href="#" onclick="App.showBtn('addBTC
       <button id="send" onclick="App.remAttribute()">Remove Device</button>
       <!--Be careful with check filter. Should only be activated once... Make sure to fix this.-->
       <button id="send" onclick="App.watchFilter()">Run Filter</button>
-      <button id="send" onclick="App.watchFilter4()">Filter All</button>
+      <button id="send" onclick="App.watchFilterFromTo()">Filter All</button>
     </div>
 
     <p id="help">You can only add a device once, after that you will get jump errors, Look at console log for error message. You can remove device if added by error.
@@ -294,7 +370,7 @@ No BTC address associated, make sure to <a href="#" onclick="App.showBtn('addBTC
  Debug buttons: <br/>
  <button id="send" type="button" onClick="App.getFunctionHashes();">get functions</button>
  <button id="send" onclick="App.showBtn('showAccounts'); App.accountList();">Show Devices</button>
-
+ <button id="send" onclick="App.watchFilter3();">Check Latests claimed device</button>
 
 </div>
 

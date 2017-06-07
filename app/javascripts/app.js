@@ -11,11 +11,9 @@ import smartid_artifacts from '../../build/contracts/SmartIdentity.json'
 // MetaCoin is our usable abstraction, which we'll use through the code below.
 var SmartIdentity = contract(smartid_artifacts);
 
-// The following code is simple to show off interacting with your contracts.
-// For application bootstrapping, check out window.addEventListener below.
-var accounts;
-var account;
-var currentAccount; // need to set this universal in order to switch to other accounts. move this to currentAccount = web3.eth.coibase when needed.
+var accounts; // need it global for it to work
+var account; // same
+var currentAccount; // need to set this global in order to switch to other accounts. move this to currentAccount = web3.eth.coibase when needed.
 
 var steffen = {}; // test user
 var divState = {}; // for show and hide toggle
@@ -23,7 +21,6 @@ var divState = {}; // for show and hide toggle
 var contractAddress = '0x50bd7d76a928591964037108fb5ffc81be6b3fb9'; // current address for testing
 //var contractAddress = '0x23321cc69cc689ad70f57efcd4b1d6ef1aaac9cb'; // test-net contract address
 //var contractAddress = '0x3d97dAC6a412970E714bB0d0AB421C89485ccf99'; // test-net contract address
-
 
 var owner;
 var smartID;
@@ -33,7 +30,6 @@ var balance; // needs global
 
 var SolidityCoder = require("web3/lib/solidity/coder.js");
 var func;
-
 var functionHashes;
 
 window.App = {
@@ -41,7 +37,6 @@ window.App = {
     var self = this;
 
 // create users
-    owner = web3.eth.coinbase;
     steffen.address = web3.eth.coinbase;
 
     // Bootstrap abstraction for Use.
@@ -59,69 +54,72 @@ window.App = {
         return;
       }
 
-
+// accounts
       accounts = accs;
       account = accounts[0];
-
       currentAccount = account;
+      owner = account;
 
 //      balanceWei = web3.eth.getBalance(currentAccount).toNumber();
 
-
-      // for metamask callback
+      // added callback for metamask callback
           balanceWei = web3.eth.getBalance(currentAccount, function(error, result){
             if(!error)
               result.toNumber()
             else
               console.error(error);
           });
+
+          // balance to update to display on screen
           balance = web3.fromWei(balanceWei, 'ether');
 
-
 //      balance = web3.fromWei(balanceWei, 'ether');
-
-
+    // print to screen
       ethBalance.innerHTML = balance + " Ether";
       accounNr.innerHTML = currentAccount; // this should be getaccount [Number ]
 
-// set user addresses
-//      testuser.address = accounts[1];
-
 // test output
 //          console.log(steffen.address);
-//          console.log(testuser.address);
-
-// continue misc endorsement test.... Add user etc.
 
   //console.log(SmartIdentity.deployed());
   //console.log("contract address: " + contractAddress);
   abi = SmartIdentity.abi;
-  // hmm
+  // Make sure abiArray is up to date
   var abiArray = [{"constant":false,"inputs":[{"name":"_newowner","type":"address"}],"name":"setOwner","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"removeEndorsement","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"acceptEndorsement","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"kill","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_myEncryptionPublicKey","type":"string"}],"name":"setEncryptionPublicKey","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"encryptionPublicKey","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"removeOverride","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_override","type":"address"}],"name":"setOverride","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_mySigningPublicKey","type":"string"}],"name":"setSigningPublicKey","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"getOwner","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_hash","type":"bytes32"}],"name":"addAttribute","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"bytes32"}],"name":"attributes","outputs":[{"name":"hash","type":"bytes32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"signingPublicKey","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"checkEndorsementExists","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_hash","type":"bytes32"}],"name":"removeAttribute","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"addEndorsement","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_oldhash","type":"bytes32"},{"name":"_newhash","type":"bytes32"}],"name":"updateAttribute","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"inputs":[],"payable":false,"type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"sender","type":"address"},{"indexed":false,"name":"status","type":"uint256"},{"indexed":false,"name":"notificationMsg","type":"bytes32"}],"name":"ChangeNotification","type":"event"}];
     //console.log(abiArray)
 
     // could possibley do this this way also web3.eth.contract([ABI array goes here to make it an array]);
+  functionHashes = App.getFunctionHashes(abiArray);
 
-    functionHashes = App.getFunctionHashes(abiArray);
-
-// var functionHashes = getFunctionHashes(SmartIdentity.abi);
-  smartID = web3.eth.contract(abi).at(contractAddress);
+  // var functionHashes = getFunctionHashes(SmartIdentity.abi);
+  smartID = web3.eth.contract(abi).at(contractAddress);  // redundant?
   //console.log("abi: " + abi)
   //	ethBalance.innerHTML = accounts[0];
   var BigNumber = require('bignumber.js');
 
 	var i;
 	var accountBalance;
+
 	var accsLength = accs.length;
+
+  // for metamask callback
+      balanceWei = web3.eth.getBalance(currentAccount, function(error, result){
+        if(!error)
+          result.toNumber()
+        else
+          console.error(error);
+      });
+
 
   var functionValue;
 	var x;
+
+// uncomment this for all accounts
 	for(i = 0; i < accsLength; i++){
 	    x = new BigNumber(web3.eth.getBalance(accounts[i]));
             functionValue = accounts[i];
-            myDropdown.innerHTML += "Account: " + i + "<br/>" + "<a href='#' onclick='App.updateContent("+i+")'>" + accounts[i] + "</a>"; // used to have a linebreak after the end of link tag...
+            myDropdown.innerHTML += "Account: " + i + "<br/>" + "<a href='#' onclick='App.updateContent("+i+")'>" + accounts[i] + "</a>";
             // onclick of link set default account, opens the info.
-
   //	    console.log(x.plus(21).toString(10));
 	}
 
@@ -160,7 +158,7 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
         steffen.identify = data;
       })
     console.log("new smartID contract issued: " + steffen.identify)
-    console.log('Eth? ' + web3.eth.getTransaction("0xa4b4417fc7e492b911d08e948ea50ca772b82516"));
+//    console.log('Eth? ' + web3.eth.getTransaction("0xa4b4417fc7e492b911d08e948ea50ca772b82516"));
   },
 
 
@@ -186,7 +184,7 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
       smart = instance;
 //      return smart.setEncryptionPublicKey(newKey, {from: account});
 //      return smart.addAttribute(attribute, {from: currentAccount, gas: 22850})
-        return smart.addAttribute(attribute, {from: currentAccount})
+        return smart.addAttribute(attribute, {from: currentAccount, gas: 244487})
     }).then(function(value) {
 //      this.setStatus("Transaction complete");
         self.setStatus("Transaction complete, Device Added");
@@ -205,9 +203,17 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
     // it adds the attribute. need return value...
 
     // following updates our visual eth balance top of page...
-      balanceWei = web3.eth.getBalance(currentAccount).toNumber();
-      balance = web3.fromWei(balanceWei, 'ether'); // balance in eth.
 
+    // for metamask callback
+        balanceWei = web3.eth.getBalance(currentAccount, function(error, result){
+          if(!error)
+            result.toNumber()
+          else
+            console.error(error);
+        });
+
+// old      balanceWei = web3.eth.getBalance(currentAccount).toNumber();
+      balance = web3.fromWei(balanceWei, 'ether'); // balance in eth.
       accounNr.innerHTML = currentAccount;
       ethBalance.innerHTML = balance + " Ether";  // what?
   },
@@ -215,9 +221,7 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
 
   // BTC address add function. Need to add input field for this....
   addBitCoinAddress: function(){
-
     var btcValue = document.getElementById("inputBTC").value;
-
     var self = this;
     var smart;
     SmartIdentity.deployed().then(function(instance) {
@@ -241,21 +245,16 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
   console.log("button works");
   },
 
-
-
   firstBlock: function(){
     // looing for first block to position
-//  var test =  web3.eth.getTransaction('0xa0a881de25dddaf26dbe2f2c57d798bfdcb7693a55d4595318540410c3bec19d')
+    //  var test =  web3.eth.getTransaction('0xa0a881de25dddaf26dbe2f2c57d798bfdcb7693a55d4595318540410c3bec19d')
+    //  var test = web3.eth.getTransactionFromBlock('10');
+    //0xa0a881de25dddaf26dbe2f2c57d798bfdcb7693a55d4595318540410c3bec19d
+    //  console.log(test);
 
-  var test = web3.eth.getTransactionFromBlock('10');
-//0xa0a881de25dddaf26dbe2f2c57d798bfdcb7693a55d4595318540410c3bec19d
-  console.log(test);
-
-  var func = App.findFunctionByHash(functionHashes, test.input);
-
-  var inputData = SolidityCoder.decodeParams(["bytes32"], t.input.substring(10)); // issue is probably here... because its substring...
-
-  console.log(web3.toAscii(inputData[0].toString()));
+    var func = App.findFunctionByHash(functionHashes, test.input);
+    var inputData = SolidityCoder.decodeParams(["bytes32"], t.input.substring(10)); // issue is probably here... because its substring...
+    console.log(web3.toAscii(inputData[0].toString()));
   },
 
   checkBlock: function(){
@@ -284,10 +283,10 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
 //filter.get(function(error, result){ console.log(error, result); });
 
 // we need to get input data from transaction from block...
-var str = web3.eth.getTransactionFromBlock('10');
+//var str = web3.eth.getTransactionFromBlock('10');
 //var test = web3.toAscii(str)
 
-  console.log(str.input)
+//  console.log(str.input)
 
   },
 
@@ -296,7 +295,6 @@ var str = web3.eth.getTransactionFromBlock('10');
     var attribute = document.getElementById("addAttribute").value;
 
     this.setStatus("Initiating transaction... (please wait)");
-
 
     var self = this;
     var smart;
@@ -323,74 +321,32 @@ var str = web3.eth.getTransactionFromBlock('10');
   },
 
 
-
-  watchFilter2: function(){
+// btc filter
+  watchFilterBTC: function(){
     var filter = web3.eth.filter('latest');
 
       filter.watch(function(error, result){
           var block = web3.eth.getBlock(result, true);
           console.log('block #' + block.number);
-//          console.log(block.transactions)
           console.dir(block.transactions);
 
           for (var index = 0; index < block.transactions.length; index++) {
             var t = block.transactions[index];
-            console.log(t)
-
-        //    var from = t.from==account ? "me" : t.from;
-            //var from = currentAccount;
             var from = t.from;
-            //  console.log(t.input)
             var to = t.to;
-            // Decode function
             var func = App.findFunctionByHash(functionHashes, t.input);
-            //App.findFunctionByHash(functionHashes, t.input);
 
-          //  var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10)); // issue is probably here... because its substring...
-
-            // look up solidity coder decodeparams...
-            //console.log(inputData[0].toString())
-//            var inputData = SolidityCoder.decodeParams(["bytes32"]ct, t.input); // issue is probably here... because its substring...
-
-
-// or setBTC who knows
             if (func == 'setBTC') {
-              // This is the sellEnergy() method
-
               var inputData = SolidityCoder.decodeParams(["string"], t.input.substring(10)); // issue is probably here... because its substring...
-              // THIS ONE ACTUALLY DECODES THE DAMN STUFFs... // get the from.
-
-            //  var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
               console.dir(inputData);
-//              console.log("from " + from + " input data " + inputData) // set this to currentaccount... we we see who submitted the attribute.. wont work universally though.
-              /// needs to be the real from returned in the transaction..
-//              console.log(web3.toAscii(inputData[0].toString()))
-              // still need to decipher the output i guess..
-//              console.log("to" + to) // this is to the contract. I think.
-                // this updates added attributes. However, we can all claim all the same attributes... Must use endorsement?
-                // Also consider bytes32 not being able to issue complete address. might need to have the to - from...
-                // from output is good.
-// block count is wrong not a big deal but it adds even if block isnt updated
-
-//$('#BTCshow').append('<tr><td>' + t.blockNumber +
-//'</td><td>' + from + '</td><td>' + inputData[0].substring(0, inputData[0].toString().length - 24) + '</td></tr>');
               BTCshow.innerHTML = web3.toAscii(t.input.substring(10));
               console.log(inputData);
-//              console.log(web3.toAscii(inputData[0].substring(0, inputData[0].toString())));
-
-
-//              $('#transactions').append('<tr><td>' + t.blockNumber +
-//                  '</td><td>' + from + '</td><td>' + t.input.substring(0, t.input.length - 24) + '</td></tr>');
-//                  '</td><td>Attribute: (' + web3.toAscii(inputData[0].toString()) + ')</td></tr>');
             } else if (func != 'setBTC') {
-            //  var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
-    //          console.dir(inputData);
               console.dir("Not working, try again")
             } else {
               // Default log
             }
         }
-
       });
   },
 
@@ -400,21 +356,18 @@ var str = web3.eth.getTransactionFromBlock('10');
     filter.get(function(error, log) {
       console.log(JSON.stringify(log));
     });
-
-
   },
-
 
   // this filter checks entire chain for addded devices... We need to also check for removed devices... as to not have duplicates... If removed device has larger block
   // number than added, then it should not display.
-  watchFilter4: function(){
+  // it does not display correct from user.. hm.
+  watchFilterFromTo: function(){
     allAccounts.innerHTML = '';
 
     var filter=web3.eth.filter({fromBlock: 0, toBlock: 'latest'});
+//    var filter=web3.eth.filter({fromBlock: 1127125, toBlock: 'latest'});  // ropsten blocks.
     filter.get(function(error, log) {
-
     //      console.log(JSON.stringify(log));
-
     // looping over data to find all block numbers. Now let us use these block nubmers to read the data.
     var data = log;
       for(var i = 0; i < data.length; i++)
@@ -437,6 +390,9 @@ var str = web3.eth.getTransactionFromBlock('10');
               allAccounts.innerHTML +=
               '<tr><td>' + t.blockNumber +
               '</td><td>' + from + '</td><td>' + inputData[0].substring(0, inputData[0].toString().length - 24) + '</td></tr>';
+            } else if (func == 'removeAttribute'){
+                  console.log("Remove Device Function RUN ")
+                  // this is where we check if remove has been run on same device...
             } else if (func != 'addAttribute') {
                 //          console.dir("Function Not Add Attribute")
                 // here we need a duplicate detection.
@@ -449,10 +405,11 @@ var str = web3.eth.getTransactionFromBlock('10');
     filter.stopWatching();
   },
 
-
+// main watch filter to check for new additions past latest block on chain
   watchFilter: function(){
     var filter = web3.eth.filter('latest');
       filter.watch(function(error, result){
+
           var block = web3.eth.getBlock(result, true);
           console.log('block #' + block.number);
 //          console.log(block.transactions)
@@ -483,7 +440,7 @@ var str = web3.eth.getTransactionFromBlock('10');
             //console.log(inputData[0].toString())
 //            var inputData = SolidityCoder.decodeParams(["bytes32"]ct, t.input); // issue is probably here... because its substring...
 
-            if (func == 'addAttribute' && t.from == currentAccount) {
+            if (func == 'addAttribute') {
               // This is the sellEnergy() method
               var inputData = SolidityCoder.decodeParams(["bytes32"], t.input.substring(10)); // issue is probably here... because its substring...
               // THIS ONE ACTUALLY DECODES THE DAMN STUFFs... // get the from.
@@ -514,7 +471,6 @@ var str = web3.eth.getTransactionFromBlock('10');
 
       });
   },
-
 
   getFunctionHashes: function() {
     var hashes = [];
@@ -548,7 +504,6 @@ var str = web3.eth.getTransactionFromBlock('10');
 //      innerHTML.
       //pagecontent
   },
-
 
   // Set key thenable.
   /// does not work compeltely though hmm says encryptionPublicKey is not defined.
@@ -661,7 +616,6 @@ var str = web3.eth.getTransactionFromBlock('10');
       accountinfo.innerHTML = " " + currentAccount + "<br/>";
   //    btcAddress.innerHTML = smartID.addBTC({from: currentAccount}); // maybe
   },
-
 };
 
 window.addEventListener('load', function() {
@@ -674,10 +628,6 @@ window.addEventListener('load', function() {
     console.warn("No web3 detected. Falling back to http://localhost:8545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask");
     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
     window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-
-
-
   }
-
   App.start();
 });
