@@ -322,6 +322,11 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
   },
 
 
+  getBTC: function(){
+        console.log(smartID.getBTC.call());
+  },
+
+
 // btc filter
   watchFilterBTC: function(){
     var filter = web3.eth.filter('latest');
@@ -340,7 +345,7 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
             if (func == 'setBTC') {
               var inputData = SolidityCoder.decodeParams(["string"], t.input.substring(10)); // issue is probably here... because its substring...
               console.dir(inputData);
-              BTCshow.innerHTML = web3.toAscii(t.input.substring(10));
+              BTCshow.innerHTML = inputData;
               console.log(inputData);
             } else if (func != 'setBTC') {
               console.dir("Not working, try again")
@@ -615,6 +620,7 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
       accountinfo.innerHTML = "";
       //console.log(accounts[i]);
       accountinfo.innerHTML = " " + currentAccount + "<br/>";
+      btcAddress.innerHTML = smartID.getBTC.call();
   //    btcAddress.innerHTML = smartID.addBTC({from: currentAccount}); // maybe
   },
 };

@@ -139,13 +139,13 @@ var meteringData = [{
 
   <!-- Displays current account info including which devices and metering of these devices -->
   <div id="showAccountInfo" style="display: none">
+    <br/>
     <h2>Account Information!</h2>
     <br/>
       <b>Ethereum Account:</b> <span id="accountinfo">Client Not Running, Make Sure You Have Ethereum Running</span><br/>
-      <b>BTC Account:</b> <span id="btcAddress"><a href="#" onclick="App.showBtn('addBTC')">add it</a></span><br/><br/>
-      BTC sample: 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2<br/><br/>
+      <b>BTC Account:</b> <span id="btcAddress"><a href="#" onclick="App.showBtn('addBTC')">add it</a></span>   <a href="#" onclick="App.showBtn('addBTC')">Change</a> <br/><br/>
 
-No BTC address associated, make sure to <a href="#" onclick="App.showBtn('addBTC')">add it</a><br/><br/>
+      <br/><br/>
 
     <h2>Devices</h2>
       <span id="accountDevices">No Devices Claimed<br/> <a href="#" onclick="App.showBtn('addAttributeCont')">Claim Device</a><br/></span><br/>
@@ -300,7 +300,12 @@ No BTC address associated, make sure to <a href="#" onclick="App.showBtn('addBTC
   <br><input type="text" id="inputBTC" placeholder="Enter BTC payment Address: eg 1BvBMS...."></input><br>
 
   <button id="send" type="button" onClick="App.addBitCoinAddress();">Add BTC address</button>
-  <button type="button" onClick="App.watchFilterBTC();">Check Filter here</button>
+
+  <br/><br/><br/>BTC sample: 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2
+  <br/><br/><br/>Below are debug buttons: Remove when done. Need to add transaction complete status.
+  <br/><br/><button type="button" onClick="App.watchFilterBTC();">Check Filter here</button>
+  <button type="button" onClick="App.getBTC();">get BTC address</button>
+
 
   <span id="BTCshow">No address here yet</span>
 
