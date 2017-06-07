@@ -116,7 +116,6 @@ h1, h2 {
 
 #glowing{
   -webkit-animation: glow 1.5s infinite alternate;
-
 }
 
 @-webkit-keyframes glow {
@@ -165,6 +164,13 @@ a:active{
 
 #balance {
   color: black;
+}
+
+#frontPage{
+    padding-top: 20px;
+    margin: 0 auto;
+    color: black;
+    width: 80%;
 }
 
 .hint {
@@ -274,6 +280,13 @@ input{
 
 }
 
+#deviceAddressClaimed{
+}
+
+#meteringDevices{
+
+  }
+
 #encryptKey{
   background-color: white;
 }
@@ -285,8 +298,11 @@ input{
   float:left;
 }
 
-#deviceAddressClaimed{
-  background: pink;
+#devicenumber{
+
+}
+
+#deviceName{
 }
 
 #help{

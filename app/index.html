@@ -110,16 +110,11 @@ var meteringData = [{
       </div>
     <!--/div-->
 
+    <button class="leftBtn" onclick="App.showBtn('frontPage')">Front Page</button>
+
     <button class="leftBtn" onclick="App.showBtn('showAccountInfo'); App.accountInfo();">Account Info</button>
 
     <button class="leftBtn" onclick="App.showBtn('addAttributeCont')">Add/Remove Device</button>
-
-    <!--button class="leftBtn" onclick="App.showBtn('removeAttributeCont')">Remove Device</button-->
-
-
-    <!--button class="leftBtn" onclick="App.showBtn('unlockAccount')">Unlock account</button-->
-
-    <!--button class="leftBtn" onclick="App.showBtn('devices')">Devices</button-->
 
     <!--button class="leftBtn" onclick="App.showBtn('catchAll')">Catch All</button-->
 
@@ -133,6 +128,14 @@ var meteringData = [{
 </div>
 
 <div class="container">
+
+  <div id="frontPage" style="display: none">
+    <h2>Novel IoT Smart ID management</h2>
+    <p>Welcome to your device management dashboard. You may add / remove devices, add / remove BTC payment addresses and verify your metering data.</p>
+    <p>If you are a first time user please add device and bitcoin payment address</p>
+    <br/>
+    <p><a href="https://bluehorizon.network/mosco-map/" target="_blank">Visit The Map</a></p>
+  </div>
 
   <!-- Displays current account info including which devices and metering of these devices -->
   <div id="showAccountInfo" style="display: none">
@@ -216,30 +219,45 @@ No BTC address associated, make sure to <a href="#" onclick="App.showBtn('addBTC
       var current = new Date(0); // The 0 there is the key, which sets the date to the epoch
       current.setUTCSeconds(utcCurrentTime);
 
-      document.getElementById("devicenumber"+i).innerHTML = meteringData[i].name;
+
+      // converting names to readable for connected devices
+      var convertName = " "
+
+      if(meteringData[i].name == "Policy for sdr merged with sdr arm"){
+        console.log("metering data name change: SDR!");
+        convertName = "Software Defined Radio";
+        document.getElementById("devicenumber"+i).innerHTML = convertName;
+      }
+      else if(meteringData[i].name == "Policy for location merged with location arm"){
+        console.log("metering data name change: Location!");
+        convertName = "GPS Location";
+        document.getElementById("devicenumber"+i).innerHTML = convertName;
+      }
+      else if(meteringData[i].name == "Policy for netspeed merged with netspeed arm"){
+        console.log("metering data name change: NetSpeed!");
+        convertName = "Netspeed";
+        document.getElementById("devicenumber"+i).innerHTML = convertName;
+      }
+
+      //      document.getElementById("devicenumber"+i).innerHTML = meteringData[i].name;
       document.getElementById("tokens"+i).innerHTML = meteringData[i].metering_notification.amount;
       document.getElementById("starttime"+i).innerHTML = start;
       document.getElementById("currenttime"+i).innerHTML = current;
       document.getElementById("missedtime"+i).innerHTML = meteringData[i].metering_notification.missed_time + " Seconds Missed";
-  //    document.getElementById("agreementid").innerHTML = meteringData[0].metering_notification.agreement_hash;
+      //      document.getElementById("agreementid").innerHTML = meteringData[0].metering_notification.agreement_hash;
       document.getElementById("agreementhash"+i).innerHTML = meteringData[i].metering_notification.agreement_hash;
-//      console.log(i);
+      //      console.log(i);
     }
-
-
-
-
 
     //      document.getElementById("meteringData").innerHTML =
     //      data.amount+ " " + data.start_time+ " " + data.current_time;
     </script>
     <!-- Metering Data end-->
+
   </div>
   <!-- Displays current account info including which devices and metering of these devices end -->
 
-
   <div id="catchAll" style="display: none">
-
   </div>
 
   <!-- this just displays a list of accounts / do devices later-->

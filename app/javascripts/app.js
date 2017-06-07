@@ -146,6 +146,7 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
   })
 */
 
+  App.showBtn('frontPage')
 
 //      self.refreshBalance();
     });
