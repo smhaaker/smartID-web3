@@ -132,7 +132,7 @@ h2 {
 h3 {
   font-weight: normal;
   color: #AAA;
-  font-size: 24px;
+  font-size: 28px;
 }
 
 /* fonts */
@@ -186,7 +186,7 @@ a:active{
   border: none;
   cursor: pointer;
   width: 100%;
-  text-align: left;
+  text-align: center;
 }
 
 /* Dropdown button on hover & focus */
@@ -203,7 +203,7 @@ a:active{
     border: none;
     cursor: pointer;
     width: 100%;
-    text-align: left;
+    text-align: center;
 }
 
 /* Dropdown button on hover & focus */
@@ -350,4 +350,14 @@ td {
     border: 1px solid #dddddd;
     text-align: center;
     padding: 8px;
+}
+
+#spacer{
+    height: 50px;
+    border-left: 0px;
+    border-right: 0px;
+}
+
+#red{
+  color: red;
 }

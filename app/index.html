@@ -3,19 +3,16 @@
 <head>
   <title>SmartID frontend truffle 3</title>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script-->
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+
   <script src="./app.js"></script>
+  <script type="text/javascript" src="jquery.min.js"></script>
+  <script type="text/javascript" src="qrcode.js"></script>
 
   <script>
 // temp static metering json data...
-var data = {
-  "amount":121,
-  "start_time":1491487140,
-  "current_time":1491487342,
-  "missed_time":45,
-  "agreement_id":12345678901234567890,
-  "agreement_hash":111222333444,
-};
 
 var meteringData = [{
   "name": "Policy for sdr merged with sdr arm",
@@ -73,6 +70,63 @@ var meteringData = [{
 }
 ]
 
+var meteringData2 = [
+  {
+    "name": "Policy for netspeed merged with netspeed arm",
+    "current_agreement_id": "9fe087d54c0d10def28e7a49ab3751f9b649dc8ac2306dcc8bf2d488d50def35",
+    "consumer_id": "agbot-tok02-01.bluehorizon.network",
+    "agreement_creation_time": 1496595326,
+    "metering_notification": {
+      "amount": 10658,
+      "start_time": 1496595318,
+      "current_time": 1497234846,
+      "missed_time": 0,
+      "consumer_meter_signature": "ee8c24a358767989fe18a5f59a6c9ea66cc654e243f520ffaebbd28ac1bd15b01bb7c2e2ac7862b3ad95e8446b84e18b7a3382cf5be9f848ba718149a09de0b71c",
+      "agreement_hash": "5b578dfebac1e7d2194208f645d4204b9a3e6b87172dc664e7f5969c80ee368b",
+      "consumer_agreement_signature": "d186e1ddbc03711fc1c491d740ff9241338af98dd33b891b2507b6f04ab38e3c4638ce40731f1a32d01fd956d8367feb18701dcb16aa806ba368a487231378fd1c",
+      "consumer_address": "0x324f73187585becfbaa363cacdf9823c3a1a1cae",
+      "producer_agreement_signature": "e37e0cfe46ad331d2ebaef31fc3a0791f11d72533dfbde71bf5ba08aebc721fc38bd25763937be1080698abd44125c2eda5de991680e8975f7d7e041c7ab90681c",
+      "blockchain_type": "ethereum"
+    }
+  },
+  {
+    "name": "Policy for sdr merged with sdr arm",
+    "current_agreement_id": "ad9684f6f18b356d170073a581841bbb326193708f396ec2f83b047660e05a63",
+    "consumer_id": "agbot-tok02-01.bluehorizon.network",
+    "agreement_creation_time": 1496595327,
+    "metering_notification": {
+      "amount": 10658,
+      "start_time": 1496595321,
+      "current_time": 1497234854,
+      "missed_time": 0,
+      "consumer_meter_signature": "ed4f2aaf8fef5d983f9a85ee0945e24c03f5f4accdb332ad0b959b4a71c749745342f2fde322959f0772c6b719c46083346b1212391e99d871185667ac1ee2271c",
+      "agreement_hash": "9d78ec66608fc60b73a90e59a6ce445ac68a0af7738088c40d9cae673158ac31",
+      "consumer_agreement_signature": "96082ce6b9a0ddb9dc5df6fdb5008df8424805157ede07348b9ab1fff50b08d71b64817799ce7cd63f18606d0cfacb515e93bd562ce4305f117f7e1b4642c4241b",
+      "consumer_address": "0x324f73187585becfbaa363cacdf9823c3a1a1cae",
+      "producer_agreement_signature": "76a2558fea56fd623517cbe594b040e750a1429aae97a7f323a67fb82baa3f9a115f94d4a0fe684f26dc77edc1d7e891a203b3832a22686750350f06cb09a1041c",
+      "blockchain_type": "ethereum"
+        }
+  },
+  {
+    "name": "Policy for location merged with location arm",
+    "current_agreement_id": "c52055ab872e8d12c827e969309da5f50e68cbe27fa43f89dc7727535281ea12",
+    "consumer_id": "agbot-lon02-01.bluehorizon.network",
+    "agreement_creation_time": 1496595327,
+    "metering_notification": {
+      "amount": 10661,
+      "start_time": 1496595321,
+      "current_time": 1497235003,
+      "missed_time": 0,
+      "consumer_meter_signature": "75721090f8a9f5b457e648a490ca4e4efbe272dddbd8d01b45d7d0639e6306c14811153aa8b995b60bff5a62b2fbb9d7d5b234793d7b07c72c9bb7b6666fe5101b",
+      "agreement_hash": "ba21679a830f6cbde286c139363df613bd1bcf223ba2ae0151ab331e8fe1da89",
+      "consumer_agreement_signature": "768ad93bb7af4ca21d726c1c1a902d35abb5f1811d9e553d9b055eb11c6e810a1ec94a9f17b098ab571cdc43b7b731a04b82e5976a2791f15dcacd27a953626e1c",
+      "consumer_address": "0xba2de57eee86da890b70d7d391c47f82a38f0ff9",
+      "producer_agreement_signature": "90300717836fb3b785a24b4e78697c80c88bbb4ba74cb0823101168120b475717bad07d8d670885cdba4b10154fdc5e6a7e3de1f67a3cb6f9231e09303147aef1c",
+      "blockchain_type": "ethereum"
+    }
+  }
+]
+
 //var obj = JSON.parse(data2);
 
 //console.log(meteringData[0].name);
@@ -80,30 +134,28 @@ var meteringData = [{
 //var parsed = JSON.parse(data2);
 
   </script>
-
-
 </head>
 <body>
 
 
 <!-- header info start-->
-  <div class="top">
+<div class="top">
 
-    <div class="toplefttitle"></div>
+  <div class="toplefttitle"></div>
 
-    <div class="topleft">
-      Account Number: <br/><span id="accounNr">Check if running</span><br/><br/>
-      Balance: <br/><span id="ethBalance"></span><br/>
-    </div>
+  <div class="topleft">
+    Account Number: <br/><span id="accounNr">Check if running</span><br/><br/>
+    Balance: <br/><span id="ethBalance"></span><br/>
   </div>
-  <!-- header info stop-->
+</div>
+<!-- header info stop-->
 
 
   <!-- Main area start, rename from Left to main or something-->
 
 <div class="left">
 
-<!-- buttons start-->
+<!-- navigation buttons start-->
     <!--div class="dropdown"-->
       <button onclick="App.myFunction()" class="dropbtn">Select Account</button>
       <div id="myDropdown" class="dropdown-content" style="display: none">
@@ -120,9 +172,11 @@ var meteringData = [{
 
     <!--button class="leftBtn" onclick="App.showBtn('updateAttributeCont')">Update Attribute</button-->
 
-    <button class="leftBtn" onclick="App.showBtn('setEncryptionKey')">Set Encryption Key</button>
+    <!--button class="leftBtn" onclick="App.showBtn('setEncryptionKey')">Set Encryption Key</button-->
 
-    <!-- buttons end-->
+    <button class="leftBtn" onclick="App.showBtn('seeAllUsersDevices')">Admin &#128274; </button>
+
+<!-- buttons end-->
 
 
 </div>
@@ -147,56 +201,56 @@ var meteringData = [{
 
       <br/><br/>
 
+
+    <h2>Tokens Earned: </h2>
+      <span id='tokens'><h3>blank</h3></span><br/><br/>
+
     <h2>Devices</h2>
       <span id="accountDevices">No Devices Claimed<br/> <a href="#" onclick="App.showBtn('addAttributeCont')">Claim Device</a><br/></span><br/>
 
-    <h2>Metering</h2><br/>
+    <!--h2>Metering</h2><br/-->
 
     <!-- Metering Data start-->
 
+
+<!-- table template starts>
     <table id='deviceAddressClaimed'>
       <tr>
-        <th id='deviceName'>Device ID: <b>0x20aba8bd3c170ed3f5df011f31869e4ee550285b</b></th>
+        <th id='deviceName'>Device ID: <b><span id='deviceEthereum'>0x20aba8bd3c170ed3f5df011f31869e4ee550285b</span></b></th>
       </tr>
       <tr>
         <td>
           <span id="meteringDevices"></span>
         </td>
       </tr>
+      <tr>
+        <td id='spacer'></td>
+      </tr>
+      <tr>
+          <th id='deviceName'>Device ID: <b><span id='deviceEthereum'>0xc91898d87fc09707b377cec5a5bf957dfcfccc4a</span></b></th>
+      </tr>
+      <tr>
+        <td>
+          <span id="meteringDevices2"></span>
+        </td>
+      </tr>
     </table>
-    <!--table id="meteringTable">
-      <tr>
-        <th>Metering Data</th>
-        <th id="devicenumber">Device #1</th>
-      </tr>
-      <tr>
-        <td>Current Tokens</td>
-        <td id="tokens"></td>
-      </tr>
-      <tr>
-        <td>Start Time</td>
-        <td id="starttime"></td>
-      </tr>
-      <tr>
-        <td>Current Time</td>
-        <td id="currenttime"></td>
-      </tr>
-      <tr>
-        <td>Missed Time</td>
-        <td id="missedtime"></td>
-      </tr>
-      <tr>
-        <td>Agreement ID</td>
-        <td id="agreementid"></td>
-      </tr>
-      <tr>
-        <td>Agreement Hash</td>
-        <td id="agreementhash"></td>
-      </tr>
-    </table-->
-
+<table template ends-->
 
     <script>
+
+    var deviceAddress = '0x20aba8bd3c170ed3f5df011f31869e4ee550285b'
+    var deviceAddress2 = '0xc91898d87fc09707b377cec5a5bf957dfcfccc4a';
+
+    if(deviceAddress == '0x20aba8bd3c170ed3f5df011f31869e4ee550285b'){
+      console.log('write tables');
+      document.getElementById('accountDevices').innerHTML = '<table id="deviceAddressClaimed">' +
+        '<tr> <th id="deviceName">Device ID: <b><span id="deviceEthereum">0x20aba8bd3c170ed3f5df011f31869e4ee550285b</span></b></th> </tr>' +
+        '<tr><td><span id="meteringDevices"></span></td></tr>'+
+        '<tr><td id="spacer"></td></tr>' +
+        '<tr> <th id="deviceName">Device ID: <b><span id="deviceEthereum">0xc91898d87fc09707b377cec5a5bf957dfcfccc4a</span></b></th> </tr>' +
+        '<tr><td><span id="meteringDevices2"></span></td></tr></table>'
+    }
 
     for(var i = 0; i < meteringData.length; i++){
       console.log("name" + i + " : " + meteringData[i].name);
@@ -254,11 +308,118 @@ var meteringData = [{
     </script>
     <!-- Metering Data end-->
 
+
+    <!-- secondary meterind data static for now-->
+    <script>
+
+    var totalTokens = 0;
+
+    for(var i = 0; i < meteringData2.length; i++){
+      console.log("name" + i + " : " + meteringData2[i].name);
+
+      document.getElementById("meteringDevices2").innerHTML += '<table id="meteringTable">' +
+        '<tr> <th> Metering Data </th><th id="2devicenumber'+i+'">Not Available</th></tr>' +
+        '<tr> <td> Current Tokens </td><td id="2tokens'+i+'"></td></tr>' +
+        '<tr> <td> Start Time </td><td id="2starttime'+i+'"></td></tr>' +
+        '<tr> <td> Current Time </td><td id="2currenttime'+i+'"></td></tr>' +
+        '<tr> <td> Missed Time </td><td id="2missedtime'+i+'"></td></tr>' +
+        '<tr> <td> Agreement Hash </td><td id="2agreementhash'+i+'"></td></tr>' +
+      '</table>'
+
+      // converting to date.
+      var utcStartTime = meteringData2[i].metering_notification.start_time;
+      var start = new Date(0); // The 0 there is the key, which sets the date to the epoch
+      start.setUTCSeconds(utcStartTime);
+
+      var utcCurrentTime = meteringData2[i].metering_notification.current_time;
+      var current = new Date(0); // The 0 there is the key, which sets the date to the epoch
+      current.setUTCSeconds(utcCurrentTime);
+
+
+      // converting names to readable for connected devices
+      var convertName = " "
+
+      if(meteringData2[i].name == "Policy for sdr merged with sdr arm"){
+        console.log("metering data name change: SDR!");
+        convertName = "Software Defined Radio";
+        document.getElementById("2devicenumber"+i).innerHTML = convertName;
+      }
+      else if(meteringData2[i].name == "Policy for location merged with location arm"){
+        console.log("metering data name change: Location!");
+        convertName = "GPS Location";
+        document.getElementById("2devicenumber"+i).innerHTML = convertName;
+      }
+      else if(meteringData2[i].name == "Policy for netspeed merged with netspeed arm"){
+        console.log("metering data name change: NetSpeed!");
+        convertName = "Netspeed";
+        document.getElementById("2devicenumber"+i).innerHTML = convertName;
+      }
+
+      //      document.getElementById("devicenumber"+i).innerHTML = meteringData[i].name;
+      document.getElementById("2tokens"+i).innerHTML = meteringData2[i].metering_notification.amount;
+      document.getElementById("2starttime"+i).innerHTML = start;
+      document.getElementById("2currenttime"+i).innerHTML = current;
+      document.getElementById("2missedtime"+i).innerHTML = meteringData2[i].metering_notification.missed_time + " Seconds Missed";
+      //      document.getElementById("agreementid").innerHTML = meteringData[0].metering_notification.agreement_hash;
+      document.getElementById("2agreementhash"+i).innerHTML = meteringData2[i].metering_notification.agreement_hash;
+      //      console.log(i);
+      totalTokens += meteringData[i].metering_notification.amount + meteringData2[i].metering_notification.amount;
+      console.log(meteringData[2].metering_notification.amount);
+      console.log("total tokens: " + totalTokens);
+      document.getElementById('tokens').innerHTML = totalTokens;
+    }
+
+    //      document.getElementById("meteringData").innerHTML =
+    //      data.amount+ " " + data.start_time+ " " + data.current_time;
+
+    </script>
+    <!-- Metering Data end-->
+
+
   </div>
+
+  <!-- admin page for all users and devices -->
+  <div id="seeAllUsersDevices" style="display: none">
+
+    Hello there, We shall add our filter all here and add linkable lists also sort by user or device or block.
+    <br/>
+    We also will add our bitcoin payment via coinbase here. <br/><br/>
+    Red text means devices has been removed. This is just for record keeping <br/><br/>
+
+
+    <button id="send" onclick="App.watchFilterFromTo()">Filter All</button>
+
+    <div class="row">
+       <div>
+         <br>
+         <div class="table-responsive">
+           <table class="table table-striped">
+             <thead>
+               <tr>
+                 <th>block#</th>
+                 <th>Owner</th>
+                 <!--th>to</th-->
+                 <th>Device</th>
+               </tr>
+             </thead>
+             <tbody id="allAccounts">
+             </tbody>
+           </table>
+         </div>
+       </div>
+     </div>
+
+
+  </div>
+  <!-- admin page for all users and devices end-->
+
+
   <!-- Displays current account info including which devices and metering of these devices end -->
 
   <div id="catchAll" style="display: none">
   </div>
+
+
 
   <!-- this just displays a list of accounts / do devices later-->
   <div id="showAccounts">
@@ -270,14 +431,10 @@ var meteringData = [{
 <!-- encryotion Key display start-->
     <div id="setEncryptionKey" style="display: none">
       <div id="encryptKey">
-
-        <br>
-
         <p>
         <input type="text" id="eKey" placeholder="enter your desired key"></input>
         </p>
         <label for="eKey">Set public encryption Key</label>
-
         <br><br>
         <p>
         <button id="send" onclick="App.setKey()">Set new encryptionkey  - works</button>
@@ -285,11 +442,9 @@ var meteringData = [{
         <p>
         <button id="send" onclick="App.getKey()">Get encryptionkey  - works</button>
         </p>
-
         <p>
         Public encryption key is: <span id="encryptionKey"> If you see this then ethereum aint workin </span>
         </p>
-
       </div>
     </div>
 <!-- encryotion Key display stop-->
@@ -331,7 +486,7 @@ var meteringData = [{
       <button id="send" onclick="App.remAttribute()">Remove Device</button>
       <!--Be careful with check filter. Should only be activated once... Make sure to fix this.-->
       <button id="send" onclick="App.watchFilter()">Run Filter</button>
-      <button id="send" onclick="App.watchFilterFromTo()">Filter All</button>
+      <!--button id="send" onclick="App.watchFilterFromTo()">Filter All</button-->
     </div>
 
     <p id="help">You can only add a device once, after that you will get jump errors, Look at console log for error message. You can remove device if added by error.
@@ -344,89 +499,82 @@ var meteringData = [{
 
 <!-- listing devices start-->
 
-<div class="row">
-   <div>
-     <br>
-     <h2 class="sub-header">Transaction status: </h2>
-     <span id="status"></span>
+    <div class="row">
+       <div>
+         <br>
+         <h2 class="sub-header">Transaction status: </h2>
+         <span id="status"></span>
 
-     <div class="table-responsive">
-       <table class="table table-striped">
-         <thead>
-           <tr>
-             <th>block#</th>
-             <th>Owner</th>
-             <!--th>to</th-->
-             <th>Device</th>
-           </tr>
-         </thead>
-         <tbody id="transactions">
-         </tbody>
-       </table>
-     </div>
-   </div>
- </div>
-
- <div class="row">
-    <div>
-      <br>
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>block#</th>
-              <th>Owner</th>
-              <!--th>to</th-->
-              <th>Device</th>
-            </tr>
-          </thead>
-          <tbody id="allAccounts">
-          </tbody>
-        </table>
-      </div>
+         <div class="table-responsive">
+           <table class="table table-striped">
+             <thead>
+               <tr>
+                 <th>block#</th>
+                 <th>Owner</th>
+                 <!--th>to</th-->
+                 <th>Device</th>
+               </tr>
+             </thead>
+             <tbody id="transactions">
+             </tbody>
+           </table>
+         </div>
+       </div>
     </div>
-  </div>
 
- <!-- Add Device Stop -->
- <br/><br/>
- <br/><br/>
- Debug buttons: <br/>
- <button id="send" type="button" onClick="App.getFunctionHashes();">get functions</button>
- <button id="send" onclick="App.showBtn('showAccounts'); App.accountList();">Show Devices</button>
- <button id="send" onclick="App.watchFilter3();">Check Latests claimed device</button>
+     <!-- Add Device Stop -->
+     <br/><br/>
+     <br/><br/>
+     Debug buttons: <br/>
+     <button id="send" type="button" onClick="App.getFunctionHashes();">get functions</button>
+     <button id="send" onclick="App.showBtn('showAccounts'); App.accountList();">Show Devices</button>
+     <button id="send" onclick="App.watchFilter3();">Check Latests claimed device</button>
 
-</div>
-
-
+   </div>
 
 <!-- diaplying ALl devices on the chain need a log of all devices, not just filter from latest... Filter from first. -->
-
-
 <br><br><br><br><br><br>
-
-
  <!--button type="button" onClick="App.showAllDevices();">Show All Devices</button-->
-
-
 <!-- filter display end all devices-->
 
 </div>
 
-
-<!-- not sure what this is:
-
-Contracts don't accept ether unless you mark the function you're calling payable
-(If you want to do it with a send, function() payable { })
-
-
- -- >
-
   <hr>
-    <br>
-
-
     <br><br>
 
+    <input id="text" type="text" value="http://jindo.dev.naver.com/collie" style="width:80%" /><br />
+    <div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
+
+    <script src="qrcode.js" type="text/javascript">
+    var qrcode = new qrcode.QRCode(document.getElementById("qrcode"), {
+            width : 100,
+            height : 100
+    });
+
+    function makeCode () {
+            var elText = document.getElementById("text");
+
+            if (!elText.value) {
+                    alert("Input a text");
+                    elText.focus();
+                    return;
+            }
+
+            qrcode.makeCode(elText.value);
+    }
+
+    makeCode();
+
+    $("#text").
+            on("blur", function () {
+                    makeCode();
+            }).
+            on("keydown", function (e) {
+                    if (e.keyCode == 13) {
+                            makeCode();
+                    }
+            });
+    </script>
 
 
     <span id="status"></span>
@@ -435,21 +583,10 @@ Contracts don't accept ether unless you mark the function you're calling payable
     <span id="pagecontent">.</span>
     <br>
 
-    <span class="hint"><strong>Hint:</strong> open the browser developer console to view any errors and warnings.</span>
+    <!--span class="hint"><strong>Hint:</strong> open the browser developer console to view any errors and warnings.</span-->
 
 
 </div>
-
-<h3>You are <span class="black"><span id="endorsed"></span></span></h3>
-
-
-start here: <br>
-
-
-Remember to change accounts. right now it defaults to steffen.addr
-ess....<br>
-
-add attribute
 
 </div>
 

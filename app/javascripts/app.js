@@ -18,7 +18,7 @@ var currentAccount; // need to set this global in order to switch to other accou
 var steffen = {}; // test user
 var divState = {}; // for show and hide toggle
 
-var contractAddress = '0x50bd7d76a928591964037108fb5ffc81be6b3fb9'; // current address for testing
+var contractAddress = '0x46a83f04205ba6a1d1c68d8fc2b447d9990f418d'; // current address for testing
 //var contractAddress = '0x23321cc69cc689ad70f57efcd4b1d6ef1aaac9cb'; // test-net contract address
 //var contractAddress = '0x3d97dAC6a412970E714bB0d0AB421C89485ccf99'; // test-net contract address
 
@@ -60,15 +60,17 @@ window.App = {
       currentAccount = account;
       owner = account;
 
-//      balanceWei = web3.eth.getBalance(currentAccount).toNumber();
+      balanceWei = web3.eth.getBalance(currentAccount).toNumber();
 
       // added callback for metamask callback
+      /*
           balanceWei = web3.eth.getBalance(currentAccount, function(error, result){
             if(!error)
               result.toNumber()
             else
               console.error(error);
           });
+          */
 
           // balance to update to display on screen
           balance = web3.fromWei(balanceWei, 'ether');
@@ -388,7 +390,7 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
             var func = App.findFunctionByHash(functionHashes, t.input);
             if (func == 'addAttribute') {
               // This is the sellEnergy() method
-              var inputData = SolidityCoder.decodeParams(["bytes32"], t.input.substring(10)); // issue is probably here... because its substring...
+              var inputData = SolidityCoder.decodeParams(["bytes32"], t.input.substring(10));
               console.dir(inputData);
               console.log("from " + from + " input data " + inputData[0].substring(0, inputData[0].toString().length - 24)) // set this to currentaccount... we we see who submitted the attribute.. wont work universally though.
               // removed the jquery to use jscript. $('#allAccounts').append(
@@ -397,7 +399,12 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
               '<tr><td>' + t.blockNumber +
               '</td><td>' + from + '</td><td>' + inputData[0].substring(0, inputData[0].toString().length - 24) + '</td></tr>';
             } else if (func == 'removeAttribute'){
+              allAccounts.innerHTML +=
+              '<tr><td><span id="red">' + t.blockNumber +
+              '</td><td><span id="red">' + from + '</td><td><span id="red">' + inputData[0].substring(0, inputData[0].toString().length - 24) + '</span></td></tr>';
+
                   console.log("Remove Device Function RUN ")
+
                   // this is where we check if remove has been run on same device...
             } else if (func != 'addAttribute') {
                 //          console.dir("Function Not Add Attribute")
