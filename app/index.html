@@ -4,12 +4,8 @@
   <title>SmartID frontend truffle 3</title>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script-->
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
-
   <script src="./app.js"></script>
   <script type="text/javascript" src="jquery.min.js"></script>
-  <script type="text/javascript" src="qrcode.js"></script>
 
   <script>
 // temp static metering json data...
@@ -164,7 +160,7 @@ var meteringData2 = [
 
     <button class="leftBtn" onclick="App.showBtn('frontPage')">Front Page</button>
 
-    <button class="leftBtn" onclick="App.showBtn('showAccountInfo'); App.accountInfo();">Account Info</button>
+    <button class="leftBtn" onclick="App.showBtn('showAccountInfo'); App.accountInfo();App.updateQR();">Account Info</button>
 
     <button class="leftBtn" onclick="App.showBtn('addAttributeCont')">Add/Remove Device</button>
 
@@ -198,6 +194,7 @@ var meteringData2 = [
     <br/>
       <b>Ethereum Account:</b> <span id="accountinfo">Client Not Running, Make Sure You Have Ethereum Running</span><br/>
       <b>BTC Account:</b> <span id="btcAddress"><a href="#" onclick="App.showBtn('addBTC')">add it</a></span>   <a href="#" onclick="App.showBtn('addBTC')">Change</a> <br/><br/>
+      <span id="qrcode"></span>
 
       <br/><br/>
 
@@ -539,46 +536,15 @@ var meteringData2 = [
 
 </div>
 
+
+
   <hr>
     <br><br>
-
-    <input id="text" type="text" value="http://jindo.dev.naver.com/collie" style="width:80%" /><br />
-    <div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
-
-    <script src="qrcode.js" type="text/javascript">
-    var qrcode = new qrcode.QRCode(document.getElementById("qrcode"), {
-            width : 100,
-            height : 100
-    });
-
-    function makeCode () {
-            var elText = document.getElementById("text");
-
-            if (!elText.value) {
-                    alert("Input a text");
-                    elText.focus();
-                    return;
-            }
-
-            qrcode.makeCode(elText.value);
-    }
-
-    makeCode();
-
-    $("#text").
-            on("blur", function () {
-                    makeCode();
-            }).
-            on("keydown", function (e) {
-                    if (e.keyCode == 13) {
-                            makeCode();
-                    }
-            });
-    </script>
 
 
     <span id="status"></span>
     <br>
+
 
     <span id="pagecontent">.</span>
     <br>

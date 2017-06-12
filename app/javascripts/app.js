@@ -32,9 +32,13 @@ var SolidityCoder = require("web3/lib/solidity/coder.js");
 var func;
 var functionHashes;
 
+var btcQR = 'waiting';
+
 window.App = {
   start: function() {
     var self = this;
+
+
 
 // create users
     steffen.address = web3.eth.coinbase;
@@ -97,6 +101,24 @@ window.App = {
   smartID = web3.eth.contract(abi).at(contractAddress);  // redundant?
   //console.log("abi: " + abi)
   //	ethBalance.innerHTML = accounts[0];
+
+
+
+  // * wee need to run updates on the BTCQR when clicking account info //
+  console.log(btcQR)
+
+  btcQR = smartID.getBTC.call();
+  // qr test
+  console.log(btcQR)
+
+
+  var qr = require('qr-image');
+//  var qr_svg = qr.image('I love QR!', { type: 'svg' });
+//    qr_svg.pipe(require('fs').createWriteStream('i_love_qr.svg'));
+  var svg_string = qr.imageSync(btcQR, { type: 'svg', size: 5});
+  document.getElementById('qrcode').innerHTML = svg_string;
+///////////////////////////////////////////////////////////////////////////////
+
   var BigNumber = require('bignumber.js');
 
 	var i;
@@ -152,6 +174,22 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
 
 //      self.refreshBalance();
     });
+  },
+
+  updateQR: function(){
+    console.log(btcQR)
+
+    btcQR = smartID.getBTC.call();
+    // qr test
+    console.log(btcQR)
+
+
+    var qr = require('qr-image');
+  //  var qr_svg = qr.image('I love QR!', { type: 'svg' });
+  //    qr_svg.pipe(require('fs').createWriteStream('i_love_qr.svg'));
+    var svg_string = qr.imageSync(btcQR, { type: 'svg', size: 5});
+    document.getElementById('qrcode').innerHTML = svg_string;
+
   },
 
 // testing functions

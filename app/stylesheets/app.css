@@ -361,3 +361,7 @@ td {
 #red{
   color: red;
 }
+
+#qrcode{
+  height: 50px;
+  }
