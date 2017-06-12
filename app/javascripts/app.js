@@ -37,22 +37,16 @@ var btcQR = 'waiting';
 window.App = {
   start: function() {
     var self = this;
-
-
-
-// create users
+    // create users
     steffen.address = web3.eth.coinbase;
-
     // Bootstrap abstraction for Use.
     SmartIdentity.setProvider(web3.currentProvider);
-
     // Get the initial account balance so it can be displayed.
     web3.eth.getAccounts(function(err, accs) {
       if (err != null) {
         alert("There was an error fetching your accounts.");
         return;
       }
-
       if (accs.length == 0) {
         alert("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
         return;
@@ -79,13 +73,10 @@ window.App = {
           // balance to update to display on screen
           balance = web3.fromWei(balanceWei, 'ether');
 
-//      balance = web3.fromWei(balanceWei, 'ether');
+    // balance = web3.fromWei(balanceWei, 'ether');
     // print to screen
       ethBalance.innerHTML = balance + " Ether";
       accounNr.innerHTML = currentAccount; // this should be getaccount [Number ]
-
-// test output
-//          console.log(steffen.address);
 
   //console.log(SmartIdentity.deployed());
   //console.log("contract address: " + contractAddress);
@@ -93,37 +84,21 @@ window.App = {
   // Make sure abiArray is up to date
   var abiArray = [{"constant":false,"inputs":[{"name":"_newowner","type":"address"}],"name":"setOwner","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"removeEndorsement","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"acceptEndorsement","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"kill","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_myEncryptionPublicKey","type":"string"}],"name":"setEncryptionPublicKey","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"encryptionPublicKey","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"removeOverride","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_override","type":"address"}],"name":"setOverride","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_mySigningPublicKey","type":"string"}],"name":"setSigningPublicKey","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"getOwner","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_hash","type":"bytes32"}],"name":"addAttribute","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"bytes32"}],"name":"attributes","outputs":[{"name":"hash","type":"bytes32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"signingPublicKey","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"checkEndorsementExists","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_hash","type":"bytes32"}],"name":"removeAttribute","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_attributeHash","type":"bytes32"},{"name":"_endorsementHash","type":"bytes32"}],"name":"addEndorsement","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_oldhash","type":"bytes32"},{"name":"_newhash","type":"bytes32"}],"name":"updateAttribute","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"inputs":[],"payable":false,"type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"sender","type":"address"},{"indexed":false,"name":"status","type":"uint256"},{"indexed":false,"name":"notificationMsg","type":"bytes32"}],"name":"ChangeNotification","type":"event"}];
     //console.log(abiArray)
-
     // could possibley do this this way also web3.eth.contract([ABI array goes here to make it an array]);
   functionHashes = App.getFunctionHashes(abiArray);
-
   // var functionHashes = getFunctionHashes(SmartIdentity.abi);
   smartID = web3.eth.contract(abi).at(contractAddress);  // redundant?
   //console.log("abi: " + abi)
   //	ethBalance.innerHTML = accounts[0];
 
+  // updates QR code to current BTC address
+  App.updateQR();
+  App.meteringFront();
 
-
-  // * wee need to run updates on the BTCQR when clicking account info //
-  console.log(btcQR)
-
-  btcQR = smartID.getBTC.call();
-  // qr test
-  console.log(btcQR)
-
-
-  var qr = require('qr-image');
-//  var qr_svg = qr.image('I love QR!', { type: 'svg' });
-//    qr_svg.pipe(require('fs').createWriteStream('i_love_qr.svg'));
-  var svg_string = qr.imageSync(btcQR, { type: 'svg', size: 5});
-  document.getElementById('qrcode').innerHTML = svg_string;
-///////////////////////////////////////////////////////////////////////////////
 
   var BigNumber = require('bignumber.js');
-
 	var i;
 	var accountBalance;
-
 	var accsLength = accs.length;
 
   // for metamask callback
@@ -143,12 +118,9 @@ window.App = {
 	    x = new BigNumber(web3.eth.getBalance(accounts[i]));
             functionValue = accounts[i];
             myDropdown.innerHTML += "Account: " + i + "<br/>" + "<a href='#' onclick='App.updateContent("+i+")'>" + accounts[i] + "</a>";
-            // onclick of link set default account, opens the info.
   //	    console.log(x.plus(21).toString(10));
 	}
-
-
-        App.accountInfo();
+  App.accountInfo();
 
   encryptionKey.innerHTML = smartID.encryptionPublicKey({from: steffen.address});
 
@@ -171,25 +143,20 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
 */
 
   App.showBtn('frontPage')
-
 //      self.refreshBalance();
     });
   },
 
-  updateQR: function(){
-    console.log(btcQR)
+  // *** functions start *** ///
 
+  // generate QR code from BTC address, node js QR code generator.
+    updateQR: function(){
+//    console.log(btcQR)
     btcQR = smartID.getBTC.call();
-    // qr test
-    console.log(btcQR)
-
-
+//    console.log(btcQR)
     var qr = require('qr-image');
-  //  var qr_svg = qr.image('I love QR!', { type: 'svg' });
-  //    qr_svg.pipe(require('fs').createWriteStream('i_love_qr.svg'));
     var svg_string = qr.imageSync(btcQR, { type: 'svg', size: 5});
     document.getElementById('qrcode').innerHTML = svg_string;
-
   },
 
 // testing functions
@@ -202,12 +169,10 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
 //    console.log('Eth? ' + web3.eth.getTransaction("0xa4b4417fc7e492b911d08e948ea50ca772b82516"));
   },
 
-
   smartNew: function(){
     var account = parseInt(document.getElementById("account").value);
     console.log("from account: " + account)
   },
-
 
   addAttribute: function(){
     var attributeHash = [];
@@ -215,9 +180,7 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
     var attribute = document.getElementById("addAttribute").value;
     var attributeHash1 = "hmm";
 // then add them to user by somethign like   smartID.addAttribute(hash1, {from: owner});
-
     this.setStatus("Initiating transaction... (please wait)");
-
 
     var self = this;
     var smart;
@@ -233,11 +196,6 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
       console.log(e);
       self.setStatus("Error; see log.");
     });
-
-
-
-// OLD    smartID.addAttribute(attribute, {from: currentAccount})
-
 
 // from output works.
 //    console.log("attribute added: " +  attribute)
@@ -275,12 +233,13 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
 //      return smart.addBTC2(btcValue, {from: currentAccount})
     }).then(function(value) {
 //      this.setStatus("Transaction complete");
-        self.setStatus("Transaction complete, BTC added");
+        self.setStatus2("Transaction complete, BTC added");
+        //btcStatus.innerHTML = smart.getBTC.call();
   //      console.log(inputData);
   //      console.log(smart.addBTC({from: currentAccount}))
     }).catch(function(e) {
       console.log(e);
-      self.setStatus("Error; see log.");
+      self.setStatus2("Error; see log.");
     });
 //    console.log(smart.getBTC());
   console.log("button works");
@@ -429,13 +388,15 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
             if (func == 'addAttribute') {
               // This is the sellEnergy() method
               var inputData = SolidityCoder.decodeParams(["bytes32"], t.input.substring(10));
-              console.dir(inputData);
-              console.log("from " + from + " input data " + inputData[0].substring(0, inputData[0].toString().length - 24)) // set this to currentaccount... we we see who submitted the attribute.. wont work universally though.
+            //  console.dir(inputData);
+            //  console.log("from " + from + " input data " + inputData[0].substring(0, inputData[0].toString().length - 24)) // set this to currentaccount... we we see who submitted the attribute.. wont work universally though.
               // removed the jquery to use jscript. $('#allAccounts').append(
 
+
+              // this hits back to showAccountINfo, we need up update current account to whatever is clicked as well. 
               allAccounts.innerHTML +=
               '<tr><td>' + t.blockNumber +
-              '</td><td>' + from + '</td><td>' + inputData[0].substring(0, inputData[0].toString().length - 24) + '</td></tr>';
+              '</td><td><a href="#" onclick="App.meteringFront();App.showBtn('+"'showAccountInfo'"+')">' + from + '</a></td><td>' + inputData[0].substring(0, inputData[0].toString().length - 24) + '</td></tr>';
             } else if (func == 'removeAttribute'){
               allAccounts.innerHTML +=
               '<tr><td><span id="red">' + t.blockNumber +
@@ -595,10 +556,14 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
     });
   },
 
-
   setStatus: function(message) {
     var status = document.getElementById("status");
     status.innerHTML = message;
+  },
+
+  setStatus2: function(message) {
+    var status = document.getElementById("statusBTC");
+    statusBTC.innerHTML = message;
   },
 
   // toggle menu dropdown update function name.
@@ -628,35 +593,38 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
   },
 
   // generic updateContent function for testing...
-    updateContent: function(value) {
-      currentAccount = accounts[value];
-      console.log("current account is: " + currentAccount);
+  updateContent: function(value) {
+    currentAccount = accounts[value];
+    console.log("current account is: " + currentAccount);
 
-        balanceWei = web3.eth.getBalance(currentAccount).toNumber();
-        balance = web3.fromWei(balanceWei, 'ether'); // balance in ethere.
+      balanceWei = web3.eth.getBalance(currentAccount).toNumber();
+      balance = web3.fromWei(balanceWei, 'ether'); // balance in ethere.
 
-        accounNr.innerHTML = currentAccount; // this should be getaccount [Number ]
-        ethBalance.innerHTML = balance + " Ether";  // what?
-      //  App.refreshBalance();
-        App.myFunction();
-        App.accountInfo();
-    },
+      accounNr.innerHTML = currentAccount; // this should be getaccount [Number ]
+      ethBalance.innerHTML = balance + " Ether";  // what?
+    //  App.refreshBalance();
+      App.myFunction();
+      App.accountInfo();
+  },
 
-  accountList: function(){ // should be good to go..
+  accountList: function(){ // lists available accounts
       listAccounts.innerHTML = "";
     for(var i = 0; i<accounts.length; i++){
-      //console.log(accounts[i]);
       listAccounts.innerHTML += "Account: " + i + " : " + accounts[i] + "<br/>";
     }
   },
 
-  accountInfo: function(){ // should be good to go..
+  accountInfo: function(){ // accountInfo function
       accountinfo.innerHTML = "";
       //console.log(accounts[i]);
       accountinfo.innerHTML = " " + currentAccount + "<br/>";
       btcAddress.innerHTML = smartID.getBTC.call();
-  //    btcAddress.innerHTML = smartID.addBTC({from: currentAccount}); // maybe
   },
+
+  meteringFront: function(){
+    console.log("METERING FUNCTION UP AND RUNNING")
+  },
+
 };
 
 window.addEventListener('load', function() {

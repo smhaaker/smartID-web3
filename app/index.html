@@ -170,7 +170,7 @@ var meteringData2 = [
 
     <!--button class="leftBtn" onclick="App.showBtn('setEncryptionKey')">Set Encryption Key</button-->
 
-    <button class="leftBtn" onclick="App.showBtn('seeAllUsersDevices')">Admin &#128274; </button>
+    <button class="leftBtn" onclick="App.showBtn('seeAllUsersDevices'); App.watchFilterFromTo();">Admin &#128274; </button>
 
 <!-- buttons end-->
 
@@ -390,7 +390,7 @@ var meteringData2 = [
     Red text means devices has been removed. This is just for record keeping <br/><br/>
 
 
-    <button id="send" onclick="App.watchFilterFromTo()">Filter All</button>
+    <!--button id="send" onclick="App.watchFilterFromTo()">Filter All</button-->
 
     <div class="row">
        <div>
@@ -455,17 +455,14 @@ var meteringData2 = [
 
 <!-- add btc add start-->
 <div id="addBTC" style="display: none">
-  <br><input type="text" id="inputBTC" placeholder="Enter BTC payment Address: eg 1BvBMS...."></input><br>
+  <br><input type="text" id="inputBTC" placeholder="Enter BTC payment Address: eg 1BvBMS...."></input><br/><br/>
 
   <button id="send" type="button" onClick="App.addBitCoinAddress();">Add BTC address</button>
-
+  <span id="statusBTC"></span>
   <br/><br/><br/>BTC sample: 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2
-  <br/><br/><br/>Below are debug buttons: Remove when done. Need to add transaction complete status.
+  <br/><br/><br/><br/><br/><br/><br/><br/><br/>Below are debug buttons: Remove when done. Need to add transaction complete status.
   <br/><br/><button type="button" onClick="App.watchFilterBTC();">Check Filter here</button>
   <button type="button" onClick="App.getBTC();">get BTC address</button>
-
-
-  <span id="BTCshow">No address here yet</span>
 
 </div>
 <!-- add btc add stop-->
