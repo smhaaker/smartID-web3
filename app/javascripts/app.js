@@ -601,16 +601,6 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
     status.innerHTML = message;
   },
 
-
-/// so here its basically checking if metacoin is deployaed then running stuff in a function.
-
-// example:
-// Ah, right. You need to use HelloWorld.deployed() as a thennable.
-//i.e., HellowWorld.deployed().then(function(instance) { // do something here })
-//in the // do something here, you’d do return instance.balance.call() for instance
-//so we could have:
-
-
   // toggle menu dropdown update function name.
   myFunction: function() {
         var x = document.getElementById('myDropdown');
@@ -620,7 +610,6 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
             x.style.display = 'block';
         }
     },
-
 
   // this should cover all the basics on show hide... Need to set something as default...
   showBtn: function(id) {

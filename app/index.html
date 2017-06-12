@@ -16,17 +16,17 @@ var meteringData = [{
   "consumer_id": "agbot-tok02-01.bluehorizon.network",
   "agreement_creation_time": 1496331172,
   "metering_notification": {
-    "amount": 7167,
+    "amount": 15730,
     "start_time": 1496331163,
-    "current_time": 1496761201,
+    "current_time": 1497274992,
     "missed_time": 0,
-    "consumer_meter_signature": "6c9b99d5b9e080ada06624b03327bedb44bd1abf95f327ef6d0f6b43d3dc951e08f2eb4a3bd5f2cef9d539bc067243e71a11eb8f544d9e70586f5e148e2d277b1c",
+    "consumer_meter_signature": "f7958802b6ceb1f4d6c4a0195152ab220c4d9f5a3b3058ba25ce26fecfa35b422720446c7689b324e274a3447b53103dba53f995d7389efc607b496626ad25791b",
     "agreement_hash": "cb3cef781a99a8c127c6ba9db64a3bdfe661b693eeb9337bb0d3a3a006528c88",
     "consumer_agreement_signature": "4f38ecac700c7b9ff807483216f75abec7e75ca80002af8d0578a12d016c0ea37d5facf964e39ac5dce74800526e00208fdc950e7db99c9246c4cabf16161ba71c",
     "consumer_address": "0x324f73187585becfbaa363cacdf9823c3a1a1cae",
     "producer_agreement_signature": "62dbffd933a5b0c3810c2159aafddd842a364b658ab9a10a648de625a885c2845ecced2e325aea67f2e42f09b281021ab515e78ab8e2dcd53946dde5c4c697d11c",
     "blockchain_type": "ethereum"
-  }
+    }
 },
 {
   "name": "Policy for location merged with location arm",
@@ -34,11 +34,11 @@ var meteringData = [{
   "consumer_id": "agbot-dal09-01.bluehorizon.network",
   "agreement_creation_time": 1496331174,
   "metering_notification": {
-    "amount": 7167,
+    "amount": 15732,
     "start_time": 1496331167,
-    "current_time": 1496761213,
+    "current_time": 1497275140,
     "missed_time": 0,
-    "consumer_meter_signature": "21c62ad2679022189c93c916e6e941b613a3aa97d24a14a079f8bfbd86e8c4523ca52c694566786be3d8620fc9e3de428b73a7a1a8c9421d6b674aaa8a62d4d81c",
+    "consumer_meter_signature": "732f47373c6852f531708e6b6262b66a48b5cb51d41e68d8ffca577f4fe75dc30778c0a09d27f5881ffcd055681378a803629ba05ee18a6996e8983b7de56c9f1b",
     "agreement_hash": "3942149df5d4fe87d709c4b59a84569cda01921f642d189840bba6154523a702",
     "consumer_agreement_signature": "f445ced0b0ad9ed523c96bebc08831147549586b6fc6de8cd5a900e090f9e37011b52faaa6dfd240899daa6581c8c62226afdfeaa8914e4df714ae04bb0ea4111c",
     "consumer_address": "0x1473515a994ddfdbc37b218f11536509065c5141",
@@ -52,11 +52,11 @@ var meteringData = [{
   "consumer_id": "agbot-tok02-01.bluehorizon.network",
   "agreement_creation_time": 1496752821,
   "metering_notification": {
-    "amount": 139,
+    "amount": 8702,
     "start_time": 1496752818,
-    "current_time": 1496761190,
+    "current_time": 1497274970,
     "missed_time": 10,
-    "consumer_meter_signature": "6f17d37947185078b722bc3c57dcd20079125e5c16488281cd3dbba220caa9c31afef06294690dd9a231b5bc68994a7976b02822c5c723d957f01f7b602b4f121c",
+    "consumer_meter_signature": "eb7395d1a5ba27e8d2f7eea88157045f9723b3a4a4fe7352cfd22aa4988866a13a4d67d990a3bcd953e06eb597eeea61bd5cd31fbe7670bf477c08b4fbf2f0da1b",
     "agreement_hash": "7baf1498c459af9a77ad6c20d127adcff70da6fbb3ee02b941ce23cbfa238882",
     "consumer_agreement_signature": "898986704e332313787b7f147c5bd1083e4ff402a607eed37b3bde0490c764fa48a5e68553ea91ff5b574085d1cf6c308e79b9fb7e38ea138294ae86c79838f11c",
     "consumer_address": "0x324f73187585becfbaa363cacdf9823c3a1a1cae",
@@ -190,17 +190,22 @@ var meteringData2 = [
   <!-- Displays current account info including which devices and metering of these devices -->
   <div id="showAccountInfo" style="display: none">
     <br/>
-    <h2>Account Information!</h2>
+    <h2>Account Information!</h2><br/>
     <br/>
-      <b>Ethereum Account:</b> <span id="accountinfo">Client Not Running, Make Sure You Have Ethereum Running</span><br/>
-      <b>BTC Account:</b> <span id="btcAddress"><a href="#" onclick="App.showBtn('addBTC')">add it</a></span>   <a href="#" onclick="App.showBtn('addBTC')">Change</a> <br/><br/>
-      <span id="qrcode"></span>
+      <div id="accountInfoLeft">
+        <b>Ethereum Account:</b> <span id="accountinfo">Client Not Running, Make Sure You Have Ethereum Running</span><br/>
+        <b>BTC Account:</b> <span id="btcAddress"><a href="#" onclick="App.showBtn('addBTC')">add it</a></span>   <a href="#" onclick="App.showBtn('addBTC')">Change</a>
+      </div>
 
+      <div id="qrRight">
+        <span id="qrcode"></span><br/><br/>
+      </div>
+      <br/><br/>
       <br/><br/>
 
 
     <h2>Tokens Earned: </h2>
-      <span id='tokens'><h3>blank</h3></span><br/><br/>
+      <span id='tokens'><h3>blank</h3></span> / $<span id='dollarValue'><h3>blank</h3></span><br/><br/>
 
     <h2>Devices</h2>
       <span id="accountDevices">No Devices Claimed<br/> <a href="#" onclick="App.showBtn('addAttributeCont')">Claim Device</a><br/></span><br/>
@@ -235,6 +240,7 @@ var meteringData2 = [
 <table template ends-->
 
     <script>
+    var tokenValue;
 
     var deviceAddress = '0x20aba8bd3c170ed3f5df011f31869e4ee550285b'
     var deviceAddress2 = '0xc91898d87fc09707b377cec5a5bf957dfcfccc4a';
@@ -364,11 +370,12 @@ var meteringData2 = [
       console.log(meteringData[2].metering_notification.amount);
       console.log("total tokens: " + totalTokens);
       document.getElementById('tokens').innerHTML = totalTokens;
+      tokenValue = (totalTokens / 5000)
+      //console.log("Dollar Value of tokens: " +  "$" + tokenValue);
+      document.getElementById('dollarValue').innerHTML = tokenValue;
     }
-
     //      document.getElementById("meteringData").innerHTML =
     //      data.amount+ " " + data.start_time+ " " + data.current_time;
-
     </script>
     <!-- Metering Data end-->
 
@@ -377,7 +384,6 @@ var meteringData2 = [
 
   <!-- admin page for all users and devices -->
   <div id="seeAllUsersDevices" style="display: none">
-
     Hello there, We shall add our filter all here and add linkable lists also sort by user or device or block.
     <br/>
     We also will add our bitcoin payment via coinbase here. <br/><br/>

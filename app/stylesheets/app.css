@@ -365,3 +365,14 @@ td {
 #qrcode{
   height: 50px;
   }
+
+#accountInfoLeft{
+  float: left;
+  width: 80%;
+  border: solid pink 0px;
+}
+
+#qrRight{
+  float: right;
+  border: solid pink 0px;
+}
