@@ -33,6 +33,128 @@ var func;
 var functionHashes;
 
 var btcQR = 'waiting';
+var deviceEthereumAddress;
+
+var tokenValue;
+var totalTokens = 0;
+
+
+// meteringdata start temp
+var meteringData = [{
+  "name": "Policy for sdr merged with sdr arm",
+  "current_agreement_id": "8a627f6a76a7cea608d203413bf58fd098625afedd92787c9acb1911f81e0ae1",
+  "consumer_id": "agbot-tok02-01.bluehorizon.network",
+  "agreement_creation_time": 1496331172,
+  "metering_notification": {
+    "amount": 15730,
+    "start_time": 1496331163,
+    "current_time": 1497274992,
+    "missed_time": 0,
+    "consumer_meter_signature": "f7958802b6ceb1f4d6c4a0195152ab220c4d9f5a3b3058ba25ce26fecfa35b422720446c7689b324e274a3447b53103dba53f995d7389efc607b496626ad25791b",
+    "agreement_hash": "cb3cef781a99a8c127c6ba9db64a3bdfe661b693eeb9337bb0d3a3a006528c88",
+    "consumer_agreement_signature": "4f38ecac700c7b9ff807483216f75abec7e75ca80002af8d0578a12d016c0ea37d5facf964e39ac5dce74800526e00208fdc950e7db99c9246c4cabf16161ba71c",
+    "consumer_address": "0x324f73187585becfbaa363cacdf9823c3a1a1cae",
+    "producer_agreement_signature": "62dbffd933a5b0c3810c2159aafddd842a364b658ab9a10a648de625a885c2845ecced2e325aea67f2e42f09b281021ab515e78ab8e2dcd53946dde5c4c697d11c",
+    "blockchain_type": "ethereum"
+    }
+},
+{
+  "name": "Policy for location merged with location arm",
+  "current_agreement_id": "d495e901d7798d8e708dc103d0388130ba9a3d3d3670d8b35c50a2a29fa2e376",
+  "consumer_id": "agbot-dal09-01.bluehorizon.network",
+  "agreement_creation_time": 1496331174,
+  "metering_notification": {
+    "amount": 15732,
+    "start_time": 1496331167,
+    "current_time": 1497275140,
+    "missed_time": 0,
+    "consumer_meter_signature": "732f47373c6852f531708e6b6262b66a48b5cb51d41e68d8ffca577f4fe75dc30778c0a09d27f5881ffcd055681378a803629ba05ee18a6996e8983b7de56c9f1b",
+    "agreement_hash": "3942149df5d4fe87d709c4b59a84569cda01921f642d189840bba6154523a702",
+    "consumer_agreement_signature": "f445ced0b0ad9ed523c96bebc08831147549586b6fc6de8cd5a900e090f9e37011b52faaa6dfd240899daa6581c8c62226afdfeaa8914e4df714ae04bb0ea4111c",
+    "consumer_address": "0x1473515a994ddfdbc37b218f11536509065c5141",
+    "producer_agreement_signature": "40b39ca929039c074586038b38f7413c82cc307cf9769a4f9c96d729fc62c5f25e36a7d13e91b463776c6ed53df1aa75e133b4d6b09def287af2f5912bd5051d1c",
+    "blockchain_type": "ethereum"
+  }
+},
+{
+  "name": "Policy for netspeed merged with netspeed arm",
+  "current_agreement_id": "58f8b25b505772bb31410680c7476c1912c50836d6f0e4a0d4ea830777d657c7",
+  "consumer_id": "agbot-tok02-01.bluehorizon.network",
+  "agreement_creation_time": 1496752821,
+  "metering_notification": {
+    "amount": 8702,
+    "start_time": 1496752818,
+    "current_time": 1497274970,
+    "missed_time": 10,
+    "consumer_meter_signature": "eb7395d1a5ba27e8d2f7eea88157045f9723b3a4a4fe7352cfd22aa4988866a13a4d67d990a3bcd953e06eb597eeea61bd5cd31fbe7670bf477c08b4fbf2f0da1b",
+    "agreement_hash": "7baf1498c459af9a77ad6c20d127adcff70da6fbb3ee02b941ce23cbfa238882",
+    "consumer_agreement_signature": "898986704e332313787b7f147c5bd1083e4ff402a607eed37b3bde0490c764fa48a5e68553ea91ff5b574085d1cf6c308e79b9fb7e38ea138294ae86c79838f11c",
+    "consumer_address": "0x324f73187585becfbaa363cacdf9823c3a1a1cae",
+    "producer_agreement_signature": "b6e94b09f98fec2ba08265a39b26d28e2a8fa246c225017271fbc44e9cdd55122619c406377f88a51dba8dcfe5aec7db40dbf364218568765bb2a851ff9e08bf1b",
+    "blockchain_type": "ethereum"
+  }
+}
+]
+
+var meteringData2 = [
+  {
+    "name": "Policy for netspeed merged with netspeed arm",
+    "current_agreement_id": "9fe087d54c0d10def28e7a49ab3751f9b649dc8ac2306dcc8bf2d488d50def35",
+    "consumer_id": "agbot-tok02-01.bluehorizon.network",
+    "agreement_creation_time": 1496595326,
+    "metering_notification": {
+      "amount": 10658,
+      "start_time": 1496595318,
+      "current_time": 1497234846,
+      "missed_time": 0,
+      "consumer_meter_signature": "ee8c24a358767989fe18a5f59a6c9ea66cc654e243f520ffaebbd28ac1bd15b01bb7c2e2ac7862b3ad95e8446b84e18b7a3382cf5be9f848ba718149a09de0b71c",
+      "agreement_hash": "5b578dfebac1e7d2194208f645d4204b9a3e6b87172dc664e7f5969c80ee368b",
+      "consumer_agreement_signature": "d186e1ddbc03711fc1c491d740ff9241338af98dd33b891b2507b6f04ab38e3c4638ce40731f1a32d01fd956d8367feb18701dcb16aa806ba368a487231378fd1c",
+      "consumer_address": "0x324f73187585becfbaa363cacdf9823c3a1a1cae",
+      "producer_agreement_signature": "e37e0cfe46ad331d2ebaef31fc3a0791f11d72533dfbde71bf5ba08aebc721fc38bd25763937be1080698abd44125c2eda5de991680e8975f7d7e041c7ab90681c",
+      "blockchain_type": "ethereum"
+    }
+  },
+  {
+    "name": "Policy for sdr merged with sdr arm",
+    "current_agreement_id": "ad9684f6f18b356d170073a581841bbb326193708f396ec2f83b047660e05a63",
+    "consumer_id": "agbot-tok02-01.bluehorizon.network",
+    "agreement_creation_time": 1496595327,
+    "metering_notification": {
+      "amount": 10658,
+      "start_time": 1496595321,
+      "current_time": 1497234854,
+      "missed_time": 0,
+      "consumer_meter_signature": "ed4f2aaf8fef5d983f9a85ee0945e24c03f5f4accdb332ad0b959b4a71c749745342f2fde322959f0772c6b719c46083346b1212391e99d871185667ac1ee2271c",
+      "agreement_hash": "9d78ec66608fc60b73a90e59a6ce445ac68a0af7738088c40d9cae673158ac31",
+      "consumer_agreement_signature": "96082ce6b9a0ddb9dc5df6fdb5008df8424805157ede07348b9ab1fff50b08d71b64817799ce7cd63f18606d0cfacb515e93bd562ce4305f117f7e1b4642c4241b",
+      "consumer_address": "0x324f73187585becfbaa363cacdf9823c3a1a1cae",
+      "producer_agreement_signature": "76a2558fea56fd623517cbe594b040e750a1429aae97a7f323a67fb82baa3f9a115f94d4a0fe684f26dc77edc1d7e891a203b3832a22686750350f06cb09a1041c",
+      "blockchain_type": "ethereum"
+        }
+  },
+  {
+    "name": "Policy for location merged with location arm",
+    "current_agreement_id": "c52055ab872e8d12c827e969309da5f50e68cbe27fa43f89dc7727535281ea12",
+    "consumer_id": "agbot-lon02-01.bluehorizon.network",
+    "agreement_creation_time": 1496595327,
+    "metering_notification": {
+      "amount": 10661,
+      "start_time": 1496595321,
+      "current_time": 1497235003,
+      "missed_time": 0,
+      "consumer_meter_signature": "75721090f8a9f5b457e648a490ca4e4efbe272dddbd8d01b45d7d0639e6306c14811153aa8b995b60bff5a62b2fbb9d7d5b234793d7b07c72c9bb7b6666fe5101b",
+      "agreement_hash": "ba21679a830f6cbde286c139363df613bd1bcf223ba2ae0151ab331e8fe1da89",
+      "consumer_agreement_signature": "768ad93bb7af4ca21d726c1c1a902d35abb5f1811d9e553d9b055eb11c6e810a1ec94a9f17b098ab571cdc43b7b731a04b82e5976a2791f15dcacd27a953626e1c",
+      "consumer_address": "0xba2de57eee86da890b70d7d391c47f82a38f0ff9",
+      "producer_agreement_signature": "90300717836fb3b785a24b4e78697c80c88bbb4ba74cb0823101168120b475717bad07d8d670885cdba4b10154fdc5e6a7e3de1f67a3cb6f9231e09303147aef1c",
+      "blockchain_type": "ethereum"
+    }
+  }
+]
+
+// metering data temp ends.
+
 
 window.App = {
   start: function() {
@@ -93,7 +215,7 @@ window.App = {
 
   // updates QR code to current BTC address
   App.updateQR();
-  App.meteringFront();
+//  App.meteringFront();
 
 
   var BigNumber = require('bignumber.js');
@@ -188,7 +310,7 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
       smart = instance;
 //      return smart.setEncryptionPublicKey(newKey, {from: account});
 //      return smart.addAttribute(attribute, {from: currentAccount, gas: 22850})
-        return smart.addAttribute(attribute, {from: currentAccount, gas: 244487})
+        return smart.addAttribute(attribute, {from: currentAccount, gas: 244487});
     }).then(function(value) {
 //      this.setStatus("Transaction complete");
         self.setStatus("Transaction complete, Device Added");
@@ -204,14 +326,16 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
     // following updates our visual eth balance top of page...
 
     // for metamask callback
+
+    /*
         balanceWei = web3.eth.getBalance(currentAccount, function(error, result){
           if(!error)
             result.toNumber()
           else
             console.error(error);
-        });
+        }); */
 
-// old      balanceWei = web3.eth.getBalance(currentAccount).toNumber();
+      balanceWei = web3.eth.getBalance(currentAccount).toNumber();
       balance = web3.fromWei(balanceWei, 'ether'); // balance in eth.
       accounNr.innerHTML = currentAccount;
       ethBalance.innerHTML = balance + " Ether";  // what?
@@ -390,20 +514,17 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
               var inputData = SolidityCoder.decodeParams(["bytes32"], t.input.substring(10));
             //  console.dir(inputData);
             //  console.log("from " + from + " input data " + inputData[0].substring(0, inputData[0].toString().length - 24)) // set this to currentaccount... we we see who submitted the attribute.. wont work universally though.
-              // removed the jquery to use jscript. $('#allAccounts').append(
+            // removed the jquery to use jscript. $('#allAccounts').append(
 
-
-              // this hits back to showAccountINfo, we need up update current account to whatever is clicked as well. 
+              // this hits back to showAccountINfo, we need up update current account to whatever is clicked as well.
               allAccounts.innerHTML +=
               '<tr><td>' + t.blockNumber +
-              '</td><td><a href="#" onclick="App.meteringFront();App.showBtn('+"'showAccountInfo'"+')">' + from + '</a></td><td>' + inputData[0].substring(0, inputData[0].toString().length - 24) + '</td></tr>';
+              '</td><td><a href="#" onclick="App.showBtn('+"'showAccountInfo'"+')">' + from + '</a></td><td>' + inputData[0].substring(0, inputData[0].toString().length - 24) + '</td></tr>';
             } else if (func == 'removeAttribute'){
               allAccounts.innerHTML +=
               '<tr><td><span id="red">' + t.blockNumber +
               '</td><td><span id="red">' + from + '</td><td><span id="red">' + inputData[0].substring(0, inputData[0].toString().length - 24) + '</span></td></tr>';
-
-                  console.log("Remove Device Function RUN ")
-
+                  // console.log("Remove Device Function RUN ")
                   // this is where we check if remove has been run on same device...
             } else if (func != 'addAttribute') {
                 //          console.dir("Function Not Add Attribute")
@@ -420,7 +541,7 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
 // main watch filter to check for new additions past latest block on chain
   watchFilter: function(){
     var filter = web3.eth.filter('latest');
-      filter.watch(function(error, result){
+        filter.watch(function(error, result){
 
           var block = web3.eth.getBlock(result, true);
           console.log('block #' + block.number);
@@ -469,19 +590,28 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
               $('#transactions').append('<tr><td>' + t.blockNumber +
               '</td><td>' + from + '</td><td>' + inputData[0].substring(0, inputData[0].toString().length - 24) + '</td></tr>');
 //              '</td><td>' + from + '</td><td>' + t.input.substring(0, t.input.length - 24) + '</td></tr>');
-
+              // yes we use this but not here. deviceEthereumAddress = inputData[0].substring(0, inputData[0].toString().length - 24);
+              console.log("Device that has been added is : " + deviceEthereumAddress)
 //                  '</td><td>' + from + '</td><td>' + t.input.substring(0, t.input.length - 24) + '</td></tr>'); -- old way. not completely right but its fine.
 //                  '</td><td>Attribute: (' + web3.toAscii(inputData[0].toString()) + ')</td></tr>');
             } else if (func != 'addAttribute') {
             //  var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
     //          console.dir(inputData);
               console.dir("Not working, try again")
+            } else if (func == 'removeAttribute') {
+
+              console.log("Removing : " + deviceEthereumAddress);
+              deviceEthereumAddress = "blank";
+              console.log("deviceEthereumAddress is : " + deviceEthereumAddress);
+
+            //  var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
             } else {
               // Default log
             }
         }
 
       });
+//      filter.stopWatching();
   },
 
   getFunctionHashes: function() {
@@ -621,8 +751,138 @@ SmartIdentity.new({from: steffen.address, gas: 4712388})
       btcAddress.innerHTML = smartID.getBTC.call();
   },
 
+  // metering function, a mess but works.
   meteringFront: function(){
     console.log("METERING FUNCTION UP AND RUNNING")
+
+    var deviceAddress = '0x20aba8bd3c170ed3f5df011f31869e4ee550285b'
+    var deviceAddress2 = '0xc91898d87fc09707b377cec5a5bf957dfcfccc4a';
+
+    if(deviceAddress == '0x20aba8bd3c170ed3f5df011f31869e4ee550285b'){
+      console.log('write tables');
+      document.getElementById('accountDevices').innerHTML = '<table id="deviceAddressClaimed">' +
+        '<tr> <th id="deviceName">Device ID: <b><span id="deviceEthereum">0x20aba8bd3c170ed3f5df011f31869e4ee550285b</span></b></th> </tr>' +
+        '<tr><td><span id="meteringDevices"></span></td></tr>'+
+        '<tr><td id="spacer"></td></tr>' +
+        '<tr> <th id="deviceName">Device ID: <b><span id="deviceEthereum">0xc91898d87fc09707b377cec5a5bf957dfcfccc4a</span></b></th> </tr>' +
+        '<tr><td><span id="meteringDevices2"></span></td></tr></table>'
+    }
+
+    for(var i = 0; i < meteringData.length; i++){
+      console.log("name" + i + " : " + meteringData[i].name);
+
+      document.getElementById("meteringDevices").innerHTML += '<table id="meteringTable">' +
+        '<tr> <th> Metering Data </th><th id="devicenumber'+i+'">Not Available</th></tr>' +
+        '<tr> <td> Current Tokens </td><td id="tokens'+i+'"></td></tr>' +
+        '<tr> <td> Start Time </td><td id="starttime'+i+'"></td></tr>' +
+        '<tr> <td> Current Time </td><td id="currenttime'+i+'"></td></tr>' +
+        '<tr> <td> Missed Time </td><td id="missedtime'+i+'"></td></tr>' +
+        '<tr> <td> Agreement Hash </td><td id="agreementhash'+i+'"></td></tr>' +
+      '</table>'
+
+      // converting to date.
+      var utcStartTime = meteringData[i].metering_notification.start_time;
+      var start = new Date(0); // The 0 there is the key, which sets the date to the epoch
+      start.setUTCSeconds(utcStartTime);
+
+      var utcCurrentTime = meteringData[i].metering_notification.current_time;
+      var current = new Date(0); // The 0 there is the key, which sets the date to the epoch
+      current.setUTCSeconds(utcCurrentTime);
+
+
+      // converting names to readable for connected devices
+      var convertName = " "
+
+      if(meteringData[i].name == "Policy for sdr merged with sdr arm"){
+        console.log("metering data name change: SDR!");
+        convertName = "Software Defined Radio";
+        document.getElementById("devicenumber"+i).innerHTML = convertName;
+      }
+      else if(meteringData[i].name == "Policy for location merged with location arm"){
+        console.log("metering data name change: Location!");
+        convertName = "GPS Location";
+        document.getElementById("devicenumber"+i).innerHTML = convertName;
+      }
+      else if(meteringData[i].name == "Policy for netspeed merged with netspeed arm"){
+        console.log("metering data name change: NetSpeed!");
+        convertName = "Netspeed";
+        document.getElementById("devicenumber"+i).innerHTML = convertName;
+      }
+
+      //      document.getElementById("devicenumber"+i).innerHTML = meteringData[i].name;
+      document.getElementById("tokens"+i).innerHTML = meteringData[i].metering_notification.amount;
+      document.getElementById("starttime"+i).innerHTML = start;
+      document.getElementById("currenttime"+i).innerHTML = current;
+      document.getElementById("missedtime"+i).innerHTML = meteringData[i].metering_notification.missed_time + " Seconds Missed";
+      //      document.getElementById("agreementid").innerHTML = meteringData[0].metering_notification.agreement_hash;
+      document.getElementById("agreementhash"+i).innerHTML = meteringData[i].metering_notification.agreement_hash;
+      //      console.log(i);
+    }
+
+    //      document.getElementById("meteringData").innerHTML =
+    //      data.amount+ " " + data.start_time+ " " + data.current_time;
+
+    for(var i = 0; i < meteringData2.length; i++){
+      console.log("name" + i + " : " + meteringData2[i].name);
+
+      document.getElementById("meteringDevices2").innerHTML += '<table id="meteringTable">' +
+        '<tr> <th> Metering Data </th><th id="2devicenumber'+i+'">Not Available</th></tr>' +
+        '<tr> <td> Current Tokens </td><td id="2tokens'+i+'"></td></tr>' +
+        '<tr> <td> Start Time </td><td id="2starttime'+i+'"></td></tr>' +
+        '<tr> <td> Current Time </td><td id="2currenttime'+i+'"></td></tr>' +
+        '<tr> <td> Missed Time </td><td id="2missedtime'+i+'"></td></tr>' +
+        '<tr> <td> Agreement Hash </td><td id="2agreementhash'+i+'"></td></tr>' +
+      '</table>'
+
+      // converting to date.
+      var utcStartTime = meteringData2[i].metering_notification.start_time;
+      var start = new Date(0); // The 0 there is the key, which sets the date to the epoch
+      start.setUTCSeconds(utcStartTime);
+
+      var utcCurrentTime = meteringData2[i].metering_notification.current_time;
+      var current = new Date(0); // The 0 there is the key, which sets the date to the epoch
+      current.setUTCSeconds(utcCurrentTime);
+
+
+      // converting names to readable for connected devices
+      var convertName = " "
+
+      if(meteringData2[i].name == "Policy for sdr merged with sdr arm"){
+        console.log("metering data name change: SDR!");
+        convertName = "Software Defined Radio";
+        document.getElementById("2devicenumber"+i).innerHTML = convertName;
+      }
+      else if(meteringData2[i].name == "Policy for location merged with location arm"){
+        console.log("metering data name change: Location!");
+        convertName = "GPS Location";
+        document.getElementById("2devicenumber"+i).innerHTML = convertName;
+      }
+      else if(meteringData2[i].name == "Policy for netspeed merged with netspeed arm"){
+        console.log("metering data name change: NetSpeed!");
+        convertName = "Netspeed";
+        document.getElementById("2devicenumber"+i).innerHTML = convertName;
+      }
+
+      //      document.getElementById("devicenumber"+i).innerHTML = meteringData[i].name;
+      document.getElementById("2tokens"+i).innerHTML = meteringData2[i].metering_notification.amount;
+      document.getElementById("2starttime"+i).innerHTML = start;
+      document.getElementById("2currenttime"+i).innerHTML = current;
+      document.getElementById("2missedtime"+i).innerHTML = meteringData2[i].metering_notification.missed_time + " Seconds Missed";
+      //      document.getElementById("agreementid").innerHTML = meteringData[0].metering_notification.agreement_hash;
+      document.getElementById("2agreementhash"+i).innerHTML = meteringData2[i].metering_notification.agreement_hash;
+      //      console.log(i);
+      totalTokens += meteringData[i].metering_notification.amount + meteringData2[i].metering_notification.amount;
+      console.log(meteringData[2].metering_notification.amount);
+      console.log("total tokens: " + totalTokens);
+      document.getElementById('tokens').innerHTML = totalTokens;
+      tokenValue = (totalTokens / 5000)
+      //console.log("Dollar Value of tokens: " +  "$" + tokenValue);
+      document.getElementById('dollarValue').innerHTML = Math.round(tokenValue * 100) / 100;
+    }
+    //      document.getElementById("meteringData").innerHTML =
+    //      data.amount+ " " + data.start_time+ " " + data.current_time;
+
+
   },
 
 };

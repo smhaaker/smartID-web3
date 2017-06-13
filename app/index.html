@@ -9,7 +9,7 @@
 
   <script>
 // temp static metering json data...
-
+/*
 var meteringData = [{
   "name": "Policy for sdr merged with sdr arm",
   "current_agreement_id": "8a627f6a76a7cea608d203413bf58fd098625afedd92787c9acb1911f81e0ae1",
@@ -122,7 +122,7 @@ var meteringData2 = [
     }
   }
 ]
-
+ */
 //var obj = JSON.parse(data2);
 
 //console.log(meteringData[0].name);
@@ -160,9 +160,9 @@ var meteringData2 = [
 
     <button class="leftBtn" onclick="App.showBtn('frontPage')">Front Page</button>
 
-    <button class="leftBtn" onclick="App.showBtn('showAccountInfo'); App.accountInfo();App.updateQR();">Account Info</button>
+    <button class="leftBtn" onclick="App.showBtn('showAccountInfo'); App.accountInfo();App.updateQR();App.meteringFront();">Account Info</button>
 
-    <button class="leftBtn" onclick="App.showBtn('addAttributeCont')">Add/Remove Device</button>
+    <button class="leftBtn" onclick="App.showBtn('addAttributeCont');">Add/Remove Device</button>
 
     <!--button class="leftBtn" onclick="App.showBtn('catchAll')">Catch All</button-->
 
@@ -239,7 +239,7 @@ var meteringData2 = [
     </table>
 <table template ends-->
 
-    <script>
+    <!--script>
     var tokenValue;
 
     var deviceAddress = '0x20aba8bd3c170ed3f5df011f31869e4ee550285b'
@@ -308,12 +308,12 @@ var meteringData2 = [
 
     //      document.getElementById("meteringData").innerHTML =
     //      data.amount+ " " + data.start_time+ " " + data.current_time;
-    </script>
+    </script-->
     <!-- Metering Data end-->
 
 
     <!-- secondary meterind data static for now-->
-    <script>
+    <!--script>
 
     var totalTokens = 0;
 
@@ -372,11 +372,11 @@ var meteringData2 = [
       document.getElementById('tokens').innerHTML = totalTokens;
       tokenValue = (totalTokens / 5000)
       //console.log("Dollar Value of tokens: " +  "$" + tokenValue);
-      document.getElementById('dollarValue').innerHTML = tokenValue;
+      document.getElementById('dollarValue').innerHTML = Math.round(tokenValue * 100) / 100;
     }
     //      document.getElementById("meteringData").innerHTML =
     //      data.amount+ " " + data.start_time+ " " + data.current_time;
-    </script>
+    </script-->
     <!-- Metering Data end-->
 
 
@@ -384,10 +384,9 @@ var meteringData2 = [
 
   <!-- admin page for all users and devices -->
   <div id="seeAllUsersDevices" style="display: none">
-    Hello there, We shall add our filter all here and add linkable lists also sort by user or device or block.
-    <br/>
-    We also will add our bitcoin payment via coinbase here. <br/><br/>
-    Red text means devices has been removed. This is just for record keeping <br/><br/>
+      <p>This a general list of all transactions related to added and removed devices. Red strikethrough means removed. Mostly for recordkeeping.</p>
+
+      <p>This will also link you back to the account info page for whatever account is clicked on in order to see the stats they see regarding metering and their BTC address</p>
 
 
     <!--button id="send" onclick="App.watchFilterFromTo()">Filter All</button-->
